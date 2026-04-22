@@ -22,8 +22,6 @@ const HallDetailPage = () => {
 
   useEffect(() => { window.scrollTo(0, 0); }, [id]);
 
-  if (!hall) return <div className="p-10 text-center">Hall not found</div>;
-
   const days = useMemo(() => {
     const start = startOfMonth(month);
     const end = endOfMonth(month);
@@ -31,6 +29,8 @@ const HallDetailPage = () => {
     const offset = getDay(start);
     return [...Array(offset).fill(null), ...arr];
   }, [month]);
+
+  if (!hall) return <div className="p-10 text-center">Hall not found</div>;
 
   const dateStatus = (d: Date) => {
     const iso = format(d, "yyyy-MM-dd");

@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle } from "lucide-react";
+import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick } from "lucide-react";
 import { format } from "date-fns";
 import { HALLS, FUNCTION_TYPES } from "@/data/halls";
 import { useApp } from "@/store/appStore";
@@ -158,8 +158,11 @@ const BookingFlowPage = () => {
           <h3 className="font-heading font-bold text-foreground">{hall.name}</h3>
           <p className="text-[12px] text-muted-foreground">{hall.area}, {hall.city}</p>
           <div className="flex gap-2 mt-1.5">
-            <span className="text-[11px] font-bold px-2 py-0.5 bg-primary-light text-primary rounded-md">{slot === "morning" ? "🌅 Morning" : "🌙 Night"}</span>
-            <span className="text-[11px] font-bold px-2 py-0.5 bg-gold-light text-gold-dark rounded-md">{format(new Date(dateISO), "dd MMM yyyy")}</span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 bg-primary-light text-primary rounded-md">
+              {slot === "morning" ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}
+              {slot === "morning" ? "Morning" : "Night"}
+            </span>
+            <span className="text-[11px] font-semibold px-2 py-0.5 bg-muted text-foreground rounded-md tabular-nums">{format(new Date(dateISO), "dd MMM yyyy")}</span>
           </div>
         </div>
       </div>
@@ -186,9 +189,8 @@ const BookingFlowPage = () => {
             <div className="flex gap-2 overflow-x-auto scrollbar-none mt-2 -mx-4 px-4 pb-1">
               {FUNCTION_TYPES.map((f) => (
                 <button key={f.value} onClick={() => setFuncType(f.value)}
-                  className={cn("shrink-0 flex flex-col items-center gap-1 py-2 px-3 rounded-xl border-2 text-[11px] font-bold min-w-[72px] transition-all",
-                    funcType === f.value ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground")}>
-                  <span className="text-lg">{f.emoji}</span>
+                  className={cn("shrink-0 h-11 px-4 rounded-full border text-[12px] font-semibold transition-all whitespace-nowrap",
+                    funcType === f.value ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground")}>
                   {f.value}
                 </button>
               ))}
@@ -208,11 +210,11 @@ const BookingFlowPage = () => {
           <div>
             <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Food preference *</label>
             <div className="grid grid-cols-2 gap-2 mt-2">
-              {[["veg","🟢 Pure Veg"], ["nonveg","🔴 Non-Veg"]].map(([v, l]) => (
+              {([["veg", "Pure Veg", Leaf], ["nonveg", "Non-Veg", Drumstick]] as const).map(([v, l, Icon]) => (
                 <button key={v} onClick={() => setFoodPref(v as any)}
-                  className={cn("h-12 rounded-xl border-2 text-[13px] font-bold transition-all",
+                  className={cn("h-12 rounded-xl border flex items-center justify-center gap-2 text-[13px] font-semibold transition-all",
                     foodPref === v ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground")}>
-                  {l}
+                  <Icon className="w-4 h-4" strokeWidth={1.8} /> {l}
                 </button>
               ))}
             </div>
@@ -242,12 +244,14 @@ const BookingFlowPage = () => {
             <h3 className="font-bold text-sm mb-2">Choose payment method</h3>
             <div className="space-y-2">
               {[
-                { id: "upi", emoji: "📱", label: "UPI", sub: "Google Pay, PhonePe, Paytm" },
-                { id: "card", emoji: "💳", label: "Credit / Debit Card", sub: "Visa, Mastercard, RuPay" },
-                { id: "netbank", emoji: "🏦", label: "Net Banking", sub: "All major banks" },
+                { id: "upi", Icon: Smartphone, label: "UPI", sub: "Google Pay, PhonePe, Paytm" },
+                { id: "card", Icon: CreditCard, label: "Credit / Debit Card", sub: "Visa, Mastercard, RuPay" },
+                { id: "netbank", Icon: Landmark, label: "Net Banking", sub: "All major banks" },
               ].map((m, i) => (
-                <div key={m.id} className={cn("p-3 rounded-xl border-2 flex items-center gap-3", i === 0 ? "border-primary bg-primary-light" : "border-border bg-card")}>
-                  <span className="text-2xl">{m.emoji}</span>
+                <div key={m.id} className={cn("p-3 rounded-xl border flex items-center gap-3", i === 0 ? "border-primary bg-primary-light" : "border-border bg-card")}>
+                  <div className="w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center">
+                    <m.Icon className="w-5 h-5 text-primary" strokeWidth={1.8} />
+                  </div>
                   <div className="flex-1">
                     <div className="font-bold text-sm text-foreground">{m.label}</div>
                     <div className="text-[11px] text-muted-foreground">{m.sub}</div>
@@ -258,8 +262,9 @@ const BookingFlowPage = () => {
             </div>
           </div>
 
-          <div className="bg-info-light border border-info/20 rounded-xl p-3 text-[12px] text-info font-semibold">
-            ℹ️ If owner cancels, full refund. If you cancel, 3% gateway charge applies on total amount.
+          <div className="bg-info-light border border-info/20 rounded-xl p-3 flex gap-2 text-[12px] text-info font-medium">
+            <Info className="w-4 h-4 shrink-0 mt-0.5" strokeWidth={2} />
+            <span>If the owner cancels, you get a full refund. If you cancel, a 3% payment gateway fee applies.</span>
           </div>
 
           <button onClick={handlePay} disabled={paying} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold active:scale-[0.98] disabled:opacity-60">

@@ -47,8 +47,9 @@ export const AppHeader = () => {
           </SheetContent>
         </Sheet>
 
-        <button onClick={() => navigate("/")} className="font-heading font-bold text-[18px] text-primary tracking-tight">
-          Book<span className="text-gold">My</span>Hall
+        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] font-medium text-foreground tracking-tight">
+          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+          BookMyHall
         </button>
 
         <div className="flex items-center gap-2">

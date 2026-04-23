@@ -133,8 +133,9 @@ All colors MUST be HSL.
   }
 
   h1, h2, h3, h4, h5, h6, .font-heading {
-    font-family: 'Poppins', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "ss01", "ss02";
+    letter-spacing: -0.015em;
   }
 
   *:focus { outline: none; }

@@ -154,17 +154,17 @@ export const HALLS: Hall[] = [
 ];
 
 export const FUNCTION_TYPES = [
-  { value: "Wedding", emoji: "💒" },
-  { value: "Engagement", emoji: "💍" },
-  { value: "Birthday", emoji: "🎂" },
-  { value: "Anniversary", emoji: "🥂" },
-  { value: "Corporate Event", emoji: "💼" },
-  { value: "Reception", emoji: "🎉" },
-  { value: "Other", emoji: "🎊" },
+  { value: "Wedding" },
+  { value: "Engagement" },
+  { value: "Reception" },
+  { value: "Anniversary" },
+  { value: "Birthday" },
+  { value: "Corporate Event" },
+  { value: "Other" },
 ];
 
-export const CATEGORY_LABELS: Record<string, { label: string; emoji: string }> = {
-  banquet: { label: "Banquet Hall", emoji: "🏛️" },
-  wedding_hall: { label: "Wedding Hall", emoji: "💒" },
-  lawn: { label: "Lawn / Garden", emoji: "🌿" },
+export const CATEGORY_LABELS: Record<string, { label: string }> = {
+  banquet: { label: "Banquet Hall" },
+  wedding_hall: { label: "Wedding Hall" },
+  lawn: { label: "Lawn & Garden" },
 };

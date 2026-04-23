@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Phone, MessageCircle, Download, Share2, Star, MapPin, Calendar, Users } from "lucide-react";
+import { ArrowLeft, Phone, MessageCircle, Download, Share2, Star, MapPin, Calendar, Users, Sun, Moon, PartyPopper } from "lucide-react";
 import { format } from "date-fns";
 import { useApp } from "@/store/appStore";
 import { StatusBadge } from "@/components/app/StatusBadge";
@@ -78,11 +78,14 @@ const BookingDetailPage = () => {
             <button onClick={() => navigate(`/hall/${b.hallId}`)} className="text-[12px] font-bold text-primary mt-1">View hall →</button>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-border text-[13px]">
-          <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-muted-foreground" /><span className="font-semibold">{format(new Date(b.date), "dd MMM yyyy")}</span></div>
-          <div className="flex items-center gap-2"><span>{b.slot === "morning" ? "🌅" : "🌙"}</span><span className="font-semibold capitalize">{b.slot}</span></div>
-          <div className="flex items-center gap-2"><Users className="w-4 h-4 text-muted-foreground" /><span className="font-semibold">{b.guestCount} guests</span></div>
-          <div className="flex items-center gap-2"><span>🎉</span><span className="font-semibold">{b.functionType}</span></div>
+        <div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-border text-[13px]">
+          <div className="flex items-center gap-2"><Calendar className="w-4 h-4 text-muted-foreground" strokeWidth={1.8} /><span className="font-semibold">{format(new Date(b.date), "dd MMM yyyy")}</span></div>
+          <div className="flex items-center gap-2">
+            {b.slot === "morning" ? <Sun className="w-4 h-4 text-muted-foreground" strokeWidth={1.8} /> : <Moon className="w-4 h-4 text-muted-foreground" strokeWidth={1.8} />}
+            <span className="font-semibold capitalize">{b.slot}</span>
+          </div>
+          <div className="flex items-center gap-2"><Users className="w-4 h-4 text-muted-foreground" strokeWidth={1.8} /><span className="font-semibold">{b.guestCount} guests</span></div>
+          <div className="flex items-center gap-2"><PartyPopper className="w-4 h-4 text-muted-foreground" strokeWidth={1.8} /><span className="font-semibold">{b.functionType}</span></div>
         </div>
       </div>
 
@@ -115,8 +118,8 @@ const BookingDetailPage = () => {
         <div className="mx-4 mt-4 space-y-2">
           <p className="text-[11px] text-muted-foreground text-center">Demo: simulate owner response</p>
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={() => simulateOwner("confirmed")} className="h-10 rounded-xl bg-success-light text-success font-bold text-[12px]">✓ Owner confirms</button>
-            <button onClick={() => simulateOwner("rejected")} className="h-10 rounded-xl bg-destructive-light text-destructive font-bold text-[12px]">✗ Owner rejects</button>
+            <button onClick={() => simulateOwner("confirmed")} className="h-10 rounded-xl bg-success-light text-success font-bold text-[12px]">Owner confirms</button>
+            <button onClick={() => simulateOwner("rejected")} className="h-10 rounded-xl bg-destructive-light text-destructive font-bold text-[12px]">Owner rejects</button>
           </div>
         </div>
       )}

@@ -86,7 +86,7 @@ export default {
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
-        heading: ["Poppins", "sans-serif"],
+        heading: ["Fraunces", "Georgia", "serif"],
       },
       keyframes: {
         "accordion-down": {

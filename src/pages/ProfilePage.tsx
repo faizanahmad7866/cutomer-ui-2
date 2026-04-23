@@ -110,7 +110,7 @@ const ProfilePage = () => {
           <LogOut className="w-4 h-4" />Log out
         </button>
 
-        <p className="text-center text-[11px] text-muted-foreground mt-6">BookMyHall · v1.0 · Made with ❤️</p>
+        <p className="text-center text-[11px] text-muted-foreground/70 mt-6 tracking-wider">BOOKMYHALL  ·  v1.0</p>
       </div>
     </div>
   );

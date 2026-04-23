@@ -13,14 +13,10 @@ const SplashPage = () => {
       <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gold/20 blur-3xl" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-gold/10 blur-3xl" />
       <div className="relative z-10 flex flex-col items-center animate-fade-up">
-        <div className="w-20 h-20 rounded-3xl bg-gold flex items-center justify-center mb-5 shadow-gold">
-          <span className="text-3xl">🏛️</span>
-        </div>
-        <h1 className="font-heading text-4xl font-bold tracking-tight">
-          Book<span className="text-gold-light">My</span>Hall
-        </h1>
-        <p className="text-sm text-primary-foreground/70 mt-2">Find the perfect hall in your city</p>
-        <div className="mt-10 flex gap-1.5">
+        <div className="w-2 h-2 rounded-full bg-gold mb-6 shadow-gold" />
+        <h1 className="font-heading text-[44px] font-medium tracking-tight leading-none">BookMyHall</h1>
+        <p className="text-[12px] text-primary-foreground/70 mt-3 uppercase tracking-[0.24em]">Venues, simplified</p>
+        <div className="mt-12 flex gap-1.5">
           <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
           <span className="w-2 h-2 rounded-full bg-gold animate-pulse [animation-delay:150ms]" />
           <span className="w-2 h-2 rounded-full bg-gold animate-pulse [animation-delay:300ms]" />

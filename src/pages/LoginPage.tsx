@@ -61,8 +61,9 @@ const LoginPage = () => {
         </header>
 
         <div className="flex-1 px-6 pt-6 pb-10">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-navy flex items-center justify-center mb-6 shadow-md">
-            <span className="text-3xl">🏛️</span>
+          <div className="flex items-center gap-2 mb-8">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+            <span className="font-heading text-[22px] font-medium text-foreground tracking-tight">BookMyHall</span>
           </div>
 
           {step === "phone" && (

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CalendarCheck, ChevronRight } from "lucide-react";
+import { CalendarCheck, ChevronRight, Sun, Moon } from "lucide-react";
 import { format } from "date-fns";
 import { useApp } from "@/store/appStore";
 import { EmptyState } from "@/components/app/EmptyState";
@@ -53,8 +53,10 @@ const MyBookingsPage = () => {
                 </div>
                 <p className="text-[11px] text-muted-foreground font-mono">{b.id}</p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className="text-[11px] font-bold px-1.5 py-0.5 bg-primary-light text-primary rounded">{format(new Date(b.date), "dd MMM")}</span>
-                  <span className="text-[11px] font-bold px-1.5 py-0.5 bg-gold-light text-gold-dark rounded">{b.slot}</span>
+                  <span className="text-[11px] font-semibold px-2 py-0.5 bg-muted text-foreground rounded tabular-nums">{format(new Date(b.date), "dd MMM yyyy")}</span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 bg-primary-light text-primary rounded capitalize">
+                    {b.slot === "morning" ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}{b.slot}
+                  </span>
                 </div>
                 <div className="flex items-center justify-between mt-2">
                   <StatusBadge status={b.status} />

@@ -101,11 +101,11 @@ const SearchPage = () => {
               <Icon className="w-3.5 h-3.5" />{label}
             </button>
           ))}
-          {[["wedding_hall", "💒 Wedding"], ["banquet", "🏛️ Banquet"], ["lawn", "🌿 Lawn"]].map(([cat, label]) => (
+          {[["wedding_hall", "Wedding Hall"], ["banquet", "Banquet"], ["lawn", "Lawn"]].map(([cat, label]) => (
             <button
               key={cat}
               onClick={() => setCategory(category === cat ? null : cat)}
-              className={cn("shrink-0 h-9 px-3 rounded-full border text-[12px] font-bold transition-all whitespace-nowrap",
+              className={cn("shrink-0 h-9 px-3.5 rounded-full border text-[12px] font-semibold transition-all whitespace-nowrap",
                 category === cat ? "bg-primary text-primary-foreground border-primary" : "bg-card text-foreground border-border")}
             >
               {label}
@@ -134,11 +134,11 @@ const SearchPage = () => {
 
       {/* Results */}
       <div className="px-4 pt-4 flex items-center justify-between">
-        <span className="text-[13px] font-bold text-foreground">{results.length} halls found</span>
+        <span className="text-[13px] font-semibold text-foreground">{results.length} venues</span>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-[12px] font-semibold text-foreground bg-transparent">
-          <option value="rating">⭐ Top Rated</option>
-          <option value="price_low">💰 Price: Low-High</option>
-          <option value="price_high">💎 Price: High-Low</option>
+          <option value="rating">Sort: Top rated</option>
+          <option value="price_low">Sort: Price low to high</option>
+          <option value="price_high">Sort: Price high to low</option>
         </select>
       </div>
 
@@ -177,11 +177,11 @@ const SearchPage = () => {
             <div>
               <label className="text-[13px] font-bold text-foreground">Food Preference</label>
               <div className="grid grid-cols-3 gap-2 mt-2">
-                {[["veg", "🟢 Pure Veg"], ["nonveg", "🔴 Non-Veg"], ["both", "🔵 Both"]].map(([v, l]) => (
+                {[["veg", "Pure Veg"], ["nonveg", "Non-Veg"], ["both", "Both"]].map(([v, l]) => (
                   <button
                     key={v}
                     onClick={() => setFoodType(foodType === v ? null : v)}
-                    className={cn("h-11 rounded-xl border-2 text-[12px] font-bold transition-all",
+                    className={cn("h-11 rounded-xl border text-[12px] font-semibold transition-all",
                       foodType === v ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground")}
                   >
                     {l}

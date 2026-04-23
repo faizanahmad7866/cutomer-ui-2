@@ -1,12 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ArrowLeft, Star, MapPin, Users, Sun, Moon, Phone, MessageCircle, ChevronLeft, ChevronRight, BadgeCheck, Share2 } from "lucide-react";
+import { ArrowLeft, Star, MapPin, Users, Sun, Moon, Phone, MessageCircle, ChevronLeft, ChevronRight, BadgeCheck, Share2, Check } from "lucide-react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination as SwiperPag } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import { format, addMonths, isSameDay, isSameMonth, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isBefore, startOfDay, isToday } from "date-fns";
-import { HALLS, CATEGORY_LABELS } from "@/data/halls";
+import { HALLS } from "@/data/halls";
+import { CATEGORY_META } from "@/components/app/CategoryIcon";
+import { FoodBadge } from "@/components/app/FoodBadge";
 import { getHallBookedSlots } from "@/store/appStore";
 import { inr, advanceOf } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -82,11 +84,13 @@ const HallDetailPage = () => {
               <BadgeCheck className="w-3 h-3" /> Verified
             </span>
           )}
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-primary-light text-primary rounded-full text-[11px] font-bold">
-            {CATEGORY_LABELS[hall.category].emoji} {CATEGORY_LABELS[hall.category].label}
-          </span>
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-gold-light text-gold-dark rounded-full text-[11px] font-bold">
-            {hall.foodType === "veg" ? "🟢 Pure Veg" : hall.foodType === "nonveg" ? "🔴 Non-Veg" : "🔵 Veg & Non-Veg"}
+          {(() => { const C = CATEGORY_META[hall.category]; return (
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-primary-light text-primary rounded-full text-[11px] font-semibold">
+              <C.Icon className="w-3 h-3" strokeWidth={2} /> {C.label}
+            </span>
+          ); })()}
+          <span className="inline-flex items-center px-2.5 py-1 bg-muted rounded-full text-[11px]">
+            <FoodBadge type={hall.foodType} />
           </span>
         </div>
 
@@ -192,10 +196,12 @@ const HallDetailPage = () => {
       {/* Facilities */}
       <section className="px-5 pt-6">
         <h2 className="font-heading text-lg font-bold mb-3">What's included</h2>
-        <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2">
           {hall.amenities.map((a) => (
-            <div key={a} className="flex items-center gap-2 p-3 bg-card rounded-xl border border-border/60 text-[13px] font-semibold text-foreground">
-              <span className="w-6 h-6 rounded-full bg-success-light flex items-center justify-center text-success text-[10px]">✓</span>
+            <div key={a} className="flex items-center gap-2 p-3 bg-card rounded-xl border border-border/60 text-[13px] font-medium text-foreground">
+              <span className="w-5 h-5 rounded-full bg-success-light flex items-center justify-center shrink-0">
+                <Check className="w-3 h-3 text-success" strokeWidth={3} />
+              </span>
               {a}
             </div>
           ))}

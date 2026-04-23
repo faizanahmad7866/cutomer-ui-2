@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle } from "lucide-react";
+import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick } from "lucide-react";
 import { format } from "date-fns";
 import { HALLS, FUNCTION_TYPES } from "@/data/halls";
 import { useApp } from "@/store/appStore";
@@ -186,9 +186,8 @@ const BookingFlowPage = () => {
             <div className="flex gap-2 overflow-x-auto scrollbar-none mt-2 -mx-4 px-4 pb-1">
               {FUNCTION_TYPES.map((f) => (
                 <button key={f.value} onClick={() => setFuncType(f.value)}
-                  className={cn("shrink-0 flex flex-col items-center gap-1 py-2 px-3 rounded-xl border-2 text-[11px] font-bold min-w-[72px] transition-all",
-                    funcType === f.value ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground")}>
-                  <span className="text-lg">{f.emoji}</span>
+                  className={cn("shrink-0 h-11 px-4 rounded-full border text-[12px] font-semibold transition-all whitespace-nowrap",
+                    funcType === f.value ? "border-primary bg-primary text-primary-foreground" : "border-border bg-card text-foreground")}>
                   {f.value}
                 </button>
               ))}

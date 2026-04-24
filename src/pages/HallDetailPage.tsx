@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 import { format, addMonths, isSameDay, isSameMonth, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isBefore, startOfDay, isToday } from "date-fns";
 import { HALLS } from "@/data/halls";
 import { CATEGORY_META } from "@/components/app/CategoryIcon";
-import { FoodBadge } from "@/components/app/FoodBadge";
 import { getHallBookedSlots } from "@/store/appStore";
 import { inr, advanceOf } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -89,9 +88,6 @@ const HallDetailPage = () => {
               <C.Icon className="w-3 h-3" strokeWidth={2} /> {C.label}
             </span>
           ); })()}
-          <span className="inline-flex items-center px-2.5 py-1 bg-muted rounded-full text-[11px]">
-            <FoodBadge type={hall.foodType} />
-          </span>
         </div>
 
         <h1 className="font-heading text-2xl font-bold text-foreground leading-tight">{hall.name}</h1>

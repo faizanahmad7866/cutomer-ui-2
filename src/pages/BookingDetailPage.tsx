@@ -10,7 +10,7 @@ import jsPDF from "jspdf";
 const BookingDetailPage = () => {
   const { bookingId } = useParams();
   const navigate = useNavigate();
-  const { bookings } = useApp();
+  const { bookings, updateBookingStatus } = useApp();
   const b = bookings.find((x) => x.id === bookingId);
 
   if (!b) return <div className="p-10 text-center">Booking not found</div>;

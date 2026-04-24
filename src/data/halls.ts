@@ -153,6 +153,58 @@ export const HALLS: Hall[] = [
   },
 ];
 
+// Extra halls so every Maharashtra city has options
+HALLS.push(
+  {
+    id: "h7", name: "Shivneri Mangal Karyalaya", category: "wedding_hall", foodType: "veg",
+    city: "Nashik", area: "College Road", address: "College Road, Nashik",
+    rating: 4.5, totalReviews: 88, capacity: 700, priceMorning: 55000, priceNight: 85000,
+    images: [h5, h1, h3], amenities: ["AC Hall", "Mandap", "Parking 70+ cars", "Pure Veg Kitchen", "Bridal Room"],
+    description: "A trusted wedding hall in Nashik with traditional decor and great catering.",
+    ownerName: "Pravin Pawar", ownerPhone: "9011223344", isVerified: true, distanceKm: 1.8, bookedDates: {},
+  },
+  {
+    id: "h8", name: "Sai Banquet & Lawn", category: "banquet", foodType: "both",
+    city: "Akola", area: "Tilak Road", address: "Tilak Road, Akola",
+    rating: 4.3, totalReviews: 41, capacity: 450, priceMorning: 38000, priceNight: 60000,
+    images: [h2, h4, h6], amenities: ["AC Hall", "Open Lawn", "Parking", "Sound System", "DJ"],
+    description: "Comfortable banquet with attached lawn, great for weddings and birthdays.",
+    ownerName: "Sanjay Deshmukh", ownerPhone: "9822334455", isVerified: true, distanceKm: 2.4, bookedDates: {},
+  },
+  {
+    id: "h9", name: "Wardha Heritage Hall", category: "wedding_hall", foodType: "veg",
+    city: "Wardha", area: "Civil Lines", address: "Civil Lines, Wardha",
+    rating: 4.6, totalReviews: 36, capacity: 600, priceMorning: 42000, priceNight: 68000,
+    images: [h3, h5, h1], amenities: ["AC Hall", "Mandap", "Parking 50+ cars", "Pure Veg Kitchen"],
+    description: "Elegant wedding hall in the heart of Wardha with all modern facilities.",
+    ownerName: "Ramesh Kale", ownerPhone: "9700112233", isVerified: true, distanceKm: 1.1, bookedDates: {},
+  },
+  {
+    id: "h10", name: "Tadoba Garden Lawn", category: "lawn", foodType: "both",
+    city: "Chandrapur", area: "Mul Road", address: "Mul Road, Chandrapur",
+    rating: 4.2, totalReviews: 28, capacity: 350, priceMorning: 32000, priceNight: 52000,
+    images: [h6, h4, h2], amenities: ["Open Lawn", "Tent Setup", "Parking", "Sound", "Outdoor Kitchen"],
+    description: "Open garden lawn ideal for evening functions and engagement ceremonies.",
+    ownerName: "Dinesh More", ownerPhone: "9665544332", isVerified: false, distanceKm: 3.0, bookedDates: {},
+  },
+  {
+    id: "h11", name: "Orange City Banquet", category: "banquet", foodType: "both",
+    city: "Nagpur", area: "Dharampeth", address: "Dharampeth, Nagpur",
+    rating: 4.7, totalReviews: 102, capacity: 800, priceMorning: 75000, priceNight: 110000,
+    images: [h1, h3, h5], amenities: ["AC Hall", "Parking 100+ cars", "DJ", "Stage", "Bridal Room", "Valet"],
+    description: "Premium banquet in central Nagpur with elegant interiors and full-service catering.",
+    ownerName: "Aniket Joshi", ownerPhone: "9890011223", isVerified: true, distanceKm: 0.9, bookedDates: {},
+  },
+  {
+    id: "h12", name: "Ambadevi Mangal Hall", category: "wedding_hall", foodType: "veg",
+    city: "Amravati", area: "Camp Area", address: "Camp Area, Amravati",
+    rating: 4.4, totalReviews: 54, capacity: 550, priceMorning: 40000, priceNight: 65000,
+    images: [h5, h1, h6], amenities: ["AC Hall", "Mandap", "Parking 60+ cars", "Pure Veg Kitchen", "Bridal Room"],
+    description: "Well-known wedding hall in Amravati offering traditional setup and quality service.",
+    ownerName: "Prashant Wankhede", ownerPhone: "9765432100", isVerified: true, distanceKm: 1.4, bookedDates: {},
+  },
+);
+
 export const FUNCTION_TYPES = [
   { value: "Wedding" },
   { value: "Engagement" },

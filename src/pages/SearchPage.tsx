@@ -24,7 +24,7 @@ const SearchPage = () => {
   const [foodType, setFoodType] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([10000, 300000]);
   const [guestRange, setGuestRange] = useState<[number]>([0]);
-  const [sortBy, setSortBy] = useState("rating");
+  const [sortBy, setSortBy] = useState("nearest");
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => { setCategory(params.get("category")); }, [params]);
@@ -52,6 +52,7 @@ const SearchPage = () => {
       });
     }
     if (sortBy === "rating") r.sort((a, b) => b.rating - a.rating);
+    if (sortBy === "nearest") r.sort((a, b) => (a.distanceKm ?? 99) - (b.distanceKm ?? 99));
     if (sortBy === "price_low") r.sort((a, b) => Math.min(a.priceMorning, a.priceNight) - Math.min(b.priceMorning, b.priceNight));
     if (sortBy === "price_high") r.sort((a, b) => Math.min(b.priceMorning, b.priceNight) - Math.min(a.priceMorning, a.priceNight));
     return r;
@@ -137,6 +138,7 @@ const SearchPage = () => {
       <div className="px-4 pt-4 flex items-center justify-between">
         <span className="text-[13px] font-semibold text-foreground">{results.length} venues</span>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-[12px] font-semibold text-foreground bg-transparent">
+          <option value="nearest">Sort: Nearest first</option>
           <option value="rating">Sort: Top rated</option>
           <option value="price_low">Sort: Price low to high</option>
           <option value="price_high">Sort: Price high to low</option>

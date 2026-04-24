@@ -1,4 +1,4 @@
-import { Search, ArrowRight, ShieldCheck, Wallet, CalendarCheck, LayoutGrid, Church, Building2, Trees, Star, MapPin, Phone } from "lucide-react";
+import { Search, ArrowRight, ShieldCheck, Wallet, CalendarCheck, LayoutGrid, Church, Building2, Trees, Phone, Navigation } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { HALLS } from "@/data/halls";
@@ -8,10 +8,14 @@ import heroImg from "@/assets/hall-3.jpg";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { city, user } = useApp();
+  const { city, user, nearestEnabled } = useApp();
 
   const cityHalls = useMemo(
     () => HALLS.filter((h) => h.city === city).sort((a, b) => b.rating - a.rating),
+    [city]
+  );
+  const nearHalls = useMemo(
+    () => HALLS.filter((h) => h.city === city).slice().sort((a, b) => (a.distanceKm ?? 99) - (b.distanceKm ?? 99)),
     [city]
   );
   const allHalls = HALLS.slice().sort((a, b) => b.rating - a.rating);
@@ -36,10 +40,10 @@ const HomePage = () => {
               {user ? `Hello, ${user.name?.split(" ")[0]}` : "Welcome"}
             </div>
             <h1 className="font-heading text-[36px] leading-[1.05] font-medium text-primary-foreground tracking-tight mt-2">
-              Book the perfect<br/>hall, the easy way.
+              Find a hall.<br/>Book in minutes.
             </h1>
             <p className="text-[14px] text-primary-foreground/85 mt-3 max-w-[320px] leading-relaxed">
-              Find wedding halls, banquets and lawns in {city}. Pay only 5% to confirm your date.
+              Check availability and pay just 5% to lock your date in {city}.
             </p>
             <div className="mt-auto">
               <button
@@ -53,22 +57,6 @@ const HomePage = () => {
                 <span className="px-3 py-1.5 bg-gold text-gold-foreground text-[11px] font-semibold rounded-md">SEARCH</span>
               </button>
             </div>
-          </div>
-        </div>
-
-        {/* Trust stats strip */}
-        <div className="bg-card border-y border-border">
-          <div className="grid grid-cols-3 divide-x divide-border">
-            {[
-              { v: "500+", l: "Halls listed" },
-              { v: "10", l: "Cities" },
-              { v: "4.8★", l: "Avg rating" },
-            ].map((s) => (
-              <div key={s.l} className="py-3 text-center">
-                <div className="font-heading text-[18px] font-medium text-foreground tabular-nums">{s.v}</div>
-                <div className="text-[10px] text-muted-foreground uppercase tracking-[0.12em] font-semibold mt-0.5">{s.l}</div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -89,12 +77,37 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Halls near you */}
+      {nearHalls.length > 0 && (
+        <section className="pt-7">
+          <div className="px-5 flex items-end justify-between mb-3">
+            <div>
+              <h2 className="font-heading text-[22px] font-medium text-foreground leading-tight flex items-center gap-2">
+                <Navigation className="w-4 h-4 text-primary" strokeWidth={2} />
+                Halls near you
+              </h2>
+              <p className="text-[12px] text-muted-foreground mt-1">
+                {nearestEnabled ? "Sorted by distance from your location" : `Closest halls in ${city}`}
+              </p>
+            </div>
+            <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-foreground flex items-center gap-1 underline-offset-4 hover:underline">
+              See all <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />
+            </button>
+          </div>
+          <div className="flex gap-3.5 overflow-x-auto pb-2 px-5 scrollbar-none">
+            {nearHalls.slice(0, 6).map((h) => (
+              <HallCard key={h.id} hall={h} variant="scroll" />
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* Top halls */}
       <section className="pt-8">
         <div className="px-5 flex items-end justify-between mb-3">
           <div>
             <h2 className="font-heading text-[22px] font-medium text-foreground leading-tight">Top halls in {city}</h2>
-            <p className="text-[12px] text-muted-foreground mt-1">Most loved by customers</p>
+            <p className="text-[12px] text-muted-foreground mt-1">Highest rated in your city</p>
           </div>
           <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-foreground flex items-center gap-1 underline-offset-4 hover:underline">
             See all <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />

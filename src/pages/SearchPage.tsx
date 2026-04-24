@@ -24,7 +24,7 @@ const SearchPage = () => {
   const [foodType, setFoodType] = useState<string | null>(null);
   const [priceRange, setPriceRange] = useState<[number, number]>([10000, 300000]);
   const [guestRange, setGuestRange] = useState<[number]>([0]);
-  const [sortBy, setSortBy] = useState("rating");
+  const [sortBy, setSortBy] = useState("nearest");
   const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => { setCategory(params.get("category")); }, [params]);
@@ -52,6 +52,7 @@ const SearchPage = () => {
       });
     }
     if (sortBy === "rating") r.sort((a, b) => b.rating - a.rating);
+    if (sortBy === "nearest") r.sort((a, b) => (a.distanceKm ?? 99) - (b.distanceKm ?? 99));
     if (sortBy === "price_low") r.sort((a, b) => Math.min(a.priceMorning, a.priceNight) - Math.min(b.priceMorning, b.priceNight));
     if (sortBy === "price_high") r.sort((a, b) => Math.min(b.priceMorning, b.priceNight) - Math.min(a.priceMorning, a.priceNight));
     return r;
@@ -69,13 +70,21 @@ const SearchPage = () => {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search hall name or area..."
-            className="w-full h-11 pl-10 pr-9 bg-card rounded-xl border border-border text-[14px] font-medium focus:border-primary transition-colors"
+            className="w-full h-11 pl-10 pr-24 bg-card rounded-xl border border-border text-[14px] font-medium focus:border-primary transition-colors"
           />
           {query && (
-            <button onClick={() => setQuery("")} className="absolute right-3 top-1/2 -translate-y-1/2">
+            <button onClick={() => setQuery("")} className="absolute right-[88px] top-1/2 -translate-y-1/2">
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
           )}
+          <button
+            onClick={() => setShowFilters(true)}
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-8 px-3 rounded-lg bg-primary text-primary-foreground flex items-center gap-1.5 text-[12px] font-semibold active:scale-95 transition-transform"
+          >
+            <SlidersHorizontal className="w-3.5 h-3.5" strokeWidth={2.2} />
+            Filters
+            {activeFilters > 0 && <span className="w-4 h-4 bg-gold text-gold-foreground rounded-full text-[10px] font-bold flex items-center justify-center">{activeFilters}</span>}
+          </button>
         </div>
         <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-1">
           <Popover>
@@ -111,13 +120,6 @@ const SearchPage = () => {
               {label}
             </button>
           ))}
-          <button
-            onClick={() => setShowFilters(true)}
-            className="shrink-0 flex items-center gap-1.5 h-9 px-3 rounded-full border border-border bg-card text-[12px] font-bold text-foreground"
-          >
-            <SlidersHorizontal className="w-3.5 h-3.5" />Filters
-            {activeFilters > 0 && <span className="w-4 h-4 bg-gold text-gold-foreground rounded-full text-[10px] font-bold flex items-center justify-center">{activeFilters}</span>}
-          </button>
         </div>
       </div>
 
@@ -136,6 +138,7 @@ const SearchPage = () => {
       <div className="px-4 pt-4 flex items-center justify-between">
         <span className="text-[13px] font-semibold text-foreground">{results.length} venues</span>
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-[12px] font-semibold text-foreground bg-transparent">
+          <option value="nearest">Sort: Nearest first</option>
           <option value="rating">Sort: Top rated</option>
           <option value="price_low">Sort: Price low to high</option>
           <option value="price_high">Sort: Price high to low</option>

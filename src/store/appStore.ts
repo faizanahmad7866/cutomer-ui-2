@@ -7,10 +7,12 @@ interface AppState {
   user: User | null;
   isAuthed: boolean;
   city: string;
+  nearestEnabled: boolean;
   bookings: Booking[];
   notifications: AppNotification[];
 
   setCity: (city: string) => void;
+  setNearestEnabled: (v: boolean) => void;
   login: (user: User) => void;
   logout: () => void;
   updateUser: (patch: Partial<User>) => void;
@@ -35,10 +37,12 @@ export const useApp = create<AppState>()(
       user: null,
       isAuthed: false,
       city: "Mumbai",
+      nearestEnabled: false,
       bookings: [],
       notifications: seedNotifications,
 
       setCity: (city) => set({ city }),
+      setNearestEnabled: (v) => set({ nearestEnabled: v }),
       login: (user) => set({ user, isAuthed: true }),
       logout: () => set({ user: null, isAuthed: false }),
       updateUser: (patch) => set((s) => ({ user: s.user ? { ...s.user, ...patch } : s.user })),

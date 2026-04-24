@@ -46,12 +46,6 @@ const BookingDetailPage = () => {
     toast.success("Booking cancelled. Refund will be processed in 5-7 days.");
   };
 
-  // Demo: simulate owner action
-  const simulateOwner = (status: "confirmed" | "rejected") => {
-    updateBookingStatus(b.id, status);
-    toast.success(`Owner ${status} the booking`);
-  };
-
   return (
     <div className="pb-24 animate-fade-up">
       <div className="px-4 pt-4 flex items-center gap-3">
@@ -113,16 +107,6 @@ const BookingDetailPage = () => {
         <button onClick={downloadReceipt} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2"><Download className="w-4 h-4" />Receipt</button>
         <button onClick={() => navigator.share?.({ title: "BookMyHall", text: `Booking: ${b.id}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2"><Share2 className="w-4 h-4" />Share</button>
       </div>
-
-      {b.status === "pending" && (
-        <div className="mx-4 mt-4 space-y-2">
-          <p className="text-[11px] text-muted-foreground text-center">Demo: simulate owner response</p>
-          <div className="grid grid-cols-2 gap-2">
-            <button onClick={() => simulateOwner("confirmed")} className="h-10 rounded-xl bg-success-light text-success font-bold text-[12px]">Owner confirms</button>
-            <button onClick={() => simulateOwner("rejected")} className="h-10 rounded-xl bg-destructive-light text-destructive font-bold text-[12px]">Owner rejects</button>
-          </div>
-        </div>
-      )}
 
       {(b.status === "confirmed" || b.status === "pending") && (
         <button onClick={cancel} className="mx-4 mt-4 w-[calc(100%-2rem)] h-12 rounded-xl border-2 border-destructive/30 text-destructive font-bold text-[13px]">Cancel Booking</button>

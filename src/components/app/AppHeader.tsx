@@ -1,15 +1,46 @@
-import { Bell, MapPin, ChevronDown } from "lucide-react";
+import { Bell, MapPin, ChevronDown, Navigation, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { useState } from "react";
 import { CITIES } from "@/data/halls";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { toast } from "sonner";
 
 export const AppHeader = () => {
   const navigate = useNavigate();
-  const { user, city, setCity, notifications } = useApp();
+  const { user, city, setCity, setNearestEnabled, notifications } = useApp();
   const unread = notifications.filter((n) => !n.read).length;
   const [openCity, setOpenCity] = useState(false);
+  const [locating, setLocating] = useState(false);
+
+  // Approximate lat/lng for supported Maharashtra cities — used for nearest match
+  const CITY_COORDS: Record<string, [number, number]> = {
+    Mumbai: [19.076, 72.8777], Pune: [18.5204, 73.8567], Nagpur: [21.1458, 79.0882],
+    Nashik: [19.9975, 73.7898], Amravati: [20.9374, 77.7796], Akola: [20.7096, 77.0021],
+    Wardha: [20.7453, 78.6022], Chandrapur: [19.9615, 79.2961],
+  };
+
+  const detectCity = () => {
+    if (!navigator.geolocation) return toast.error("Location not supported on this device");
+    setLocating(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        let best = CITIES[0]; let min = Infinity;
+        Object.entries(CITY_COORDS).forEach(([c, [la, ln]]) => {
+          const d = Math.hypot(la - latitude, ln - longitude);
+          if (d < min) { min = d; best = c; }
+        });
+        setCity(best);
+        setNearestEnabled(true);
+        setLocating(false);
+        setOpenCity(false);
+        toast.success(`Showing halls near ${best}`);
+      },
+      () => { setLocating(false); toast.error("Unable to get your location"); },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  };
 
   return (
     <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-xl border-b border-border/60">
@@ -33,11 +64,19 @@ export const AppHeader = () => {
             <SheetHeader>
               <SheetTitle className="font-heading">Choose your city</SheetTitle>
             </SheetHeader>
+            <button
+              onClick={detectCity}
+              disabled={locating}
+              className="mt-4 w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform disabled:opacity-60"
+            >
+              {locating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" />}
+              {locating ? "Finding your location..." : "Use my current location"}
+            </button>
             <div className="grid grid-cols-2 gap-2 mt-4 pb-6">
               {CITIES.map((c) => (
                 <button
                   key={c}
-                  onClick={() => { setCity(c); setOpenCity(false); }}
+                  onClick={() => { setCity(c); setNearestEnabled(false); setOpenCity(false); }}
                   className={`h-12 rounded-xl border-2 text-sm font-semibold transition-all ${city === c ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground"}`}
                 >
                   {c}

@@ -8,7 +8,6 @@ import "swiper/css/pagination";
 import { format, addMonths, isSameDay, isSameMonth, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isBefore, startOfDay, isToday } from "date-fns";
 import { HALLS } from "@/data/halls";
 import { CATEGORY_META } from "@/components/app/CategoryIcon";
-import { FoodBadge } from "@/components/app/FoodBadge";
 import { getHallBookedSlots } from "@/store/appStore";
 import { inr, advanceOf } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -89,9 +88,6 @@ const HallDetailPage = () => {
               <C.Icon className="w-3 h-3" strokeWidth={2} /> {C.label}
             </span>
           ); })()}
-          <span className="inline-flex items-center px-2.5 py-1 bg-muted rounded-full text-[11px]">
-            <FoodBadge type={hall.foodType} />
-          </span>
         </div>
 
         <h1 className="font-heading text-2xl font-bold text-foreground leading-tight">{hall.name}</h1>
@@ -114,34 +110,10 @@ const HallDetailPage = () => {
         </div>
       </div>
 
-      {/* Slot pricing */}
-      <section className="px-5 pt-5">
-        <h2 className="font-heading text-lg font-bold mb-3">Choose your slot</h2>
-        <div className="grid grid-cols-2 gap-3">
-          {([
-            { s: "morning", emoji: Sun, label: "Morning", time: "6 AM – 2 PM", price: hall.priceMorning },
-            { s: "night", emoji: Moon, label: "Night", time: "6 PM – 2 AM", price: hall.priceNight },
-          ] as const).map(({ s, emoji: Icon, label, time, price }) => (
-            <button
-              key={s}
-              onClick={() => setSlot(s)}
-              className={cn("p-4 rounded-2xl border-2 text-left transition-all active:scale-[0.97]",
-                slot === s ? "border-primary bg-primary-light shadow-elevated" : "border-border bg-card")}
-            >
-              <Icon className={cn("w-5 h-5 mb-2", slot === s ? "text-primary" : "text-muted-foreground")} />
-              <div className="font-heading font-bold text-foreground">{label}</div>
-              <div className="text-[11px] text-muted-foreground">{time}</div>
-              <div className="font-heading font-bold text-primary mt-2">{inr(price)}</div>
-              {slot === s && <div className="text-[10px] font-bold text-success mt-1">✓ Selected</div>}
-            </button>
-          ))}
-        </div>
-      </section>
-
       {/* Calendar */}
-      <section className="px-5 pt-6">
-        <h2 className="font-heading text-lg font-bold mb-1">Check availability</h2>
-        <p className="text-[12px] text-muted-foreground mb-3">Tap a green or blue date to pick</p>
+      <section className="px-5 pt-5">
+        <h2 className="font-heading text-lg font-bold mb-1">Pick a date</h2>
+        <p className="text-[12px] text-muted-foreground mb-3">Green = open · Blue = partly booked · Red = full</p>
         <div className="bg-card rounded-2xl p-4 shadow-soft border border-border">
           <div className="flex items-center justify-between mb-3">
             <button onClick={() => setMonth(addMonths(month, -1))} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
@@ -165,7 +137,7 @@ const HallDetailPage = () => {
                   onClick={() => setDate(d)}
                   className={cn(
                     "aspect-square rounded-lg flex items-center justify-center text-[12px] font-bold transition-all",
-                    sel && "bg-primary text-primary-foreground shadow-md scale-105",
+                    sel && "bg-primary text-primary-foreground shadow-elevated scale-105 ring-2 ring-gold ring-offset-1",
                     !sel && !past && status === "available" && "bg-success-light text-success hover:scale-105",
                     !sel && !past && status === "partial" && "bg-info-light text-info hover:scale-105",
                     !sel && status === "booked" && "bg-destructive-light text-destructive line-through cursor-not-allowed",
@@ -180,9 +152,10 @@ const HallDetailPage = () => {
           </div>
           <div className="flex items-center gap-3 mt-4 pt-3 border-t border-border flex-wrap">
             {[
-              { c: "bg-success-light", l: "Available" },
-              { c: "bg-info-light", l: "Partly booked" },
-              { c: "bg-destructive-light", l: "Booked" },
+              { c: "bg-success-light border border-success/30", l: "Available" },
+              { c: "bg-info-light border border-info/30", l: "Partly booked" },
+              { c: "bg-destructive-light border border-destructive/30", l: "Full" },
+              { c: "bg-primary border-2 border-gold", l: "Selected" },
             ].map((it) => (
               <div key={it.l} className="flex items-center gap-1.5">
                 <span className={cn("w-3 h-3 rounded", it.c)} />
@@ -190,6 +163,41 @@ const HallDetailPage = () => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Slot pricing — after date */}
+      <section className="px-5 pt-6">
+        <h2 className="font-heading text-lg font-bold mb-1">Choose your slot</h2>
+        <p className="text-[12px] text-muted-foreground mb-3">
+          {date ? `For ${format(date, "dd MMM yyyy")}` : "Pick a date first to see slot status"}
+        </p>
+        <div className="grid grid-cols-2 gap-3">
+          {([
+            { s: "morning", emoji: Sun, label: "Morning", time: "6 AM – 2 PM", price: hall.priceMorning },
+            { s: "night", emoji: Moon, label: "Night", time: "6 PM – 2 AM", price: hall.priceNight },
+          ] as const).map(({ s, emoji: Icon, label, time, price }) => {
+            const taken = date ? getHallBookedSlots(hall.id, format(date, "yyyy-MM-dd")).includes(s) : false;
+            return (
+              <button
+                key={s}
+                onClick={() => !taken && setSlot(s)}
+                disabled={taken}
+                className={cn("p-4 rounded-2xl border-2 text-left transition-all active:scale-[0.97]",
+                  slot === s ? "border-primary bg-primary-light shadow-elevated ring-2 ring-gold/40" : "border-border bg-card",
+                  taken && "opacity-60 cursor-not-allowed border-destructive/30 bg-destructive-light/30")}
+              >
+                <div className="flex items-center justify-between">
+                  <Icon className={cn("w-5 h-5", slot === s ? "text-primary" : "text-muted-foreground")} />
+                  {taken && <span className="text-[10px] font-bold text-destructive uppercase">Booked</span>}
+                  {slot === s && !taken && <Check className="w-4 h-4 text-success" strokeWidth={3} />}
+                </div>
+                <div className="font-heading font-bold text-foreground mt-2">{label}</div>
+                <div className="text-[11px] text-muted-foreground">{time}</div>
+                <div className="font-heading font-bold text-primary mt-2 tabular-nums">{inr(price)}</div>
+              </button>
+            );
+          })}
         </div>
       </section>
 

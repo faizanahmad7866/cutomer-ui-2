@@ -43,8 +43,8 @@ export const AppHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-background/85 backdrop-blur-xl border-b border-border/60">
-      <div className="max-w-md mx-auto h-[60px] px-4 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border/60">
+      <div className="max-w-7xl mx-auto h-[60px] md:h-[68px] px-4 md:px-8 flex items-center justify-between gap-3">
         <Sheet open={openCity} onOpenChange={setOpenCity}>
           <SheetTrigger asChild>
             <button className="flex items-center gap-1.5 max-w-[140px] active:scale-95 transition-transform">

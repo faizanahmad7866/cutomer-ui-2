@@ -14,8 +14,8 @@ const dStr = (d: number) => {
 };
 
 export const CITIES = [
-  "Mumbai", "Delhi", "Bengaluru", "Hyderabad", "Chennai",
-  "Pune", "Kolkata", "Ahmedabad", "Jaipur", "Lucknow",
+  "Amravati", "Akola", "Mumbai", "Pune", "Nagpur",
+  "Nashik", "Wardha", "Chandrapur",
 ];
 
 export const HALLS: Hall[] = [

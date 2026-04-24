@@ -1,5 +1,5 @@
-import { Bell, MapPin, ChevronDown, Navigation, Loader2 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Bell, MapPin, ChevronDown, Navigation, Loader2, Home, Search, CalendarCheck } from "lucide-react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { useState } from "react";
 import { CITIES } from "@/data/halls";
@@ -8,6 +8,7 @@ import { toast } from "sonner";
 
 export const AppHeader = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, city, setCity, setNearestEnabled, notifications } = useApp();
   const unread = notifications.filter((n) => !n.read).length;
   const [openCity, setOpenCity] = useState(false);
@@ -86,10 +87,33 @@ export const AppHeader = () => {
           </SheetContent>
         </Sheet>
 
-        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] font-medium text-foreground tracking-tight">
+        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] md:text-[22px] font-medium text-foreground tracking-tight">
           <span className="w-1.5 h-1.5 rounded-full bg-gold" />
           BookMyHall
         </button>
+
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1 ml-4">
+          {[
+            { path: "/", Icon: Home, label: "Home" },
+            { path: "/search", Icon: Search, label: "Search" },
+            { path: "/bookings", Icon: CalendarCheck, label: "Bookings" },
+          ].map(({ path, Icon, label }) => {
+            const active = path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
+            return (
+              <Link
+                key={path}
+                to={path}
+                className={`flex items-center gap-1.5 h-10 px-3.5 rounded-lg text-[13px] font-semibold transition-colors ${active ? "bg-primary-light text-primary" : "text-muted-foreground hover:text-foreground hover:bg-muted"}`}
+              >
+                <Icon className="w-4 h-4" strokeWidth={2} />
+                {label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex-1 hidden md:block" />
 
         <div className="flex items-center gap-2">
           <button

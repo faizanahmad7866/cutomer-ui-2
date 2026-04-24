@@ -63,30 +63,30 @@ const SearchPage = () => {
   return (
     <div className="animate-fade-up">
       {/* Sticky search */}
-      <div className="sticky top-[60px] md:top-[68px] z-30 bg-background/95 backdrop-blur-xl border-b border-border/60 px-4 md:px-10 py-3 md:py-5 space-y-3">
-        <div className="relative max-w-3xl mx-auto md:mx-0">
+      <div className="sticky top-[60px] z-30 bg-background/95 backdrop-blur-xl border-b border-border/60 px-4 py-3 space-y-3">
+        <div className="relative">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search hall name or area..."
-            className="w-full h-12 md:h-14 pl-10 md:pl-11 pr-28 md:pr-32 bg-card rounded-xl border border-border text-[14px] md:text-[15px] font-medium focus:border-primary transition-colors"
+            className="w-full h-12 pl-10 pr-28 bg-card rounded-xl border border-border text-[14px] font-medium focus:border-primary transition-colors"
           />
           {query && (
-            <button onClick={() => setQuery("")} className="absolute right-[100px] md:right-[112px] top-1/2 -translate-y-1/2">
+            <button onClick={() => setQuery("")} className="absolute right-[100px] top-1/2 -translate-y-1/2">
               <X className="w-4 h-4 text-muted-foreground" />
             </button>
           )}
           <button
             onClick={() => setShowFilters(true)}
-            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-9 md:h-11 px-3 md:px-4 rounded-lg bg-primary text-primary-foreground flex items-center gap-1.5 text-[12px] md:text-[13px] font-semibold active:scale-95 transition-transform shadow-sm"
+            className="absolute right-1.5 top-1/2 -translate-y-1/2 h-9 px-3 rounded-lg bg-primary text-primary-foreground flex items-center gap-1.5 text-[12px] font-semibold active:scale-95 transition-transform shadow-sm"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5 md:w-4 md:h-4" strokeWidth={2.2} />
+            <SlidersHorizontal className="w-3.5 h-3.5" strokeWidth={2.2} />
             Filters
             {activeFilters > 0 && <span className="w-4 h-4 bg-gold text-gold-foreground rounded-full text-[10px] font-bold flex items-center justify-center">{activeFilters}</span>}
           </button>
         </div>
-        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 md:mx-0 px-4 md:px-0 pb-1 max-w-3xl md:mx-0">
+        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-1">
           <Popover>
             <PopoverTrigger asChild>
               <button className={cn("shrink-0 flex items-center gap-1.5 h-9 px-3 rounded-full border text-[12px] font-bold transition-all",
@@ -135,9 +135,9 @@ const SearchPage = () => {
       )}
 
       {/* Results */}
-      <div className="px-4 md:px-10 pt-4 md:pt-6 flex items-center justify-between">
-        <span className="text-[13px] md:text-[14px] font-semibold text-foreground">{results.length} {results.length === 1 ? "hall" : "halls"} found</span>
-        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-[12px] md:text-[13px] font-semibold text-foreground bg-transparent cursor-pointer">
+      <div className="px-4 pt-4 flex items-center justify-between">
+        <span className="text-[13px] font-semibold text-foreground">{results.length} {results.length === 1 ? "hall" : "halls"} found</span>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="text-[12px] font-semibold text-foreground bg-transparent cursor-pointer">
           <option value="nearest">Sort: Nearest first</option>
           <option value="rating">Sort: Top rated</option>
           <option value="price_low">Sort: Price low to high</option>
@@ -145,11 +145,9 @@ const SearchPage = () => {
         </select>
       </div>
 
-      <div className="px-4 md:px-10 pt-3 md:pt-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5">
+      <div className="px-4 pt-3 grid grid-cols-1 gap-4">
         {results.length === 0 ? (
-          <div className="md:col-span-full">
-            <EmptyState Icon={Search} title="No halls found" message="Try changing filters or selecting a different date." />
-          </div>
+          <EmptyState Icon={Search} title="No halls found" message="Try changing filters or selecting a different date." />
         ) : (
           results.map((h) => <HallCard key={h.id} hall={h} />)
         )}
@@ -157,7 +155,7 @@ const SearchPage = () => {
 
       {/* Filters Sheet */}
       <Sheet open={showFilters} onOpenChange={setShowFilters}>
-        <SheetContent side="bottom" className="rounded-t-3xl max-h-[88vh] overflow-y-auto md:max-w-2xl md:mx-auto">
+        <SheetContent side="bottom" className="rounded-t-3xl max-h-[88vh] overflow-y-auto">
           <SheetHeader>
             <SheetTitle className="font-heading">Filters</SheetTitle>
           </SheetHeader>

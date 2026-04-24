@@ -22,7 +22,7 @@ const SearchPage = () => {
   const [selectedSlot, setSelectedSlot] = useState<"morning" | "night" | null>(null);
   const [category, setCategory] = useState<string | null>(params.get("category"));
   const [foodType, setFoodType] = useState<string | null>(null);
-  const [priceRange, setPriceRange] = useState<[number, number]>([10000, 300000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([5000, 500000]);
   const [guestRange, setGuestRange] = useState<[number]>([0]);
   const [sortBy, setSortBy] = useState("nearest");
   const [showFilters, setShowFilters] = useState(false);

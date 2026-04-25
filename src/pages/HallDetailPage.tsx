@@ -190,7 +190,8 @@ const HallDetailPage = () => {
                 <div className="flex items-center justify-between">
                   <Icon className={cn("w-5 h-5", slot === s ? "text-primary" : "text-muted-foreground")} />
                   {taken && <span className="text-[10px] font-bold text-destructive uppercase">Booked</span>}
-                  {slot === s && !taken && <Check className="w-4 h-4 text-success" strokeWidth={3} />}
+                  {!taken && slot !== s && <span className="text-[10px] font-bold text-success uppercase tracking-wider">Available</span>}
+                  {slot === s && !taken && <span className="inline-flex items-center gap-1 text-[10px] font-bold text-success uppercase tracking-wider"><Check className="w-3 h-3" strokeWidth={3} />Selected</span>}
                 </div>
                 <div className="font-heading font-bold text-foreground mt-2">{label}</div>
                 <div className="text-[11px] text-muted-foreground">{time}</div>

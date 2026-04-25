@@ -118,7 +118,7 @@ const BookingFlowPage = () => {
       {/* Progress */}
       <div className="px-4 pt-4">
         <div className="flex items-center gap-1">
-          {[1,2,3,4].map((n) => (
+          {[1,2,3].map((n) => (
             <div key={n} className="flex-1 flex items-center gap-1">
               <div className={cn("flex-1 h-1 rounded-full transition-all", n <= step ? "bg-primary" : "bg-border")} />
             </div>
@@ -128,7 +128,6 @@ const BookingFlowPage = () => {
           <span className={step >= 1 ? "text-primary" : ""}>Details</span>
           <span className={step >= 2 ? "text-primary" : ""}>Payment</span>
           <span className={step >= 3 ? "text-primary" : ""}>Confirm</span>
-          <span className={step >= 4 ? "text-primary" : ""}>Rate</span>
         </div>
       </div>
 

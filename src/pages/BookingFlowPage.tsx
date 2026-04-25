@@ -331,10 +331,12 @@ const BookingFlowPage = () => {
             <button onClick={() => navigator.share?.({ title: "BookMyHall booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Share2 className="w-4 h-4" />Share</button>
           </div>
 
-          <button onClick={() => setStep(4)} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-[15px] rounded-xl shadow-gold active:scale-[0.98] transition-transform">
-            Rate your experience
+          <button onClick={() => navigate("/bookings")} className="w-full h-14 bg-primary text-primary-foreground font-bold text-[15px] rounded-xl shadow-soft active:scale-[0.98] transition-transform">
+            Go to my bookings
           </button>
-          <button onClick={() => navigate("/bookings")} className="w-full text-[13px] font-bold text-primary py-2">Go to my bookings →</button>
+          <button onClick={() => setStep(4)} className="w-full text-[13px] font-semibold text-muted-foreground py-2 hover:text-primary transition-colors">
+            Rate your experience <span className="opacity-70">(optional)</span>
+          </button>
         </div>
       )}
 

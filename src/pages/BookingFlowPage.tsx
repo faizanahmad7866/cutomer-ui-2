@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick } from "lucide-react";
+import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick, ShieldCheck, MapPin, Calendar as CalendarIcon, Users } from "lucide-react";
 import { format } from "date-fns";
 import { HALLS, FUNCTION_TYPES } from "@/data/halls";
 import { useApp } from "@/store/appStore";
@@ -88,33 +88,8 @@ const BookingFlowPage = () => {
   };
 
   const downloadReceipt = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(20); doc.text("BookMyHall — Booking Receipt", 20, 20);
-    doc.setFontSize(11);
-    let y = 40;
-    const lines = [
-      `Booking ID: ${bookingId}`,
-      `Status: PENDING APPROVAL`,
-      `Date: ${format(new Date(dateISO), "dd MMM yyyy")} (${slot})`,
-      ``,
-      `Hall: ${hall.name}`,
-      `Address: ${hall.address}, ${hall.city}`,
-      `Owner: ${hall.ownerName} — ${hall.ownerPhone}`,
-      ``,
-      `Customer: ${name}`,
-      `Phone: +91 ${user.phone}`,
-      `Address: ${address}`,
-      `Guests: ${guests} | Function: ${funcType} | Food: ${foodPref}`,
-      ``,
-      `Total Amount:    Rs. ${totalAmount.toLocaleString("en-IN")}`,
-      `Paid (5%):       Rs. ${advance.toLocaleString("en-IN")}`,
-      `Pending (95%):   Rs. ${pendingOf(totalAmount).toLocaleString("en-IN")}`,
-      ``,
-      `Cancellation: 3% gateway charge non-refundable.`,
-      `Thank you for booking with BookMyHall!`,
-    ];
-    lines.forEach((l) => { doc.text(l, 20, y); y += 7; });
-    doc.save(`BookMyHall-${bookingId}.pdf`);
+    if (!createdBooking) return;
+    generateProPdf(createdBooking);
     toast.success("Receipt downloaded");
   };
 

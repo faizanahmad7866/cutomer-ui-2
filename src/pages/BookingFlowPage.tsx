@@ -348,7 +348,7 @@ const BookingFlowPage = () => {
               </button>
             ))}
           </div>
-          <Textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} placeholder="Share your experience (optional)" rows={4} className="bg-card" />
+          <Textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} placeholder="Share your experience" rows={4} className="bg-card" />
           <button onClick={submitReview} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold">
             Submit Review
           </button>

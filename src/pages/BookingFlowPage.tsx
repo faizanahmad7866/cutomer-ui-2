@@ -321,3 +321,97 @@ const BookingFlowPage = () => {
 };
 
 export default BookingFlowPage;
+
+// Professional PDF receipt (shared style with BookingDetailPage)
+function generateProPdf(b: Booking) {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const W = doc.internal.pageSize.getWidth();
+  const M = 40;
+
+  doc.setFillColor(26, 60, 110);
+  doc.rect(0, 0, W, 90, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.text("BookMyHall", M, 40);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+  doc.text("Trusted hall booking platform", M, 56);
+  doc.text("support@bookmyhall.online  ·  +91 99999 88888", M, 70);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+  doc.text("BOOKING RECEIPT", W - M, 40, { align: "right" });
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+  doc.text(`Issued: ${format(new Date(), "dd MMM yyyy, hh:mm a")}`, W - M, 56, { align: "right" });
+  doc.text(`Status: ${b.status.toUpperCase()}`, W - M, 70, { align: "right" });
+
+  let y = 120;
+  doc.setDrawColor(220, 220, 220); doc.setFillColor(248, 249, 251);
+  doc.roundedRect(M, y, W - M * 2, 50, 6, 6, "FD");
+  doc.setTextColor(120, 120, 120); doc.setFontSize(8);
+  doc.text("BOOKING ID", M + 14, y + 18);
+  doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+  doc.text(b.id, M + 14, y + 38);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(120, 120, 120);
+  doc.text("Event Date", W - M - 14, y + 18, { align: "right" });
+  doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.setFontSize(13);
+  doc.text(`${format(new Date(b.date), "dd MMM yyyy")} · ${b.slot}`, W - M - 14, y + 38, { align: "right" });
+
+  const section = (title: string, rows: [string, string][], startY: number) => {
+    doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(26, 60, 110);
+    doc.text(title.toUpperCase(), M, startY);
+    doc.setDrawColor(220, 220, 220); doc.line(M, startY + 4, W - M, startY + 4);
+    let cy = startY + 20;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+    rows.forEach(([k, v]) => {
+      doc.setTextColor(120, 120, 120); doc.text(k, M, cy);
+      doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.text(v, W - M, cy, { align: "right" });
+      doc.setFont("helvetica", "normal"); cy += 16;
+    });
+    return cy + 8;
+  };
+
+  y = 200;
+  y = section("Venue", [
+    ["Hall name", b.hallName],
+    ["Address", b.hallAddress.length > 50 ? b.hallAddress.substring(0, 50) + "…" : b.hallAddress],
+    ["Owner", `${b.ownerName} (+91 ${b.ownerPhone})`],
+  ], y);
+  y = section("Customer", [
+    ["Name", b.customerName],
+    ["Phone", `+91 ${b.customerPhone}`],
+    ["Address", b.customerAddress.length > 50 ? b.customerAddress.substring(0, 50) + "…" : b.customerAddress],
+  ], y);
+  y = section("Event", [
+    ["Function type", b.functionType],
+    ["Number of guests", String(b.guestCount)],
+    ["Slot", b.slot === "morning" ? "Morning (6 AM – 2 PM)" : "Night (6 PM – 2 AM)"],
+  ], y);
+
+  doc.setFillColor(248, 249, 251);
+  doc.roundedRect(M, y, W - M * 2, 110, 6, 6, "FD");
+  doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(26, 60, 110);
+  doc.text("PAYMENT SUMMARY", M + 14, y + 20);
+  const fmt = (n: number) => `Rs. ${n.toLocaleString("en-IN")}`;
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  let py = y + 40;
+  ([["Slot price", fmt(b.totalAmount)], ["Advance paid (5%)", fmt(b.paidAmount)]] as [string, string][]).forEach(([k, v]) => {
+    doc.setTextColor(120, 120, 120); doc.text(k, M + 14, py);
+    doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.text(v, W - M - 14, py, { align: "right" });
+    doc.setFont("helvetica", "normal"); py += 16;
+  });
+  doc.setDrawColor(200, 200, 200); doc.line(M + 14, py, W - M - 14, py); py += 16;
+  doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(26, 60, 110);
+  doc.text("Pending at venue", M + 14, py); doc.text(fmt(b.pendingAmount), W - M - 14, py, { align: "right" });
+  y += 130;
+
+  doc.setFont("helvetica", "italic"); doc.setFontSize(8.5); doc.setTextColor(110, 110, 110);
+  ["• Pay the balance directly to the hall owner on event day (cash / UPI / bank transfer accepted).",
+   "• Cancellation by customer: 3% payment-gateway fee is non-refundable. Refund processed in 5–7 days.",
+   "• If the owner cancels for any reason, you receive a 100% refund.",
+   "• Carry a copy of this receipt or your booking ID on event day."].forEach((n) => { doc.text(n, M, y); y += 12; });
+
+  const fy = doc.internal.pageSize.getHeight() - 30;
+  doc.setDrawColor(220, 220, 220); doc.line(M, fy - 8, W - M, fy - 8);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(140, 140, 140);
+  doc.text("This is a computer-generated receipt and does not require a signature.", M, fy);
+  doc.text("bookmyhall.online", W - M, fy, { align: "right" });
+
+  doc.save(`BookMyHall-${b.id}.pdf`);
+}

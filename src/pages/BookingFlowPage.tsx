@@ -128,7 +128,7 @@ const BookingFlowPage = () => {
           <span className={step >= 1 ? "text-primary" : ""}>Details</span>
           <span className={step >= 2 ? "text-primary" : ""}>Payment</span>
           <span className={step >= 3 ? "text-primary" : ""}>Confirm</span>
-          <span className={step >= 4 ? "text-primary" : ""}>Rate</span>
+          <span className={step >= 4 ? "text-primary" : ""}>Rate <span className="opacity-60 font-medium normal-case">(optional)</span></span>
         </div>
       </div>
 

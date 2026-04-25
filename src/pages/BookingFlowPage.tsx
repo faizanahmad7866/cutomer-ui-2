@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick } from "lucide-react";
+import { ArrowLeft, Check, Phone, Download, Share2, Star, MessageCircle, Sun, Moon, Smartphone, CreditCard, Landmark, Info, Leaf, Drumstick, ShieldCheck, MapPin, Calendar as CalendarIcon, Users } from "lucide-react";
 import { format } from "date-fns";
 import { HALLS, FUNCTION_TYPES } from "@/data/halls";
 import { useApp } from "@/store/appStore";
@@ -88,33 +88,8 @@ const BookingFlowPage = () => {
   };
 
   const downloadReceipt = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(20); doc.text("BookMyHall — Booking Receipt", 20, 20);
-    doc.setFontSize(11);
-    let y = 40;
-    const lines = [
-      `Booking ID: ${bookingId}`,
-      `Status: PENDING APPROVAL`,
-      `Date: ${format(new Date(dateISO), "dd MMM yyyy")} (${slot})`,
-      ``,
-      `Hall: ${hall.name}`,
-      `Address: ${hall.address}, ${hall.city}`,
-      `Owner: ${hall.ownerName} — ${hall.ownerPhone}`,
-      ``,
-      `Customer: ${name}`,
-      `Phone: +91 ${user.phone}`,
-      `Address: ${address}`,
-      `Guests: ${guests} | Function: ${funcType} | Food: ${foodPref}`,
-      ``,
-      `Total Amount:    Rs. ${totalAmount.toLocaleString("en-IN")}`,
-      `Paid (5%):       Rs. ${advance.toLocaleString("en-IN")}`,
-      `Pending (95%):   Rs. ${pendingOf(totalAmount).toLocaleString("en-IN")}`,
-      ``,
-      `Cancellation: 3% gateway charge non-refundable.`,
-      `Thank you for booking with BookMyHall!`,
-    ];
-    lines.forEach((l) => { doc.text(l, 20, y); y += 7; });
-    doc.save(`BookMyHall-${bookingId}.pdf`);
+    if (!createdBooking) return;
+    generateProPdf(createdBooking);
     toast.success("Receipt downloaded");
   };
 
@@ -127,11 +102,17 @@ const BookingFlowPage = () => {
 
   return (
     <div className="pb-24">
-      <div className="px-4 pt-4 flex items-center gap-3">
-        <button onClick={() => step > 1 && step < 3 ? setStep(step - 1) : navigate(-1)} className="w-10 h-10 rounded-full bg-card border border-border flex items-center justify-center">
+      <div className="px-4 pt-4 flex items-center gap-3 border-b border-border/60 pb-4">
+        <button onClick={() => step > 1 && step < 3 ? setStep(step - 1) : navigate(-1)} className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <h1 className="font-heading font-bold text-lg">Book {hall.name}</h1>
+        <div className="flex-1 min-w-0">
+          <h1 className="font-heading font-bold text-[16px] truncate">{step === 3 ? "Booking confirmed" : step === 4 ? "Rate experience" : "Complete booking"}</h1>
+          <p className="text-[11px] text-muted-foreground truncate">{hall.name}</p>
+        </div>
+        <div className="flex items-center gap-1 text-[10px] font-bold text-success bg-success-light px-2 py-1 rounded-md">
+          <ShieldCheck className="w-3 h-3" /> Secure
+        </div>
       </div>
 
       {/* Progress */}
@@ -139,15 +120,15 @@ const BookingFlowPage = () => {
         <div className="flex items-center gap-1">
           {[1,2,3,4].map((n) => (
             <div key={n} className="flex-1 flex items-center gap-1">
-              <div className={cn("flex-1 h-1 rounded-full", n <= step ? "bg-gold" : "bg-border")} />
+              <div className={cn("flex-1 h-1 rounded-full transition-all", n <= step ? "bg-primary" : "bg-border")} />
             </div>
           ))}
         </div>
-        <div className="flex justify-between mt-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+        <div className="flex justify-between mt-2.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
           <span className={step >= 1 ? "text-primary" : ""}>Details</span>
           <span className={step >= 2 ? "text-primary" : ""}>Payment</span>
-          <span className={step >= 3 ? "text-primary" : ""}>Receipt</span>
-          <span className={step >= 4 ? "text-primary" : ""}>Review</span>
+          <span className={step >= 3 ? "text-primary" : ""}>Confirm</span>
+          <span className={step >= 4 ? "text-primary" : ""}>Rate</span>
         </div>
       </div>
 
@@ -275,52 +256,85 @@ const BookingFlowPage = () => {
 
       {/* Step 3: Receipt */}
       {step === 3 && (
-        <div className="px-4 pt-5 space-y-4 animate-scale-in">
-          <div className="text-center py-4">
-            <div className="w-20 h-20 mx-auto rounded-full bg-success-light flex items-center justify-center mb-3">
-              <Check className="w-10 h-10 text-success" strokeWidth={3} />
+        <div className="px-4 pt-6 space-y-4 animate-scale-in">
+          <div className="text-center pb-2">
+            <div className="w-16 h-16 mx-auto rounded-full bg-success-light flex items-center justify-center mb-3 ring-4 ring-success/10">
+              <Check className="w-8 h-8 text-success" strokeWidth={3} />
             </div>
-            <h2 className="font-heading font-bold text-2xl">Booking placed!</h2>
-            <p className="text-sm text-muted-foreground">Awaiting owner confirmation</p>
+            <h2 className="font-heading font-bold text-[22px] text-foreground">Booking confirmed</h2>
+            <p className="text-[13px] text-muted-foreground mt-1">We've notified the hall owner</p>
           </div>
 
-          <div className="bg-card rounded-2xl border-2 border-dashed border-primary p-4">
-            <div className="text-center pb-3 border-b border-border">
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Booking ID</div>
-              <div className="font-heading text-xl font-bold text-primary">{bookingId}</div>
+          {/* Receipt card */}
+          <div className="bg-card rounded-2xl border border-border overflow-hidden">
+            <div className="p-4 bg-gradient-to-br from-primary-light/40 to-card border-b border-border flex items-center justify-between">
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Booking ID</div>
+                <div className="font-mono font-bold text-[16px] text-foreground">{bookingId}</div>
+              </div>
+              <div className="text-right">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Status</div>
+                <div className="text-[12px] font-bold text-warning">Awaiting confirmation</div>
+              </div>
             </div>
-            <div className="space-y-2 mt-3 text-[13px]">
-              <div className="flex justify-between"><span className="text-muted-foreground">Hall</span><span className="font-bold text-right">{hall.name}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Date & Slot</span><span className="font-bold">{format(new Date(dateISO), "dd MMM")} · {slot}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Guests</span><span className="font-bold">{guests}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Function</span><span className="font-bold">{funcType}</span></div>
-              <div className="border-t border-border my-2" />
-              <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="font-bold">{inr(totalAmount)}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Paid</span><span className="font-bold text-success">{inr(advance)}</span></div>
-              <div className="flex justify-between"><span className="text-muted-foreground">Pending</span><span className="font-bold text-warning">{inr(pendingOf(totalAmount))}</span></div>
+
+            <div className="p-4 flex gap-3 border-b border-border">
+              <img src={hall.images[0]} alt={hall.name} className="w-14 h-14 rounded-xl object-cover" />
+              <div className="flex-1 min-w-0">
+                <div className="font-heading font-bold text-[14px] text-foreground truncate">{hall.name}</div>
+                <div className="text-[11px] text-muted-foreground flex items-center gap-1 mt-0.5"><MapPin className="w-3 h-3" />{hall.area}, {hall.city}</div>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 border-b border-border">
+              {[
+                { Icon: CalendarIcon, l: "Date", v: format(new Date(dateISO), "dd MMM yyyy") },
+                { Icon: slot === "morning" ? Sun : Moon, l: "Slot", v: slot === "morning" ? "Morning" : "Night" },
+                { Icon: Users, l: "Guests", v: String(guests) },
+                { Icon: Check, l: "Function", v: funcType },
+              ].map((it, i) => (
+                <div key={i} className={cn("p-3 flex items-start gap-2", i % 2 === 0 && "border-r border-border", i < 2 && "border-b border-border")}>
+                  <it.Icon className="w-4 h-4 text-primary mt-0.5" strokeWidth={2} />
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{it.l}</div>
+                    <div className="text-[12px] font-semibold text-foreground truncate">{it.v}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="p-4 space-y-2 text-[13px]">
+              <div className="flex justify-between"><span className="text-muted-foreground">Slot price</span><span className="font-semibold tabular-nums">{inr(totalAmount)}</span></div>
+              <div className="flex justify-between"><span className="text-muted-foreground">Advance paid</span><span className="font-semibold text-success tabular-nums">− {inr(advance)}</span></div>
+              <div className="border-t border-dashed border-border pt-2 flex justify-between items-baseline">
+                <span className="font-bold">Pay at venue</span>
+                <span className="font-heading font-bold text-[18px] tabular-nums">{inr(pendingOf(totalAmount))}</span>
+              </div>
             </div>
           </div>
 
-          <div className="bg-primary-light rounded-2xl p-4 flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold">{hall.ownerName[0]}</div>
-            <div className="flex-1">
-              <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Hall Owner</div>
-              <div className="font-bold text-foreground">{hall.ownerName}</div>
-              <div className="text-[12px] text-primary font-semibold">+91 {hall.ownerPhone}</div>
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Hall owner</div>
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-gradient-navy text-primary-foreground flex items-center justify-center font-bold">{hall.ownerName[0]}</div>
+              <div className="flex-1 min-w-0">
+                <div className="font-semibold text-[14px] truncate">{hall.ownerName}</div>
+                <div className="text-[12px] text-muted-foreground">+91 {hall.ownerPhone}</div>
+              </div>
+              <a href={`tel:+91${hall.ownerPhone}`} className="w-9 h-9 rounded-lg bg-card border border-border flex items-center justify-center"><Phone className="w-4 h-4 text-primary" /></a>
+              <a href={`https://wa.me/91${hall.ownerPhone}`} className="w-9 h-9 rounded-lg bg-success text-white flex items-center justify-center"><MessageCircle className="w-4 h-4" /></a>
             </div>
-            <a href={`tel:+91${hall.ownerPhone}`} className="w-10 h-10 rounded-full bg-success text-white flex items-center justify-center"><Phone className="w-4 h-4" /></a>
-            <a href={`https://wa.me/91${hall.ownerPhone}`} className="w-10 h-10 rounded-full bg-success text-white flex items-center justify-center"><MessageCircle className="w-4 h-4" /></a>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={downloadReceipt} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2"><Download className="w-4 h-4" />Download PDF</button>
-            <button onClick={() => navigator.share?.({ title: "BookMyHall booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2"><Share2 className="w-4 h-4" />Share</button>
+            <button onClick={downloadReceipt} className="h-12 rounded-xl bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Download className="w-4 h-4" />Receipt PDF</button>
+            <button onClick={() => navigator.share?.({ title: "BookMyHall booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Share2 className="w-4 h-4" />Share</button>
           </div>
 
-          <button onClick={() => setStep(4)} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold">
+          <button onClick={() => setStep(4)} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-[15px] rounded-xl shadow-gold active:scale-[0.98] transition-transform">
             Rate your experience
           </button>
-          <button onClick={() => navigate("/bookings")} className="w-full text-sm font-bold text-primary py-2">Skip — Go to my bookings</button>
+          <button onClick={() => navigate("/bookings")} className="w-full text-[13px] font-bold text-primary py-2">Go to my bookings →</button>
         </div>
       )}
 
@@ -346,3 +360,97 @@ const BookingFlowPage = () => {
 };
 
 export default BookingFlowPage;
+
+// Professional PDF receipt (shared style with BookingDetailPage)
+function generateProPdf(b: Booking) {
+  const doc = new jsPDF({ unit: "pt", format: "a4" });
+  const W = doc.internal.pageSize.getWidth();
+  const M = 40;
+
+  doc.setFillColor(26, 60, 110);
+  doc.rect(0, 0, W, 90, "F");
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(20); doc.text("BookMyHall", M, 40);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+  doc.text("Trusted hall booking platform", M, 56);
+  doc.text("support@bookmyhall.online  ·  +91 99999 88888", M, 70);
+  doc.setFont("helvetica", "bold"); doc.setFontSize(11);
+  doc.text("BOOKING RECEIPT", W - M, 40, { align: "right" });
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9);
+  doc.text(`Issued: ${format(new Date(), "dd MMM yyyy, hh:mm a")}`, W - M, 56, { align: "right" });
+  doc.text(`Status: ${b.status.toUpperCase()}`, W - M, 70, { align: "right" });
+
+  let y = 120;
+  doc.setDrawColor(220, 220, 220); doc.setFillColor(248, 249, 251);
+  doc.roundedRect(M, y, W - M * 2, 50, 6, 6, "FD");
+  doc.setTextColor(120, 120, 120); doc.setFontSize(8);
+  doc.text("BOOKING ID", M + 14, y + 18);
+  doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.setFontSize(16);
+  doc.text(b.id, M + 14, y + 38);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(9); doc.setTextColor(120, 120, 120);
+  doc.text("Event Date", W - M - 14, y + 18, { align: "right" });
+  doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.setFontSize(13);
+  doc.text(`${format(new Date(b.date), "dd MMM yyyy")} · ${b.slot}`, W - M - 14, y + 38, { align: "right" });
+
+  const section = (title: string, rows: [string, string][], startY: number) => {
+    doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(26, 60, 110);
+    doc.text(title.toUpperCase(), M, startY);
+    doc.setDrawColor(220, 220, 220); doc.line(M, startY + 4, W - M, startY + 4);
+    let cy = startY + 20;
+    doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+    rows.forEach(([k, v]) => {
+      doc.setTextColor(120, 120, 120); doc.text(k, M, cy);
+      doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.text(v, W - M, cy, { align: "right" });
+      doc.setFont("helvetica", "normal"); cy += 16;
+    });
+    return cy + 8;
+  };
+
+  y = 200;
+  y = section("Venue", [
+    ["Hall name", b.hallName],
+    ["Address", b.hallAddress.length > 50 ? b.hallAddress.substring(0, 50) + "…" : b.hallAddress],
+    ["Owner", `${b.ownerName} (+91 ${b.ownerPhone})`],
+  ], y);
+  y = section("Customer", [
+    ["Name", b.customerName],
+    ["Phone", `+91 ${b.customerPhone}`],
+    ["Address", b.customerAddress.length > 50 ? b.customerAddress.substring(0, 50) + "…" : b.customerAddress],
+  ], y);
+  y = section("Event", [
+    ["Function type", b.functionType],
+    ["Number of guests", String(b.guestCount)],
+    ["Slot", b.slot === "morning" ? "Morning (6 AM – 2 PM)" : "Night (6 PM – 2 AM)"],
+  ], y);
+
+  doc.setFillColor(248, 249, 251);
+  doc.roundedRect(M, y, W - M * 2, 110, 6, 6, "FD");
+  doc.setFont("helvetica", "bold"); doc.setFontSize(10); doc.setTextColor(26, 60, 110);
+  doc.text("PAYMENT SUMMARY", M + 14, y + 20);
+  const fmt = (n: number) => `Rs. ${n.toLocaleString("en-IN")}`;
+  doc.setFont("helvetica", "normal"); doc.setFontSize(10);
+  let py = y + 40;
+  ([["Slot price", fmt(b.totalAmount)], ["Advance paid (5%)", fmt(b.paidAmount)]] as [string, string][]).forEach(([k, v]) => {
+    doc.setTextColor(120, 120, 120); doc.text(k, M + 14, py);
+    doc.setTextColor(20, 20, 20); doc.setFont("helvetica", "bold"); doc.text(v, W - M - 14, py, { align: "right" });
+    doc.setFont("helvetica", "normal"); py += 16;
+  });
+  doc.setDrawColor(200, 200, 200); doc.line(M + 14, py, W - M - 14, py); py += 16;
+  doc.setFont("helvetica", "bold"); doc.setFontSize(12); doc.setTextColor(26, 60, 110);
+  doc.text("Pending at venue", M + 14, py); doc.text(fmt(b.pendingAmount), W - M - 14, py, { align: "right" });
+  y += 130;
+
+  doc.setFont("helvetica", "italic"); doc.setFontSize(8.5); doc.setTextColor(110, 110, 110);
+  ["• Pay the balance directly to the hall owner on event day (cash / UPI / bank transfer accepted).",
+   "• Cancellation by customer: 3% payment-gateway fee is non-refundable. Refund processed in 5–7 days.",
+   "• If the owner cancels for any reason, you receive a 100% refund.",
+   "• Carry a copy of this receipt or your booking ID on event day."].forEach((n) => { doc.text(n, M, y); y += 12; });
+
+  const fy = doc.internal.pageSize.getHeight() - 30;
+  doc.setDrawColor(220, 220, 220); doc.line(M, fy - 8, W - M, fy - 8);
+  doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(140, 140, 140);
+  doc.text("This is a computer-generated receipt and does not require a signature.", M, fy);
+  doc.text("bookmyhall.online", W - M, fy, { align: "right" });
+
+  doc.save(`BookMyHall-${b.id}.pdf`);
+}

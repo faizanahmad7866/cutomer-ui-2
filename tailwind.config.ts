@@ -85,8 +85,8 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: ["'Plus Jakarta Sans'", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
-        heading: ["'Instrument Serif'", "Georgia", "Cambria", "serif"],
+        sans: ["Inter", "sans-serif"],
+        heading: ["Fraunces", "Georgia", "serif"],
       },
       keyframes: {
         "accordion-down": {

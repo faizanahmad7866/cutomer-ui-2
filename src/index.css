@@ -123,12 +123,8 @@ All colors MUST be HSL.
 
   html, body, #root {
     @apply bg-background text-foreground;
-    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-feature-settings: "ss01", "cv11";
-    letter-spacing: -0.005em;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -137,13 +133,9 @@ All colors MUST be HSL.
   }
 
   h1, h2, h3, h4, h5, h6, .font-heading {
-    font-family: 'Instrument Serif', Georgia, Cambria, serif;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-  }
-
-  .font-heading {
-    font-weight: 400;
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "ss01", "ss02";
+    letter-spacing: -0.015em;
   }
 
   *:focus { outline: none; }

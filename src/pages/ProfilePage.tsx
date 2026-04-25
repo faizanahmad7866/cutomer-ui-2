@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Camera, LogOut, MapPin, Phone, User as UserIcon, Mail, HelpCircle, ChevronRight, Bell, FileText } from "lucide-react";
+import { Camera, LogOut, MapPin, Phone, User as UserIcon, Mail, HelpCircle, ChevronRight, Bell, FileText, MessageCircle, Shield, FileCheck, Star } from "lucide-react";
 import { useApp } from "@/store/appStore";
 import { useState, useRef } from "react";
 import { Input } from "@/components/ui/input";
@@ -91,19 +91,67 @@ const ProfilePage = () => {
           ))}
         </div>
 
-        <div className="mt-4 bg-card rounded-2xl border border-border overflow-hidden divide-y divide-border">
-          {[
-            { Icon: FileText, label: "My Bookings", to: "/bookings" },
-            { Icon: Bell, label: "Notifications", to: "/notifications" },
-            { Icon: HelpCircle, label: "Help & Support", action: () => window.open("https://wa.me/919999988888") },
-            { Icon: Mail, label: "Contact us", action: () => (window.location.href = "mailto:support@bookmyhall.online") },
-          ].map((it, i) => (
-            <button key={i} onClick={() => it.to ? navigate(it.to) : it.action?.()} className="w-full flex items-center gap-3 p-4 text-left active:bg-muted/40">
-              <div className="w-9 h-9 rounded-xl bg-primary-light flex items-center justify-center"><it.Icon className="w-4 h-4 text-primary" /></div>
-              <span className="flex-1 font-semibold text-sm">{it.label}</span>
-              <ChevronRight className="w-4 h-4 text-muted-foreground" />
-            </button>
-          ))}
+        {/* Account section */}
+        <div className="mt-5">
+          <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider px-1 mb-2">Account</h3>
+          <div className="bg-card rounded-2xl border border-border overflow-hidden divide-y divide-border">
+            {[
+              { Icon: FileText, label: "My Bookings", sub: `${bookings.length} total`, to: "/bookings" },
+              { Icon: Bell, label: "Notifications", sub: "Booking updates & offers", to: "/notifications" },
+              { Icon: Star, label: "My Reviews", sub: "Rate halls you've booked", to: "/bookings" },
+            ].map((it, i) => (
+              <button key={i} onClick={() => navigate(it.to)} className="w-full flex items-center gap-3 p-4 text-left active:bg-muted/40 transition-colors">
+                <div className="w-10 h-10 rounded-xl bg-primary-light flex items-center justify-center shrink-0"><it.Icon className="w-[18px] h-[18px] text-primary" strokeWidth={2} /></div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-[14px] text-foreground">{it.label}</div>
+                  <div className="text-[11px] text-muted-foreground">{it.sub}</div>
+                </div>
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Help & Support */}
+        <div className="mt-5">
+          <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider px-1 mb-2">Help & Support</h3>
+          <div className="bg-card rounded-2xl border border-border overflow-hidden">
+            <div className="p-4 border-b border-border bg-gradient-to-br from-primary-light/40 to-card">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shrink-0">
+                  <HelpCircle className="w-5 h-5" strokeWidth={2} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-heading font-bold text-[15px] text-foreground">We're here 24×7</div>
+                  <div className="text-[12px] text-muted-foreground">Average reply time: under 2 minutes</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mt-3">
+                <a href="https://wa.me/919999988888" className="h-10 rounded-lg bg-success text-white flex items-center justify-center gap-1.5 text-[12px] font-bold active:scale-95 transition-transform">
+                  <MessageCircle className="w-4 h-4" /> WhatsApp
+                </a>
+                <a href="tel:+919999988888" className="h-10 rounded-lg bg-card border border-border text-foreground flex items-center justify-center gap-1.5 text-[12px] font-bold active:scale-95 transition-transform">
+                  <Phone className="w-4 h-4 text-primary" /> Call us
+                </a>
+              </div>
+            </div>
+            <div className="divide-y divide-border">
+              {[
+                { Icon: Mail, label: "Email support", sub: "support@bookmyhall.online", action: () => (window.location.href = "mailto:support@bookmyhall.online") },
+                { Icon: FileCheck, label: "Cancellation & Refund Policy", sub: "5–7 days refund · 3% gateway fee", action: () => {} },
+                { Icon: Shield, label: "Privacy & Terms", sub: "How we protect your data", action: () => {} },
+              ].map((it, i) => (
+                <button key={i} onClick={it.action} className="w-full flex items-center gap-3 p-4 text-left active:bg-muted/40 transition-colors">
+                  <div className="w-9 h-9 rounded-xl bg-muted flex items-center justify-center shrink-0"><it.Icon className="w-4 h-4 text-muted-foreground" strokeWidth={2} /></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="font-semibold text-[13px] text-foreground">{it.label}</div>
+                    <div className="text-[11px] text-muted-foreground truncate">{it.sub}</div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
 
         <button onClick={() => { logout(); toast.success("Logged out"); navigate("/"); }} className="mt-4 w-full h-12 rounded-2xl border border-destructive/30 text-destructive font-bold text-sm flex items-center justify-center gap-2">

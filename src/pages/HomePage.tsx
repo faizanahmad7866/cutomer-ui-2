@@ -44,7 +44,6 @@ const HomePage = () => {
       {/* Hero promo banner */}
       <section className="px-4 md:px-6">
         <div className="relative overflow-hidden rounded-2xl bg-gradient-navy p-5 md:p-8">
-          <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-gold/20 blur-2xl" />
           <div className="relative">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/15 border border-gold/30">
               <Sparkles className="w-3 h-3 text-gold" strokeWidth={2.4} />
@@ -119,7 +118,7 @@ const HomePage = () => {
               See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
             </button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-6 pb-2">
+          <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-visible pb-2 px-4 md:px-6 scrollbar-none">
             {nearHalls.slice(0, 6).map((h) => (
               <HallCard key={h.id} hall={h} variant="scroll" />
             ))}
@@ -138,7 +137,7 @@ const HomePage = () => {
             See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
           </button>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 px-4 md:px-6 pb-2">
+        <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-visible pb-2 px-4 md:px-6 scrollbar-none">
           {topHalls.slice(0, 6).map((h) => (
             <HallCard key={h.id} hall={h} variant="scroll" />
           ))}

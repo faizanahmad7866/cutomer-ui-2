@@ -1,10 +1,9 @@
-import { Search, ArrowRight, ShieldCheck, Wallet, CalendarCheck, LayoutGrid, Church, Building2, Trees, Phone, Navigation } from "lucide-react";
+import { Search, ChevronRight, ShieldCheck, BadgeCheck, Headset, LayoutGrid, Church, Building2, Trees, Navigation, Calendar, Wallet, FileCheck2, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { HALLS } from "@/data/halls";
 import { HallCard } from "@/components/app/HallCard";
 import { useMemo } from "react";
-import heroImg from "@/assets/hall-3.jpg";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -18,61 +17,87 @@ const HomePage = () => {
     () => HALLS.filter((h) => h.city === city).slice().sort((a, b) => (a.distanceKm ?? 99) - (b.distanceKm ?? 99)),
     [city]
   );
-  const allHalls = HALLS.slice().sort((a, b) => b.rating - a.rating);
-  const topHalls = cityHalls.length > 0 ? cityHalls : allHalls;
+  const topHalls = cityHalls.length > 0 ? cityHalls : HALLS.slice().sort((a, b) => b.rating - a.rating);
 
   const categories = [
     { id: "all", Icon: LayoutGrid, label: "All Halls" },
-    { id: "wedding_hall", Icon: Church, label: "Wedding Halls" },
-    { id: "banquet", Icon: Building2, label: "Banquet Halls" },
+    { id: "wedding_hall", Icon: Church, label: "Wedding" },
+    { id: "banquet", Icon: Building2, label: "Banquet" },
     { id: "lawn", Icon: Trees, label: "Lawns" },
   ];
 
   return (
     <div className="animate-fade-up">
-      {/* Hero with image */}
-      <section className="relative overflow-hidden">
-        <div className="relative h-[360px]">
-          <img src={heroImg} alt="Wedding hall" className="absolute inset-0 w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/70 via-primary/55 to-primary/95" />
-          <div className="relative h-full px-5 pt-6 pb-7 flex flex-col">
-            <div className="text-[10px] font-semibold text-gold-light uppercase tracking-[0.2em]">
-              {user ? `Hello, ${user.name?.split(" ")[0]}` : "Welcome"}
+      {/* Search bar — Flipkart/Zomato style */}
+      <section className="px-4 pt-3 pb-4 bg-background">
+        <button
+          onClick={() => navigate("/search")}
+          className="w-full h-[48px] bg-card rounded-xl flex items-center gap-3 px-4 border border-border shadow-soft active:scale-[0.99] transition-transform"
+        >
+          <Search className="w-[18px] h-[18px] text-muted-foreground" strokeWidth={2} />
+          <span className="text-[14px] text-muted-foreground flex-1 text-left">
+            Search halls, banquets, lawns in {city}
+          </span>
+        </button>
+      </section>
+
+      {/* Hero promo banner */}
+      <section className="px-4">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-navy p-5">
+          <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-gold/20 blur-2xl" />
+          <div className="relative">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/15 border border-gold/30">
+              <Sparkles className="w-3 h-3 text-gold" strokeWidth={2.4} />
+              <span className="text-[10px] font-bold text-gold uppercase tracking-wider">Wedding Season</span>
             </div>
-            <h1 className="font-heading text-[36px] leading-[1.05] font-medium text-primary-foreground tracking-tight mt-2">
-              Find a hall.<br/>Book in minutes.
+            <h1 className="font-heading text-[26px] leading-[1.15] font-semibold text-primary-foreground mt-3">
+              Book wedding halls<br/>with just <span className="text-gold">5% advance</span>
             </h1>
-            <p className="text-[14px] text-primary-foreground/85 mt-3 max-w-[320px] leading-relaxed">
-              Check availability and pay just 5% to lock your date in {city}.
+            <p className="text-[13px] text-primary-foreground/80 mt-2 max-w-[280px] leading-relaxed">
+              Verified venues. Instant booking. 100% refund if not confirmed.
             </p>
-            <div className="mt-auto">
-              <button
-                onClick={() => navigate("/search")}
-                className="w-full h-[56px] bg-card rounded-2xl flex items-center gap-3 px-4 shadow-elevated active:scale-[0.98] transition-transform"
-              >
-                <Search className="w-5 h-5 text-primary" strokeWidth={2} />
-                <span className="text-[14px] font-medium text-foreground flex-1 text-left">
-                  Search halls in {city}
-                </span>
-                <span className="px-3 py-1.5 bg-gold text-gold-foreground text-[11px] font-semibold rounded-md">SEARCH</span>
-              </button>
-            </div>
+            <button
+              onClick={() => navigate("/search")}
+              className="mt-4 h-10 px-5 bg-gold text-gold-foreground text-[13px] font-bold rounded-lg active:scale-95 transition-transform inline-flex items-center gap-1.5"
+            >
+              Explore Halls <ChevronRight className="w-4 h-4" strokeWidth={2.5} />
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="px-5 pt-5">
-        <div className="flex gap-2.5 overflow-x-auto pb-2 scrollbar-none -mx-5 px-5">
+      {/* Categories — Flipkart-style icon row */}
+      <section className="px-4 pt-6">
+        <div className="grid grid-cols-4 gap-2">
           {categories.map((cat) => (
             <button
               key={cat.id}
               onClick={() => navigate(cat.id === "all" ? "/search" : `/search?category=${cat.id}`)}
-              className="shrink-0 flex items-center gap-2 h-10 px-4 rounded-full bg-card border border-border text-[13px] font-medium text-foreground active:scale-95 hover:border-primary transition-all"
+              className="flex flex-col items-center gap-2 py-3 active:scale-95 transition-transform"
             >
-              <cat.Icon className="w-3.5 h-3.5 text-primary" strokeWidth={1.8} />
-              {cat.label}
+              <div className="w-14 h-14 rounded-2xl bg-primary-light flex items-center justify-center">
+                <cat.Icon className="w-6 h-6 text-primary" strokeWidth={1.8} />
+              </div>
+              <span className="text-[11px] font-semibold text-foreground text-center leading-tight">
+                {cat.label}
+              </span>
             </button>
+          ))}
+        </div>
+      </section>
+
+      {/* Trust strip */}
+      <section className="px-4 pt-6">
+        <div className="grid grid-cols-3 gap-2 bg-card border border-border rounded-xl p-3">
+          {[
+            { Icon: BadgeCheck, label: "Verified\nVenues" },
+            { Icon: ShieldCheck, label: "Secure\nPayments" },
+            { Icon: Headset, label: "24/7\nSupport" },
+          ].map((t, i) => (
+            <div key={i} className="flex flex-col items-center text-center gap-1.5">
+              <t.Icon className="w-5 h-5 text-primary" strokeWidth={1.8} />
+              <span className="text-[10.5px] font-semibold text-foreground leading-tight whitespace-pre-line">{t.label}</span>
+            </div>
           ))}
         </div>
       </section>
@@ -80,21 +105,21 @@ const HomePage = () => {
       {/* Halls near you */}
       {nearHalls.length > 0 && (
         <section className="pt-7">
-          <div className="px-5 flex items-end justify-between mb-3">
+          <div className="px-4 flex items-end justify-between mb-3">
             <div>
-              <h2 className="font-heading text-[22px] font-medium text-foreground leading-tight flex items-center gap-2">
-                <Navigation className="w-4 h-4 text-primary" strokeWidth={2} />
+              <h2 className="font-heading text-[19px] font-semibold text-foreground leading-tight flex items-center gap-2">
+                <Navigation className="w-[15px] h-[15px] text-primary" strokeWidth={2.4} />
                 Halls near you
               </h2>
-              <p className="text-[12px] text-muted-foreground mt-1">
-                {nearestEnabled ? "Sorted by distance from your location" : `Closest halls in ${city}`}
+              <p className="text-[12px] text-muted-foreground mt-0.5">
+                {nearestEnabled ? "Sorted by distance" : `Closest in ${city}`}
               </p>
             </div>
-            <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-foreground flex items-center gap-1 underline-offset-4 hover:underline">
-              See all <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />
+            <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-primary flex items-center gap-0.5">
+              See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
             </button>
           </div>
-          <div className="flex gap-3.5 overflow-x-auto pb-2 px-5 scrollbar-none">
+          <div className="flex gap-3 overflow-x-auto pb-2 px-4 scrollbar-none">
             {nearHalls.slice(0, 6).map((h) => (
               <HallCard key={h.id} hall={h} variant="scroll" />
             ))}
@@ -102,69 +127,68 @@ const HomePage = () => {
         </section>
       )}
 
-      {/* Top halls */}
-      <section className="pt-8">
-        <div className="px-5 flex items-end justify-between mb-3">
+      {/* Top rated halls */}
+      <section className="pt-7">
+        <div className="px-4 flex items-end justify-between mb-3">
           <div>
-            <h2 className="font-heading text-[22px] font-medium text-foreground leading-tight">Top halls in {city}</h2>
-            <p className="text-[12px] text-muted-foreground mt-1">Highest rated in your city</p>
+            <h2 className="font-heading text-[19px] font-semibold text-foreground leading-tight">Top rated in {city}</h2>
+            <p className="text-[12px] text-muted-foreground mt-0.5">Highest customer ratings</p>
           </div>
-          <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-foreground flex items-center gap-1 underline-offset-4 hover:underline">
-            See all <ArrowRight className="w-3.5 h-3.5" strokeWidth={2} />
+          <button onClick={() => navigate("/search")} className="text-[12px] font-semibold text-primary flex items-center gap-0.5">
+            See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
           </button>
         </div>
-        <div className="flex gap-3.5 overflow-x-auto pb-2 px-5 scrollbar-none">
+        <div className="flex gap-3 overflow-x-auto pb-2 px-4 scrollbar-none">
           {topHalls.slice(0, 6).map((h) => (
             <HallCard key={h.id} hall={h} variant="scroll" />
           ))}
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="px-5 pt-10 pb-2">
-        <div className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground font-semibold">How it works</div>
-        <h2 className="font-heading text-[22px] font-medium text-foreground mt-1 mb-5">Book in 3 steps</h2>
-        <div className="space-y-3">
+      {/* How it works — clean numbered list */}
+      <section className="px-4 pt-8 pb-2">
+        <h2 className="font-heading text-[19px] font-semibold text-foreground mb-4">How it works</h2>
+        <div className="bg-card border border-border rounded-2xl divide-y divide-border overflow-hidden">
           {[
-            { Icon: Search, title: "Find your hall", desc: "Pick a date, choose morning or night, and see all open halls in your city." },
-            { Icon: Wallet, title: "Pay just 5%", desc: "Block your date with a small advance. Pay the rest at the hall." },
-            { Icon: CalendarCheck, title: "Get the receipt", desc: "Owner confirms your booking. Download your receipt anytime." },
+            { Icon: Calendar, title: "Pick date & slot", desc: "Choose morning or evening slot for your event." },
+            { Icon: Wallet, title: "Pay 5% advance", desc: "Block the date instantly. Rest paid at venue." },
+            { Icon: FileCheck2, title: "Get confirmation", desc: "Owner confirms within 2 hours with receipt." },
           ].map(({ Icon, title, desc }, i) => (
-            <div key={i} className="bg-card rounded-2xl p-4 flex items-start gap-4 border border-border/60">
-              <div className="w-10 h-10 rounded-lg border border-border flex items-center justify-center shrink-0">
-                <Icon className="w-4 h-4 text-primary" strokeWidth={1.8} />
+            <div key={i} className="flex items-start gap-3 p-4">
+              <div className="w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center shrink-0">
+                <Icon className="w-[18px] h-[18px] text-primary" strokeWidth={2} />
               </div>
-              <div className="flex-1 pt-0.5">
-                <h4 className="font-heading font-medium text-[16px] text-foreground">{title}</h4>
-                <p className="text-[13px] text-muted-foreground leading-relaxed mt-1">{desc}</p>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-semibold text-[14px] text-foreground">{title}</h4>
+                <p className="text-[12.5px] text-muted-foreground leading-relaxed mt-0.5">{desc}</p>
               </div>
-              <span className="font-heading text-[12px] text-muted-foreground/60 tabular-nums">0{i + 1}</span>
+              <span className="text-[11px] font-bold text-muted-foreground/50 tabular-nums">0{i + 1}</span>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Trust + Support */}
-      <section className="px-5 pt-6 pb-2 grid grid-cols-1 gap-3">
-        <div className="bg-card border border-border rounded-2xl p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-primary-light flex items-center justify-center shrink-0">
-            <ShieldCheck className="w-5 h-5 text-primary" strokeWidth={1.8} />
+      {/* Footer help */}
+      <section className="px-4 pt-6 pb-4">
+        <a
+          href="tel:+919999988888"
+          className="flex items-center justify-between bg-card border border-border rounded-xl px-4 py-3.5 active:scale-[0.99] transition-transform"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-success-light flex items-center justify-center">
+              <Headset className="w-[18px] h-[18px] text-success" strokeWidth={2} />
+            </div>
+            <div>
+              <div className="text-[13.5px] font-semibold text-foreground">Need help with booking?</div>
+              <div className="text-[11.5px] text-muted-foreground mt-0.5">Mon–Sun, 9 AM – 9 PM · +91 99999 88888</div>
+            </div>
           </div>
-          <div>
-            <h4 className="font-heading font-medium text-[15px] text-foreground">Safe payments</h4>
-            <p className="text-[12px] text-muted-foreground mt-0.5">Get full refund if the owner does not confirm.</p>
-          </div>
-        </div>
-        <a href="tel:+919999988888" className="bg-card border border-border rounded-2xl p-4 flex items-center gap-3 active:scale-[0.99] transition-transform">
-          <div className="w-10 h-10 rounded-lg bg-success-light flex items-center justify-center shrink-0">
-            <Phone className="w-5 h-5 text-success" strokeWidth={1.8} />
-          </div>
-          <div className="flex-1">
-            <h4 className="font-heading font-medium text-[15px] text-foreground">Need help?</h4>
-            <p className="text-[12px] text-muted-foreground mt-0.5">Call us anytime at +91 99999 88888</p>
-          </div>
-          <ArrowRight className="w-4 h-4 text-muted-foreground" />
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
         </a>
+        <p className="text-[10.5px] text-muted-foreground/80 text-center mt-4 leading-relaxed">
+          BookMyHall · Made in India 🇮🇳<br/>
+          {user ? `Logged in as ${user.name?.split(" ")[0]}` : "India's trusted hall booking platform"}
+        </p>
       </section>
     </div>
   );

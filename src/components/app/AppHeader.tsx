@@ -6,19 +6,18 @@ import { CITIES } from "@/data/halls";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "sonner";
 
+const CITY_COORDS: Record<string, [number, number]> = {
+  Mumbai: [19.076, 72.8777], Pune: [18.5204, 73.8567], Nagpur: [21.1458, 79.0882],
+  Nashik: [19.9975, 73.7898], Amravati: [20.9374, 77.7796], Akola: [20.7096, 77.0021],
+  Wardha: [20.7453, 78.6022], Chandrapur: [19.9615, 79.2961],
+};
+
 export const AppHeader = () => {
   const navigate = useNavigate();
   const { user, city, setCity, setNearestEnabled, notifications } = useApp();
   const unread = notifications.filter((n) => !n.read).length;
   const [openCity, setOpenCity] = useState(false);
   const [locating, setLocating] = useState(false);
-
-  // Approximate lat/lng for supported Maharashtra cities — used for nearest match
-  const CITY_COORDS: Record<string, [number, number]> = {
-    Mumbai: [19.076, 72.8777], Pune: [18.5204, 73.8567], Nagpur: [21.1458, 79.0882],
-    Nashik: [19.9975, 73.7898], Amravati: [20.9374, 77.7796], Akola: [20.7096, 77.0021],
-    Wardha: [20.7453, 78.6022], Chandrapur: [19.9615, 79.2961],
-  };
 
   const detectCity = () => {
     if (!navigator.geolocation) return toast.error("Location not supported on this device");
@@ -43,41 +42,43 @@ export const AppHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border/60">
-      <div className="w-full max-w-md md:max-w-6xl mx-auto h-[60px] px-4 md:px-6 flex items-center justify-between gap-3">
+    <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-xl border-b border-border">
+      <div className="w-full max-w-md md:max-w-6xl mx-auto h-[56px] md:h-[64px] px-4 md:px-6 flex items-center gap-3">
+        {/* Logo */}
+        <button onClick={() => navigate("/")} className="flex items-center gap-2 mr-1 md:mr-6 shrink-0">
+          <div className="w-7 h-7 md:w-8 md:h-8 rounded-md bg-primary text-primary-foreground flex items-center justify-center font-bold text-[13px] md:text-[14px]">B</div>
+          <span className="hidden sm:inline font-bold text-[16px] md:text-[17px] text-foreground tracking-tight">BookMyHall</span>
+        </button>
+
+        {/* City selector */}
         <Sheet open={openCity} onOpenChange={setOpenCity}>
           <SheetTrigger asChild>
-            <button className="flex items-center gap-1.5 max-w-[140px] active:scale-95 transition-transform">
-              <div className="w-8 h-8 rounded-full bg-primary-light flex items-center justify-center shrink-0">
-                <MapPin className="w-4 h-4 text-primary" />
-              </div>
-              <div className="text-left min-w-0">
-                <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold leading-none">City</div>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-[13px] font-semibold text-foreground truncate">{city}</span>
-                  <ChevronDown className="w-3 h-3 text-muted-foreground" />
-                </div>
-              </div>
+            <button className="flex items-center gap-1.5 h-9 px-2.5 rounded-md hover:bg-muted transition-colors min-w-0">
+              <MapPin className="w-[15px] h-[15px] text-primary shrink-0" strokeWidth={2.2} />
+              <span className="text-[13px] font-semibold text-foreground truncate max-w-[100px]">{city}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
             </button>
           </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-3xl max-h-[70vh]">
+          <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
             <SheetHeader>
-              <SheetTitle className="font-heading">Choose your city</SheetTitle>
+              <SheetTitle>Choose your city</SheetTitle>
             </SheetHeader>
             <button
               onClick={detectCity}
               disabled={locating}
-              className="mt-4 w-full h-12 rounded-xl bg-primary text-primary-foreground font-semibold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform disabled:opacity-60"
+              className="mt-4 w-full h-11 rounded-md bg-primary-light text-primary font-semibold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform disabled:opacity-60 border border-primary/20"
             >
-              {locating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" />}
-              {locating ? "Finding your location..." : "Use my current location"}
+              {locating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Navigation className="w-4 h-4" strokeWidth={2.2} />}
+              {locating ? "Finding your location…" : "Use my current location"}
             </button>
             <div className="grid grid-cols-2 gap-2 mt-4 pb-6">
               {CITIES.map((c) => (
                 <button
                   key={c}
                   onClick={() => { setCity(c); setNearestEnabled(false); setOpenCity(false); }}
-                  className={`h-12 rounded-xl border-2 text-sm font-semibold transition-all ${city === c ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground"}`}
+                  className={`h-11 rounded-md border text-sm font-semibold transition-all ${
+                    city === c ? "border-primary bg-primary-light text-primary" : "border-border bg-card text-foreground hover:border-primary/40"
+                  }`}
                 >
                   {c}
                 </button>
@@ -86,12 +87,8 @@ export const AppHeader = () => {
           </SheetContent>
         </Sheet>
 
-        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] md:text-[22px] font-medium text-foreground tracking-tight md:mr-auto">
-          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-          BookMyHall
-        </button>
-
-        <nav className="hidden md:flex items-center gap-1 mr-2">
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1 ml-2">
           {[
             { label: "Search", path: "/search", Icon: Search },
             { label: "Bookings", path: "/bookings", Icon: CalendarCheck },
@@ -100,7 +97,7 @@ export const AppHeader = () => {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="h-9 px-3 rounded-lg text-[13px] font-semibold text-muted-foreground hover:text-foreground hover:bg-primary-light/60 transition-colors flex items-center gap-1.5"
+              className="h-9 px-3 rounded-md text-[13px] font-semibold text-muted-foreground hover:text-primary hover:bg-primary-light/60 transition-colors flex items-center gap-1.5"
             >
               <Icon className="w-4 h-4" strokeWidth={2} />
               {label}
@@ -108,15 +105,15 @@ export const AppHeader = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 ml-auto">
           <button
             onClick={() => navigate("/notifications")}
-            className="relative w-10 h-10 flex items-center justify-center rounded-xl hover:bg-primary-light/60 transition-colors"
+            className="relative w-9 h-9 flex items-center justify-center rounded-md hover:bg-muted transition-colors"
             aria-label="Notifications"
           >
-            <Bell className="w-[20px] h-[20px] text-foreground" strokeWidth={2.2} />
+            <Bell className="w-[18px] h-[18px] text-foreground" strokeWidth={2} />
             {unread > 0 && (
-              <span className="absolute top-1.5 right-1.5 min-w-[18px] h-[18px] px-1 bg-destructive text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-background">
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 bg-gold text-gold-foreground text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-card">
                 {unread > 9 ? "9+" : unread}
               </span>
             )}
@@ -124,18 +121,15 @@ export const AppHeader = () => {
           {user ? (
             <button
               onClick={() => navigate("/profile")}
-              className="w-9 h-9 rounded-xl bg-gradient-navy text-primary-foreground font-bold text-[14px] flex items-center justify-center overflow-hidden shadow-soft"
+              className="w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center overflow-hidden border border-border"
+              aria-label="Profile"
             >
-              {user.photo ? (
-                <img src={user.photo} alt={user.name} className="w-full h-full object-cover" />
-              ) : (
-                user.name?.[0]?.toUpperCase() || "U"
-              )}
+              {user.photo ? <img src={user.photo} alt={user.name} className="w-full h-full object-cover" /> : (user.name?.[0]?.toUpperCase() || "U")}
             </button>
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="h-9 px-4 bg-primary text-primary-foreground text-[13px] font-semibold rounded-full shadow-soft active:scale-95 transition-transform"
+              className="h-9 px-4 bg-primary text-primary-foreground text-[13px] font-bold rounded-md active:scale-95 transition-transform"
             >
               Login
             </button>

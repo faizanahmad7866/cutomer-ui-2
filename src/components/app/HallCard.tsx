@@ -15,7 +15,7 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
   return (
     <button
       onClick={() => navigate(`/hall/${hall.id}`)}
-      className={`text-left bg-card rounded-2xl overflow-hidden shadow-card border border-border/50 active:scale-[0.98] transition-all duration-200 ${variant === "scroll" ? "w-[260px] shrink-0" : "w-full"}`}
+      className={`text-left bg-card rounded-2xl overflow-hidden shadow-card border border-border/50 active:scale-[0.98] transition-all duration-200 ${variant === "scroll" ? "w-[260px] md:w-full shrink-0" : "w-full"}`}
     >
       <div className="relative h-[170px] bg-muted">
         <Swiper

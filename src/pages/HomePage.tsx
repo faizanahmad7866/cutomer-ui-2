@@ -29,7 +29,7 @@ const HomePage = () => {
   return (
     <div className="animate-fade-up">
       {/* Search bar — Flipkart/Zomato style */}
-      <section className="px-4 pt-3 pb-4 bg-background">
+      <section className="px-4 md:px-6 pt-3 md:pt-6 pb-4 bg-background">
         <button
           onClick={() => navigate("/search")}
           className="w-full h-[48px] bg-card rounded-xl flex items-center gap-3 px-4 border border-border shadow-soft active:scale-[0.99] transition-transform"
@@ -42,15 +42,14 @@ const HomePage = () => {
       </section>
 
       {/* Hero promo banner */}
-      <section className="px-4">
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-navy p-5">
-          <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-gold/20 blur-2xl" />
+      <section className="px-4 md:px-6">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-navy p-5 md:p-8">
           <div className="relative">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gold/15 border border-gold/30">
               <Sparkles className="w-3 h-3 text-gold" strokeWidth={2.4} />
               <span className="text-[10px] font-bold text-gold uppercase tracking-wider">Wedding Season</span>
             </div>
-            <h1 className="font-heading text-[26px] leading-[1.15] font-semibold text-primary-foreground mt-3">
+            <h1 className="font-heading text-[26px] md:text-[42px] leading-[1.15] font-semibold text-primary-foreground mt-3">
               Book wedding halls<br/>with just <span className="text-gold">5% advance</span>
             </h1>
             <p className="text-[13px] text-primary-foreground/80 mt-2 max-w-[280px] leading-relaxed">
@@ -67,8 +66,8 @@ const HomePage = () => {
       </section>
 
       {/* Categories — Flipkart-style icon row */}
-      <section className="px-4 pt-6">
-        <div className="grid grid-cols-4 gap-2">
+      <section className="px-4 md:px-6 pt-6">
+        <div className="grid grid-cols-4 gap-2 md:gap-4">
           {categories.map((cat) => (
             <button
               key={cat.id}
@@ -87,7 +86,7 @@ const HomePage = () => {
       </section>
 
       {/* Trust strip */}
-      <section className="px-4 pt-6">
+      <section className="px-4 md:px-6 pt-6">
         <div className="grid grid-cols-3 gap-2 bg-card border border-border rounded-xl p-3">
           {[
             { Icon: BadgeCheck, label: "Verified\nVenues" },
@@ -105,7 +104,7 @@ const HomePage = () => {
       {/* Halls near you */}
       {nearHalls.length > 0 && (
         <section className="pt-7">
-          <div className="px-4 flex items-end justify-between mb-3">
+          <div className="px-4 md:px-6 flex items-end justify-between mb-3">
             <div>
               <h2 className="font-heading text-[19px] font-semibold text-foreground leading-tight flex items-center gap-2">
                 <Navigation className="w-[15px] h-[15px] text-primary" strokeWidth={2.4} />
@@ -119,7 +118,7 @@ const HomePage = () => {
               See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
             </button>
           </div>
-          <div className="flex gap-3 overflow-x-auto pb-2 px-4 scrollbar-none">
+          <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-visible pb-2 px-4 md:px-6 scrollbar-none">
             {nearHalls.slice(0, 6).map((h) => (
               <HallCard key={h.id} hall={h} variant="scroll" />
             ))}
@@ -129,7 +128,7 @@ const HomePage = () => {
 
       {/* Top rated halls */}
       <section className="pt-7">
-        <div className="px-4 flex items-end justify-between mb-3">
+          <div className="px-4 md:px-6 flex items-end justify-between mb-3">
           <div>
             <h2 className="font-heading text-[19px] font-semibold text-foreground leading-tight">Top rated in {city}</h2>
             <p className="text-[12px] text-muted-foreground mt-0.5">Highest customer ratings</p>
@@ -138,7 +137,7 @@ const HomePage = () => {
             See all <ChevronRight className="w-3.5 h-3.5" strokeWidth={2.4} />
           </button>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-2 px-4 scrollbar-none">
+        <div className="flex md:grid md:grid-cols-3 gap-3 overflow-x-auto md:overflow-visible pb-2 px-4 md:px-6 scrollbar-none">
           {topHalls.slice(0, 6).map((h) => (
             <HallCard key={h.id} hall={h} variant="scroll" />
           ))}
@@ -146,7 +145,7 @@ const HomePage = () => {
       </section>
 
       {/* How it works — clean numbered list */}
-      <section className="px-4 pt-8 pb-2">
+      <section className="px-4 md:px-6 pt-8 pb-2">
         <h2 className="font-heading text-[19px] font-semibold text-foreground mb-4">How it works</h2>
         <div className="bg-card border border-border rounded-2xl divide-y divide-border overflow-hidden">
           {[
@@ -169,7 +168,7 @@ const HomePage = () => {
       </section>
 
       {/* Footer help */}
-      <section className="px-4 pt-6 pb-4">
+      <section className="px-4 md:px-6 pt-6 pb-4">
         <a
           href="tel:+919999988888"
           className="flex items-center justify-between bg-card border border-border rounded-xl px-4 py-3.5 active:scale-[0.99] transition-transform"

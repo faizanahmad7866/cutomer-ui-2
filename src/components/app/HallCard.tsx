@@ -1,4 +1,4 @@
-import { Star, MapPin } from "lucide-react";
+import { Star, MapPin, Users, BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Hall } from "@/types";
 import { CATEGORY_META } from "@/components/app/CategoryIcon";
@@ -15,41 +15,55 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
   return (
     <button
       onClick={() => navigate(`/hall/${hall.id}`)}
-      className={`text-left bg-card rounded-2xl overflow-hidden shadow-card border border-border/50 active:scale-[0.98] transition-all duration-200 ${variant === "scroll" ? "w-[260px] md:w-full shrink-0" : "w-full"}`}
+      className={`text-left bg-card rounded-xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-card active:scale-[0.99] transition-all duration-150 ${
+        variant === "scroll" ? "w-[280px] md:w-full shrink-0" : "w-full"
+      }`}
     >
-      <div className="relative h-[170px] bg-muted">
-        <Swiper
-          modules={[Autoplay]}
-          autoplay={{ delay: 3500, disableOnInteraction: false }}
-          loop
-          className="h-full"
-        >
+      <div className="relative h-[180px] bg-muted">
+        <Swiper modules={[Autoplay]} autoplay={{ delay: 4500, disableOnInteraction: false }} loop className="h-full">
           {hall.images.slice(0, 4).map((img, i) => (
             <SwiperSlide key={i}>
-              <img src={img} alt={`${hall.name} ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
+              <img src={img} alt={`${hall.name} photo ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 bg-card/95 backdrop-blur rounded-md shadow-sm">
-          <cat.Icon className="w-3 h-3 text-primary" strokeWidth={2} />
-          <span className="text-[10px] font-semibold text-primary uppercase tracking-[0.08em]">{cat.label}</span>
-        </div>
-        <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 bg-card/95 backdrop-blur rounded-md shadow-sm">
-          <Star className="w-3 h-3 fill-gold text-gold" />
-          <span className="text-[11px] font-semibold text-foreground tabular-nums">{hall.rating.toFixed(1)}</span>
+        {hall.isVerified && (
+          <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2 py-0.5 bg-card/95 backdrop-blur rounded text-[10px] font-bold text-success">
+            <BadgeCheck className="w-3 h-3" strokeWidth={2.4} />
+            Verified
+          </div>
+        )}
+        <div className="absolute top-2.5 right-2.5 inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-success rounded text-[11px] font-bold text-white tabular-nums">
+          {hall.rating.toFixed(1)}
+          <Star className="w-2.5 h-2.5 fill-white" strokeWidth={0} />
         </div>
       </div>
+
       <div className="p-3.5">
-        <h3 className="font-semibold text-[14.5px] text-foreground truncate leading-tight">{hall.name}</h3>
-        <div className="flex items-center gap-1 mt-1">
-          <MapPin className="w-3 h-3 text-muted-foreground shrink-0" strokeWidth={2} />
-          <span className="text-[11.5px] text-muted-foreground truncate">{hall.area}, {hall.city}</span>
-          {hall.distanceKm ? <span className="text-[10.5px] text-primary font-bold ml-auto shrink-0 tabular-nums">{hall.distanceKm} km</span> : null}
+        <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
+          <cat.Icon className="w-3 h-3" strokeWidth={2.2} />
+          {cat.label}
         </div>
-        <div className="flex items-baseline gap-1 mt-2.5">
-          <span className="font-bold text-[15px] text-foreground tabular-nums">{inr(minPrice)}</span>
-          <span className="text-[11px] text-muted-foreground">onwards / slot</span>
+        <h3 className="font-semibold text-[15px] text-foreground truncate leading-snug mt-1">{hall.name}</h3>
+        <div className="flex items-center gap-1 mt-1 text-[12px] text-muted-foreground">
+          <MapPin className="w-3 h-3 shrink-0" strokeWidth={2} />
+          <span className="truncate">{hall.area}, {hall.city}</span>
+          {hall.distanceKm !== undefined && (
+            <span className="ml-auto shrink-0 text-[11px] font-semibold text-foreground tabular-nums">{hall.distanceKm} km</span>
+          )}
+        </div>
+        <div className="flex items-center gap-1 mt-1 text-[11.5px] text-muted-foreground">
+          <Users className="w-3 h-3 shrink-0" strokeWidth={2} />
+          Up to {hall.capacity.toLocaleString("en-IN")} guests
+          <span className="text-muted-foreground/50">·</span>
+          <span className="text-muted-foreground">{hall.totalReviews} reviews</span>
+        </div>
+        <div className="flex items-baseline justify-between gap-1 mt-3 pt-3 border-t border-border">
+          <div>
+            <span className="font-bold text-[16px] text-foreground tabular-nums">{inr(minPrice)}</span>
+            <span className="text-[11.5px] text-muted-foreground"> onwards / slot</span>
+          </div>
+          <span className="text-[10.5px] font-semibold text-success">+ taxes</span>
         </div>
       </div>
     </button>

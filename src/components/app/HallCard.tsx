@@ -40,19 +40,16 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
           <span className="text-[11px] font-semibold text-foreground tabular-nums">{hall.rating.toFixed(1)}</span>
         </div>
       </div>
-      <div className="p-4">
-        <h3 className="font-heading font-semibold text-[16px] text-foreground truncate leading-tight">{hall.name}</h3>
-        <div className="flex items-center gap-1.5 mt-1.5">
-          <MapPin className="w-3 h-3 text-muted-foreground shrink-0" strokeWidth={1.8} />
-          <span className="text-[12px] text-muted-foreground truncate">{hall.area}, {hall.city}</span>
-          {hall.distanceKm ? <span className="text-[11px] text-primary font-semibold ml-auto shrink-0 tabular-nums">{hall.distanceKm} km</span> : null}
+      <div className="p-3.5">
+        <h3 className="font-semibold text-[14.5px] text-foreground truncate leading-tight">{hall.name}</h3>
+        <div className="flex items-center gap-1 mt-1">
+          <MapPin className="w-3 h-3 text-muted-foreground shrink-0" strokeWidth={2} />
+          <span className="text-[11.5px] text-muted-foreground truncate">{hall.area}, {hall.city}</span>
+          {hall.distanceKm ? <span className="text-[10.5px] text-primary font-bold ml-auto shrink-0 tabular-nums">{hall.distanceKm} km</span> : null}
         </div>
-        <div className="flex items-end justify-between mt-3 pt-3 border-t border-border/60">
-          <div>
-            <div className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground font-semibold">Starts at</div>
-            <div className="font-heading font-semibold text-[17px] text-foreground tabular-nums">{inr(minPrice)}<span className="text-[11px] font-normal text-muted-foreground"> / slot</span></div>
-          </div>
-          <div className="px-3 py-1.5 bg-foreground text-background text-[11px] font-semibold rounded-md tracking-wide">VIEW</div>
+        <div className="flex items-baseline gap-1 mt-2.5">
+          <span className="font-bold text-[15px] text-foreground tabular-nums">{inr(minPrice)}</span>
+          <span className="text-[11px] text-muted-foreground">onwards / slot</span>
         </div>
       </div>
     </button>

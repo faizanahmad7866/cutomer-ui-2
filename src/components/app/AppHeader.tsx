@@ -1,4 +1,4 @@
-import { Bell, MapPin, ChevronDown, Navigation, Loader2 } from "lucide-react";
+import { Bell, MapPin, ChevronDown, Navigation, Loader2, Search, CalendarCheck, UserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { useState } from "react";
@@ -44,7 +44,7 @@ export const AppHeader = () => {
 
   return (
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl border-b border-border/60">
-      <div className="max-w-md mx-auto h-[60px] px-4 flex items-center justify-between gap-3">
+      <div className="w-full max-w-md md:max-w-6xl mx-auto h-[60px] px-4 md:px-6 flex items-center justify-between gap-3">
         <Sheet open={openCity} onOpenChange={setOpenCity}>
           <SheetTrigger asChild>
             <button className="flex items-center gap-1.5 max-w-[140px] active:scale-95 transition-transform">
@@ -86,10 +86,27 @@ export const AppHeader = () => {
           </SheetContent>
         </Sheet>
 
-        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] font-medium text-foreground tracking-tight">
+        <button onClick={() => navigate("/")} className="flex items-center gap-1.5 font-heading text-[20px] md:text-[22px] font-medium text-foreground tracking-tight md:mr-auto">
           <span className="w-1.5 h-1.5 rounded-full bg-gold" />
           BookMyHall
         </button>
+
+        <nav className="hidden md:flex items-center gap-1 mr-2">
+          {[
+            { label: "Search", path: "/search", Icon: Search },
+            { label: "Bookings", path: "/bookings", Icon: CalendarCheck },
+            { label: "Profile", path: "/profile", Icon: UserRound },
+          ].map(({ label, path, Icon }) => (
+            <button
+              key={path}
+              onClick={() => navigate(path)}
+              className="h-9 px-3 rounded-lg text-[13px] font-semibold text-muted-foreground hover:text-foreground hover:bg-primary-light/60 transition-colors flex items-center gap-1.5"
+            >
+              <Icon className="w-4 h-4" strokeWidth={2} />
+              {label}
+            </button>
+          ))}
+        </nav>
 
         <div className="flex items-center gap-2">
           <button

@@ -51,9 +51,9 @@ const HallDetailPage = () => {
   };
 
   return (
-    <div className="-mx-0 pb-32">
+    <div className="-mx-0 pb-32 md:pb-10">
       {/* Gallery */}
-      <div className="relative h-[300px] bg-muted">
+      <div className="relative h-[280px] md:h-[460px] bg-muted">
         <Swiper
           modules={[Autoplay, SwiperPag]}
           autoplay={{ delay: 3500, disableOnInteraction: false }}
@@ -75,8 +75,11 @@ const HallDetailPage = () => {
         </button>
       </div>
 
+      {/* Content wrapper for desktop */}
+      <div className="md:max-w-5xl md:mx-auto md:px-6">
+
       {/* Header info */}
-      <div className="px-5 pt-5 -mt-6 relative z-10 bg-background rounded-t-3xl">
+      <div className="px-5 md:px-0 pt-5 md:pt-7 -mt-6 md:mt-0 relative z-10 bg-background rounded-t-3xl md:rounded-none">
         <div className="flex items-center gap-2 flex-wrap mb-3 pt-1">
           {hall.isVerified && (
             <span className="inline-flex items-center gap-1 px-2 py-1 bg-success-light text-success rounded-full text-[11px] font-bold">
@@ -90,7 +93,7 @@ const HallDetailPage = () => {
           ); })()}
         </div>
 
-        <h1 className="font-heading text-2xl font-bold text-foreground leading-tight">{hall.name}</h1>
+        <h1 className="font-heading text-2xl md:text-[32px] font-bold text-foreground leading-tight tracking-tight">{hall.name}</h1>
         <div className="flex items-center gap-2 mt-2 text-muted-foreground">
           <MapPin className="w-4 h-4 shrink-0" />
           <span className="text-[13px]">{hall.address}, {hall.city}</span>
@@ -111,7 +114,7 @@ const HallDetailPage = () => {
       </div>
 
       {/* Calendar */}
-      <section className="px-5 pt-5">
+      <section className="px-5 md:px-0 pt-5">
         <h2 className="font-heading text-lg font-bold mb-1">Pick a date</h2>
         <p className="text-[12px] text-muted-foreground mb-3">Green = open · Blue = partly booked · Red = full</p>
         <div className="bg-card rounded-2xl p-4 shadow-soft border border-border">
@@ -167,7 +170,7 @@ const HallDetailPage = () => {
       </section>
 
       {/* Slot pricing — after date */}
-      <section className="px-5 pt-6">
+      <section className="px-5 md:px-0 pt-6">
         <h2 className="font-heading text-lg font-bold mb-1">Choose your slot</h2>
         <p className="text-[12px] text-muted-foreground mb-3">
           {date ? `For ${format(date, "dd MMM yyyy")}` : "Pick a date first to see slot status"}
@@ -203,9 +206,9 @@ const HallDetailPage = () => {
       </section>
 
       {/* Facilities */}
-      <section className="px-5 pt-6">
+      <section className="px-5 md:px-0 pt-6">
         <h2 className="font-heading text-lg font-bold mb-3">What's included</h2>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {hall.amenities.map((a) => (
             <div key={a} className="flex items-center gap-2 p-3 bg-card rounded-xl border border-border/60 text-[13px] font-medium text-foreground">
               <span className="w-5 h-5 rounded-full bg-success-light flex items-center justify-center shrink-0">
@@ -218,7 +221,7 @@ const HallDetailPage = () => {
       </section>
 
       {/* About */}
-      <section className="px-5 pt-6">
+      <section className="px-5 md:px-0 pt-6">
         <h2 className="font-heading text-lg font-bold mb-2">About this hall</h2>
         <p className={cn("text-[14px] leading-relaxed text-muted-foreground", !expanded && "line-clamp-3")}>{hall.description}</p>
         <button onClick={() => setExpanded(!expanded)} className="text-[13px] font-bold text-primary mt-2">
@@ -227,7 +230,7 @@ const HallDetailPage = () => {
       </section>
 
       {/* Support */}
-      <section className="px-5 pt-6">
+      <section className="px-5 md:px-0 pt-6 md:pb-10">
         <div className="bg-gradient-to-br from-primary-light to-card border border-primary/15 rounded-2xl p-4">
           <h3 className="font-heading font-bold text-foreground">Need help?</h3>
           <p className="text-[12px] text-muted-foreground mt-1">Our team is here for you 24×7</p>
@@ -242,17 +245,22 @@ const HallDetailPage = () => {
         </div>
       </section>
 
+      </div>
+
       {/* Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border shadow-[0_-8px_24px_rgba(26,60,110,0.08)] safe-bottom">
-        <div className="max-w-md mx-auto p-3 flex items-center gap-3">
+        <div className="max-w-md md:max-w-5xl mx-auto p-3 md:px-6 flex items-center gap-3">
           <div className="flex-1">
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">From</div>
-            <div className="font-heading font-bold text-foreground">{inr(Math.min(hall.priceMorning, hall.priceNight))}<span className="text-[11px] text-muted-foreground">/slot</span></div>
+            <div className="font-heading font-bold text-foreground md:text-lg">{inr(Math.min(hall.priceMorning, hall.priceNight))}<span className="text-[11px] text-muted-foreground">/slot</span></div>
+            {date && slot && (
+              <div className="hidden md:block text-[11px] text-muted-foreground mt-0.5">{format(date, "dd MMM yyyy")} · {slot === "morning" ? "Morning" : "Night"} · Pay {inr(advance)} now</div>
+            )}
           </div>
           <button
             onClick={proceed}
             disabled={!date || !slot}
-            className="flex-1 h-12 bg-gradient-gold text-gold-foreground font-bold text-[13px] rounded-xl shadow-gold active:scale-95 disabled:opacity-50 disabled:shadow-none transition-all"
+            className="flex-1 md:flex-none md:px-8 h-12 bg-gradient-gold text-gold-foreground font-bold text-[13px] md:text-[14px] rounded-xl shadow-gold active:scale-95 disabled:opacity-50 disabled:shadow-none transition-all"
           >
             {!date || !slot ? "Pick date & slot" : `Book — Pay ${inr(advance)}`}
           </button>

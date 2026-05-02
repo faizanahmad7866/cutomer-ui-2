@@ -32,7 +32,7 @@ const BookingDetailPage = () => {
   };
 
   return (
-    <div className="pb-24 animate-fade-up">
+    <div className="pb-24 md:pb-10 max-w-3xl mx-auto animate-fade-up">
       {/* App bar */}
       <div className="px-4 pt-4 flex items-center gap-3">
         <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors"><ArrowLeft className="w-5 h-5" /></button>

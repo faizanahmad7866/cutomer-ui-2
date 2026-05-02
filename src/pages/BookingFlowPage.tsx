@@ -101,13 +101,13 @@ const BookingFlowPage = () => {
   };
 
   return (
-    <div className="pb-24">
-      <div className="px-4 pt-4 flex items-center gap-3 border-b border-border/60 pb-4">
+    <div className="pb-24 md:pb-10">
+      <div className="max-w-3xl mx-auto px-4 md:px-6 pt-4 flex items-center gap-3 border-b border-border/60 pb-4">
         <button onClick={() => step > 1 && step < 3 ? setStep(step - 1) : navigate(-1)} className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div className="flex-1 min-w-0">
-          <h1 className="font-heading font-bold text-[16px] truncate">{step === 3 ? "Booking confirmed" : step === 4 ? "Rate experience" : "Complete booking"}</h1>
+          <h1 className="font-heading font-bold text-[16px] md:text-[20px] truncate">{step === 3 ? "Booking confirmed" : step === 4 ? "Rate experience" : "Complete booking"}</h1>
           <p className="text-[11px] text-muted-foreground truncate">{hall.name}</p>
         </div>
         <div className="flex items-center gap-1 text-[10px] font-bold text-success bg-success-light px-2 py-1 rounded-md">
@@ -115,8 +115,10 @@ const BookingFlowPage = () => {
         </div>
       </div>
 
+      <div className="max-w-3xl mx-auto">
+
       {/* Progress */}
-      <div className="px-4 pt-4">
+      <div className="px-4 md:px-6 pt-4">
         <div className="flex items-center gap-1">
           {[1,2,3].map((n) => (
             <div key={n} className="flex-1 flex items-center gap-1">
@@ -132,7 +134,7 @@ const BookingFlowPage = () => {
       </div>
 
       {/* Summary */}
-      <div className="mx-4 mt-5 p-4 bg-card rounded-2xl border border-border shadow-soft flex gap-3">
+      <div className="mx-4 md:mx-6 mt-5 p-4 bg-card rounded-2xl border border-border shadow-soft flex gap-3">
         <img src={hall.images[0]} alt={hall.name} className="w-16 h-16 rounded-xl object-cover" />
         <div className="flex-1">
           <h3 className="font-heading font-bold text-foreground">{hall.name}</h3>
@@ -149,7 +151,7 @@ const BookingFlowPage = () => {
 
       {/* Step 1: Details */}
       {step === 1 && (
-        <div className="px-4 pt-5 space-y-4 animate-fade-up">
+        <div className="px-4 md:px-6 pt-5 space-y-4 animate-fade-up">
           <h2 className="font-heading font-bold text-lg">Your details</h2>
           <div>
             <label className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground">Full Name *</label>
@@ -208,7 +210,7 @@ const BookingFlowPage = () => {
 
       {/* Step 2: Payment */}
       {step === 2 && (
-        <div className="px-4 pt-5 space-y-4 animate-fade-up">
+        <div className="px-4 md:px-6 pt-5 space-y-4 animate-fade-up">
           <h2 className="font-heading font-bold text-lg">Payment summary</h2>
           <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
             <div className="flex justify-between text-[13px]"><span className="text-muted-foreground">Slot price</span><span className="font-bold">{inr(totalAmount)}</span></div>
@@ -255,7 +257,7 @@ const BookingFlowPage = () => {
 
       {/* Step 3: Receipt */}
       {step === 3 && (
-        <div className="px-4 pt-6 space-y-4 animate-scale-in">
+        <div className="px-4 md:px-6 pt-6 space-y-4 animate-scale-in">
           <div className="text-center pb-2">
             <div className="w-16 h-16 mx-auto rounded-full bg-success-light flex items-center justify-center mb-3 ring-4 ring-success/10">
               <Check className="w-8 h-8 text-success" strokeWidth={3} />
@@ -339,7 +341,7 @@ const BookingFlowPage = () => {
 
       {/* Step 4: Review */}
       {step === 4 && (
-        <div className="px-4 pt-5 space-y-5 animate-fade-up">
+        <div className="px-4 md:px-6 pt-5 space-y-5 animate-fade-up">
           <h2 className="font-heading font-bold text-xl text-center">How was your booking experience?</h2>
           <div className="flex justify-center gap-2">
             {[1,2,3,4,5].map((s) => (
@@ -354,6 +356,7 @@ const BookingFlowPage = () => {
           </button>
         </div>
       )}
+      </div>
     </div>
   );
 };

@@ -53,7 +53,7 @@ const HomePage = () => {
               <span className="w-1.5 h-1.5 rounded-full bg-success" />
               Trusted by 12,400+ couples across Maharashtra
             </div>
-            <h1 className="font-heading text-[26px] md:text-[40px] leading-[1.1] font-bold text-foreground mt-3 tracking-tight">
+            <h1 className="font-heading text-[24px] sm:text-[28px] md:text-[42px] leading-[1.15] font-bold text-foreground mt-3 tracking-tight">
               Book the perfect venue<br className="hidden md:block" />
               <span className="text-primary"> with just 5% advance.</span>
             </h1>

@@ -36,12 +36,16 @@ const ProfilePage = () => {
 
   return (
     <div className="pb-8 animate-fade-up">
-      <div className="bg-gradient-navy px-5 pt-6 pb-12 text-primary-foreground relative overflow-hidden">
+      <div className="bg-gradient-navy px-5 md:px-6 pt-6 pb-12 text-primary-foreground relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gold/15 blur-3xl" />
-        <h1 className="font-heading font-bold text-2xl relative">Profile</h1>
+        <div className="max-w-5xl mx-auto">
+          <h1 className="font-heading font-bold text-2xl md:text-3xl relative">My Profile</h1>
+          <p className="text-[12.5px] md:text-[14px] text-primary-foreground/70 mt-1">Manage your account, bookings and preferences.</p>
+        </div>
       </div>
 
-      <div className="px-4 -mt-8 relative">
+      <div className="px-4 md:px-6 -mt-8 relative max-w-5xl mx-auto md:grid md:grid-cols-3 md:gap-5">
+        <div className="md:col-span-1 md:space-y-3">
         <div className="bg-card rounded-2xl shadow-elevated p-5 border border-border">
           <div className="flex items-center gap-4">
             <div className="relative">
@@ -90,9 +94,12 @@ const ProfilePage = () => {
             </div>
           ))}
         </div>
+        </div>
+
+        <div className="md:col-span-2 md:space-y-0">
 
         {/* Account section */}
-        <div className="mt-5">
+        <div className="mt-5 md:mt-0">
           <h3 className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider px-1 mb-2">Account</h3>
           <div className="bg-card rounded-2xl border border-border overflow-hidden divide-y divide-border">
             {[
@@ -159,6 +166,7 @@ const ProfilePage = () => {
         </button>
 
         <p className="text-center text-[11px] text-muted-foreground/70 mt-6 tracking-wider">BOOKMYHALL  ·  v1.0</p>
+        </div>
       </div>
     </div>
   );

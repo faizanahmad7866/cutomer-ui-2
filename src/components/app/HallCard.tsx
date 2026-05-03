@@ -15,36 +15,37 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
   return (
     <button
       onClick={() => navigate(`/hall/${hall.id}`)}
-      className={`text-left bg-card rounded-xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-card active:scale-[0.99] transition-all duration-150 ${
+      className={`group text-left bg-card rounded-2xl overflow-hidden border border-border/70 hover:border-primary/30 hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 ${
         variant === "scroll" ? "w-[280px] md:w-full shrink-0" : "w-full"
       }`}
     >
-      <div className="relative h-[180px] bg-muted">
+      <div className="relative h-[200px] md:h-[220px] bg-muted overflow-hidden">
         <Swiper modules={[Autoplay]} autoplay={{ delay: 4500, disableOnInteraction: false }} loop className="h-full">
           {hall.images.slice(0, 4).map((img, i) => (
             <SwiperSlide key={i}>
-              <img src={img} alt={`${hall.name} photo ${i + 1}`} loading="lazy" className="w-full h-full object-cover" />
+              <img src={img} alt={`${hall.name} photo ${i + 1}`} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
             </SwiperSlide>
           ))}
         </Swiper>
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
         {hall.isVerified && (
-          <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2 py-0.5 bg-card/95 backdrop-blur rounded text-[10px] font-bold text-success">
-            <BadgeCheck className="w-3 h-3" strokeWidth={2.4} />
-            Verified
+          <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/95 backdrop-blur rounded-full text-[10px] font-bold text-primary shadow-soft">
+            <BadgeCheck className="w-3 h-3 text-success" strokeWidth={2.6} />
+            VERIFIED
           </div>
         )}
-        <div className="absolute top-2.5 right-2.5 inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-success rounded text-[11px] font-bold text-white tabular-nums">
+        <div className="absolute top-3 right-3 inline-flex items-center gap-0.5 px-2 py-1 bg-success rounded-full text-[11px] font-bold text-white tabular-nums shadow-soft">
           {hall.rating.toFixed(1)}
-          <Star className="w-2.5 h-2.5 fill-white" strokeWidth={0} />
+          <Star className="w-3 h-3 fill-white ml-0.5" strokeWidth={0} />
         </div>
-      </div>
-
-      <div className="p-3.5">
-        <div className="flex items-center gap-1.5 text-[10.5px] font-semibold text-muted-foreground uppercase tracking-wider">
+        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 px-2 py-0.5 bg-black/55 backdrop-blur-sm rounded text-[10px] font-semibold text-white uppercase tracking-wider">
           <cat.Icon className="w-3 h-3" strokeWidth={2.2} />
           {cat.label}
         </div>
-        <h3 className="font-semibold text-[15px] text-foreground truncate leading-snug mt-1">{hall.name}</h3>
+      </div>
+
+      <div className="p-4">
+        <h3 className="font-heading font-semibold text-[17px] md:text-[18px] text-foreground truncate leading-snug">{hall.name}</h3>
         <div className="flex items-center gap-1 mt-1 text-[12px] text-muted-foreground">
           <MapPin className="w-3 h-3 shrink-0" strokeWidth={2} />
           <span className="truncate">{hall.area}, {hall.city}</span>
@@ -52,18 +53,18 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
             <span className="ml-auto shrink-0 text-[11px] font-semibold text-foreground tabular-nums">{hall.distanceKm} km</span>
           )}
         </div>
-        <div className="flex items-center gap-1 mt-1 text-[11.5px] text-muted-foreground">
+        <div className="flex items-center gap-1 mt-1.5 text-[11.5px] text-muted-foreground">
           <Users className="w-3 h-3 shrink-0" strokeWidth={2} />
           Up to {hall.capacity.toLocaleString("en-IN")} guests
           <span className="text-muted-foreground/50">·</span>
           <span className="text-muted-foreground">{hall.totalReviews} reviews</span>
         </div>
-        <div className="flex items-baseline justify-between gap-1 mt-3 pt-3 border-t border-border">
+        <div className="flex items-baseline justify-between gap-1 mt-3 pt-3 border-t border-dashed border-border">
           <div>
-            <span className="font-bold text-[16px] text-foreground tabular-nums">{inr(minPrice)}</span>
-            <span className="text-[11.5px] text-muted-foreground"> onwards / slot</span>
+            <span className="font-bold text-[18px] text-primary tabular-nums">{inr(minPrice)}</span>
+            <span className="text-[11.5px] text-muted-foreground"> /slot onwards</span>
           </div>
-          <span className="text-[10.5px] font-semibold text-success">+ taxes</span>
+          <span className="text-[10.5px] font-semibold text-gold">Book at 5% →</span>
         </div>
       </div>
     </button>

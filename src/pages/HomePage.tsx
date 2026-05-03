@@ -88,12 +88,12 @@ const HomePage = () => {
 
           {/* Floating search pill — overlapping bottom */}
           <div className="absolute left-0 right-0 -bottom-12 md:-bottom-10 z-20 px-4 md:px-8">
-            <div className="max-w-5xl mx-auto bg-card rounded-2xl md:rounded-full shadow-elevated border border-border/60 p-2 md:p-2">
-              <div className="grid grid-cols-1 md:grid-cols-[1.2fr_1.2fr_1.2fr_1fr_auto] gap-1">
+            <div className="max-w-5xl mx-auto bg-card rounded-2xl md:rounded-full shadow-elevated border border-border/60 p-2">
+              <div className="grid grid-cols-1 md:grid-cols-[1.3fr_1.3fr_1.3fr_1.1fr_auto] md:items-center gap-1 md:gap-0">
                 {/* Location */}
                 <button
                   onClick={() => navigate("/search")}
-                  className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-full hover:bg-muted text-left transition-colors min-w-0"
+                  className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-l-full hover:bg-muted text-left transition-colors min-w-0 md:border-r md:border-border"
                 >
                   <MapPin className="w-[18px] h-[18px] text-gold shrink-0" strokeWidth={2.2} />
                   <div className="min-w-0">
@@ -102,12 +102,10 @@ const HomePage = () => {
                   </div>
                 </button>
 
-                <div className="hidden md:block w-px bg-border my-3" />
-
                 {/* Date */}
                 <Popover>
                   <PopoverTrigger asChild>
-                    <button className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-full hover:bg-muted text-left transition-colors min-w-0">
+                    <button className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-none hover:bg-muted text-left transition-colors min-w-0 md:border-r md:border-border">
                       <CalendarIcon className="w-[18px] h-[18px] text-gold shrink-0" strokeWidth={2.2} />
                       <div className="min-w-0">
                         <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground leading-none">Event Date</div>
@@ -128,10 +126,8 @@ const HomePage = () => {
                   </PopoverContent>
                 </Popover>
 
-                <div className="hidden md:block w-px bg-border my-3" />
-
                 {/* Slot */}
-                <div className="h-14 md:h-16 flex items-center gap-2 px-3 md:px-4 rounded-xl md:rounded-full">
+                <div className="h-14 md:h-16 flex items-center gap-2 px-3 md:px-4 rounded-xl md:rounded-none md:border-r md:border-border">
                   <Sun className="w-[18px] h-[18px] text-gold shrink-0" strokeWidth={2.2} />
                   <div className="flex-1 min-w-0">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground leading-none mb-1">Slot</div>
@@ -155,10 +151,8 @@ const HomePage = () => {
                   </div>
                 </div>
 
-                <div className="hidden md:block w-px bg-border my-3" />
-
                 {/* Guests */}
-                <div className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-full hover:bg-muted transition-colors min-w-0">
+                <div className="h-14 md:h-16 flex items-center gap-3 px-4 md:px-5 rounded-xl md:rounded-none hover:bg-muted transition-colors min-w-0">
                   <UsersIcon className="w-[18px] h-[18px] text-gold shrink-0" strokeWidth={2.2} />
                   <div className="min-w-0 flex-1">
                     <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground leading-none">Guests</div>
@@ -177,7 +171,7 @@ const HomePage = () => {
                 <button
                   onClick={search}
                   aria-label="Search venues"
-                  className="h-14 md:h-16 md:w-16 px-6 md:px-0 bg-gold text-gold-foreground rounded-xl md:rounded-full font-bold text-[14px] shadow-gold hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2"
+                  className="h-14 md:h-14 md:w-14 md:ml-2 mt-1 md:mt-0 px-6 md:px-0 bg-gold text-gold-foreground rounded-xl md:rounded-full font-bold text-[14px] shadow-gold hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2"
                 >
                   <Search className="w-5 h-5" strokeWidth={2.6} />
                   <span className="md:hidden">Search Venues</span>

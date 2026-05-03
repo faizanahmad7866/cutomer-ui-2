@@ -1,9 +1,9 @@
-import { Search, ChevronRight, ChevronLeft, ShieldCheck, BadgeCheck, Headset, LayoutGrid, Church, Building2, Trees, Navigation, Calendar as CalendarIcon, IndianRupee, Sun, Moon, Star, Quote, ArrowRight, Sparkles, Heart, Phone, Award, Users as UsersIcon, MapPin } from "lucide-react";
+import { Search, ChevronRight, Building2, Trees, Navigation, Calendar as CalendarIcon, IndianRupee, Sun, Star, Quote, ArrowRight, Sparkles, Heart, Phone, Award, Users as UsersIcon, MapPin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
 import { HALLS } from "@/data/halls";
 import { HallCard } from "@/components/app/HallCard";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { format } from "date-fns";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";

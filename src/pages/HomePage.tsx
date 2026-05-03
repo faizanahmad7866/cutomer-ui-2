@@ -16,7 +16,7 @@ import cityNashik from "@/assets/city-nashik.jpg";
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const { city, user } = useApp();
+  const { city } = useApp();
   const [date, setDate] = useState<Date | null>(null);
   const [slot, setSlot] = useState<"morning" | "night" | null>(null);
   const [guests, setGuests] = useState<string>("");

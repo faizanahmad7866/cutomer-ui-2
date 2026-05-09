@@ -8,39 +8,38 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* BookMyHall — Zomato/OYO inspired consumer app palette
-       Pure white surfaces, vivid red primary, dense info-first design */
-    --background: 0 0% 100%;
-    --foreground: 222 24% 12%;           /* #1C1F2A near-black */
+    /* BookMyHall — Midnight navy + amber gold premium hospitality palette */
+    --background: 30 20% 99%;            /* #FCFBF8 warm off-white */
+    --foreground: 220 40% 11%;           /* #0F1830 deep navy ink */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 24% 12%;
+    --card-foreground: 220 40% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 24% 12%;
+    --popover-foreground: 220 40% 11%;
 
-    --primary: 354 78% 52%;              /* #E23744 Zomato red */
-    --primary-foreground: 0 0% 100%;
-    --primary-dark: 354 82% 42%;
-    --primary-light: 354 90% 97%;
+    --primary: 220 60% 16%;              /* #112347 midnight navy */
+    --primary-foreground: 30 20% 99%;
+    --primary-dark: 220 65% 10%;
+    --primary-light: 220 50% 96%;
 
-    /* Secondary accent — OYO red-orange for CTA chips/badges */
-    --gold: 8 92% 54%;                   /* #EE2A24 OYO red */
-    --gold-foreground: 0 0% 100%;
-    --gold-light: 8 92% 96%;
-    --gold-dark: 8 92% 44%;
+    /* Amber gold CTA */
+    --gold: 38 95% 52%;                  /* #F5A416 warm amber */
+    --gold-foreground: 220 60% 12%;
+    --gold-light: 38 95% 95%;
+    --gold-dark: 32 90% 44%;
 
-    --secondary: 220 15% 96%;
-    --secondary-foreground: 222 24% 12%;
+    --secondary: 30 20% 96%;
+    --secondary-foreground: 220 40% 11%;
 
-    --muted: 220 16% 96%;
-    --muted-foreground: 220 9% 46%;
+    --muted: 30 18% 95%;
+    --muted-foreground: 220 12% 42%;
 
-    --accent: 354 90% 97%;
-    --accent-foreground: 354 78% 42%;
+    --accent: 38 95% 95%;
+    --accent-foreground: 220 60% 16%;
 
-    --success: 145 58% 36%;              /* #267E3E Zomato green */
-    --success-light: 145 50% 94%;
+    --success: 158 64% 32%;              /* #1F8B5F emerald */
+    --success-light: 158 50% 94%;
     --warning: 36 95% 48%;
     --warning-light: 40 100% 94%;
     --info: 215 88% 48%;
@@ -50,16 +49,16 @@ All colors MUST be HSL.
     --destructive-foreground: 0 0% 100%;
     --destructive-light: 0 86% 96%;
 
-    --border: 220 14% 90%;
-    --input: 220 16% 96%;
-    --ring: 354 78% 52%;
+    --border: 30 15% 90%;
+    --input: 30 18% 95%;
+    --ring: 220 60% 16%;
 
     --radius: 0.625rem;
 
-    --shadow-soft: 0 1px 2px rgba(28, 31, 42, 0.04), 0 1px 1px rgba(28, 31, 42, 0.03);
-    --shadow-card: 0 1px 3px rgba(28, 31, 42, 0.06), 0 4px 12px -4px rgba(28, 31, 42, 0.08);
-    --shadow-elevated: 0 12px 28px -10px rgba(28, 31, 42, 0.18);
-    --shadow-gold: 0 6px 18px -6px hsl(354 78% 52% / 0.40);
+    --shadow-soft: 0 1px 2px rgba(15, 24, 48, 0.05), 0 1px 1px rgba(15, 24, 48, 0.03);
+    --shadow-card: 0 1px 3px rgba(15, 24, 48, 0.06), 0 6px 16px -6px rgba(15, 24, 48, 0.10);
+    --shadow-elevated: 0 16px 36px -12px rgba(15, 24, 48, 0.22);
+    --shadow-gold: 0 8px 22px -6px hsl(38 95% 52% / 0.45);
 
     --sidebar-background: 0 0% 98%;
 

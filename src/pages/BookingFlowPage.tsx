@@ -202,7 +202,7 @@ const BookingFlowPage = () => {
             </div>
           </div>
 
-          <button onClick={submitDetails} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold active:scale-[0.98]">
+          <button onClick={submitDetails} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl active:scale-[0.98]">
             Continue to Payment
           </button>
         </div>
@@ -249,7 +249,7 @@ const BookingFlowPage = () => {
             <span>If the owner cancels, you get a full refund. If you cancel, a 3% payment gateway fee applies.</span>
           </div>
 
-          <button onClick={handlePay} disabled={paying} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold active:scale-[0.98] disabled:opacity-60">
+          <button onClick={handlePay} disabled={paying} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl active:scale-[0.98] disabled:opacity-60">
             {paying ? "Processing..." : `Pay ${inr(advance)} & Book`}
           </button>
         </div>
@@ -317,7 +317,7 @@ const BookingFlowPage = () => {
           <div className="bg-card border border-border rounded-2xl p-4">
             <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Hall owner</div>
             <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-xl bg-gradient-navy text-primary-foreground flex items-center justify-center font-bold">{hall.ownerName[0]}</div>
+              <div className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold">{hall.ownerName[0]}</div>
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-[14px] truncate">{hall.ownerName}</div>
                 <div className="text-[12px] text-muted-foreground">+91 {hall.ownerPhone}</div>
@@ -332,7 +332,7 @@ const BookingFlowPage = () => {
             <button onClick={() => navigator.share?.({ title: "BookMyHall booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Share2 className="w-4 h-4" />Share</button>
           </div>
 
-          <button onClick={() => setStep(4)} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-[15px] rounded-xl shadow-gold active:scale-[0.98] transition-transform">
+          <button onClick={() => setStep(4)} className="w-full h-14 bg-gold text-gold-foreground font-bold text-[15px] rounded-xl active:scale-[0.98] transition-transform">
             Rate your experience
           </button>
           <button onClick={() => navigate("/bookings")} className="w-full text-[13px] font-bold text-primary py-2">Go to my bookings →</button>
@@ -351,7 +351,7 @@ const BookingFlowPage = () => {
             ))}
           </div>
           <Textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} placeholder="Share your experience" rows={4} className="bg-card" />
-          <button onClick={submitReview} className="w-full h-14 bg-gradient-gold text-gold-foreground font-bold text-base rounded-2xl shadow-gold">
+          <button onClick={submitReview} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl">
             Submit Review
           </button>
         </div>

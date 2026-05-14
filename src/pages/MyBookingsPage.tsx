@@ -47,7 +47,7 @@ const MyBookingsPage = () => {
 
       {list.length === 0 ? (
         <EmptyState Icon={CalendarCheck} title="No bookings yet" message="Browse halls and book your first event!" action={
-          <button onClick={() => navigate("/search")} className="px-6 py-3 bg-gradient-gold text-gold-foreground rounded-xl font-bold shadow-gold">Browse halls</button>
+          <button onClick={() => navigate("/search")} className="px-6 py-3 bg-gold text-gold-foreground rounded-xl font-bold">Browse halls</button>
         } />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">

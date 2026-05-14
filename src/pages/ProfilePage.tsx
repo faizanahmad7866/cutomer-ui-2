@@ -19,7 +19,7 @@ const ProfilePage = () => {
       <div className="px-6 pt-10 text-center">
         <UserIcon className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
         <h2 className="font-heading font-bold text-xl">Login to view profile</h2>
-        <button onClick={() => navigate("/login")} className="mt-4 px-6 py-3 bg-gradient-gold text-gold-foreground rounded-xl font-bold shadow-gold">Login</button>
+        <button onClick={() => navigate("/login")} className="mt-4 px-6 py-3 bg-gold text-gold-foreground rounded-xl font-bold">Login</button>
       </div>
     );
   }
@@ -36,7 +36,7 @@ const ProfilePage = () => {
 
   return (
     <div className="pb-8 animate-fade-up">
-      <div className="bg-gradient-navy px-5 md:px-6 pt-6 pb-12 text-primary-foreground relative overflow-hidden">
+      <div className="bg-primary px-5 md:px-6 pt-6 pb-12 text-primary-foreground relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-gold/15 blur-3xl" />
         <div className="max-w-5xl mx-auto">
           <h1 className="font-heading font-bold text-2xl md:text-3xl relative">My Profile</h1>
@@ -49,7 +49,7 @@ const ProfilePage = () => {
         <div className="bg-card rounded-2xl shadow-elevated p-5 border border-border">
           <div className="flex items-center gap-4">
             <div className="relative">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-navy text-white flex items-center justify-center text-3xl font-bold overflow-hidden shadow-card">
+              <div className="w-20 h-20 rounded-2xl bg-primary text-white flex items-center justify-center text-3xl font-bold overflow-hidden shadow-card">
                 {user.photo ? <img src={user.photo} alt={user.name} className="w-full h-full object-cover" /> : user.name[0]?.toUpperCase()}
               </div>
               <button onClick={() => fileRef.current?.click()} className="absolute -bottom-1 -right-1 w-8 h-8 bg-gold rounded-full flex items-center justify-center shadow-md border-2 border-card">
@@ -73,7 +73,7 @@ const ProfilePage = () => {
               <Textarea value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Address" rows={2} />
               <div className="flex gap-2">
                 <button onClick={() => setEditing(false)} className="flex-1 h-11 rounded-xl border border-border font-bold text-sm">Cancel</button>
-                <button onClick={save} className="flex-1 h-11 rounded-xl bg-gradient-gold text-gold-foreground font-bold text-sm">Save</button>
+                <button onClick={save} className="flex-1 h-11 rounded-xl bg-gold text-gold-foreground font-bold text-sm">Save</button>
               </div>
               <p className="text-[11px] text-muted-foreground text-center">Mobile cannot be changed</p>
             </div>

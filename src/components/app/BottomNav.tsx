@@ -13,24 +13,33 @@ export const BottomNav = () => {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-xl border-t border-border shadow-[0_-8px_24px_rgba(26,60,110,0.06)] safe-bottom md:hidden">
-      <div className="max-w-md mx-auto h-[64px] px-4 flex items-center justify-around">
+    <nav
+      className="fixed bottom-0 left-0 right-0 z-40 bg-card border-t border-border safe-bottom md:hidden"
+      aria-label="Primary"
+    >
+      <div className="h-[58px] px-1 flex items-stretch justify-around">
         {tabs.map(({ path, Icon, label }) => {
           const active = path === "/" ? location.pathname === "/" : location.pathname.startsWith(path);
           return (
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="relative flex-1 h-full flex flex-col items-center justify-center gap-1 active:scale-95 transition-transform"
+              aria-current={active ? "page" : undefined}
+              aria-label={label}
+              className="flex-1 flex flex-col items-center justify-center gap-0.5 active:bg-secondary transition-colors"
             >
-              {active && <span className="absolute top-1 w-1.5 h-1.5 rounded-full bg-gold" />}
               <Icon
-                className={`w-[22px] h-[22px] transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}
-                strokeWidth={active ? 2.4 : 1.8}
+                className={active ? "w-[22px] h-[22px] text-primary" : "w-[22px] h-[22px] text-muted-foreground"}
+                strokeWidth={active ? 2.2 : 1.8}
                 fill={active ? "currentColor" : "none"}
-                fillOpacity={active ? 0.12 : 0}
+                fillOpacity={active ? 0.16 : 0}
               />
-              <span className={`text-[11px] font-semibold transition-colors ${active ? "text-primary" : "text-muted-foreground"}`}>
+              <span
+                className={
+                  "text-[10.5px] font-semibold tracking-tight " +
+                  (active ? "text-primary" : "text-muted-foreground")
+                }
+              >
                 {label}
               </span>
             </button>

@@ -87,6 +87,7 @@ export default {
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
         heading: ["Inter", "ui-sans-serif", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
+        serif: ["Fraunces", "Source Serif Pro", "Georgia", "serif"],
       },
       keyframes: {
         "accordion-down": {

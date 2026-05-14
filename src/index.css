@@ -8,57 +8,60 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* BookMyHall — Midnight navy + amber gold premium hospitality palette */
-    --background: 30 20% 99%;            /* #FCFBF8 warm off-white */
-    --foreground: 220 40% 11%;           /* #0F1830 deep navy ink */
+    /* HalloFindr — production trust palette
+       Deep ink navy primary · warm saffron-amber CTA · neutral surfaces
+       One accent only. Surfaces: #FFFFFF / #F7F8FA / #EEF1F6 · Text #1A2540 */
+    --background: 220 20% 98%;            /* #F7F8FA app surface */
+    --foreground: 220 35% 12%;            /* #1A2540 ink text */
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 40% 11%;
+    --card: 0 0% 100%;                    /* pure white surfaces */
+    --card-foreground: 220 35% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 40% 11%;
+    --popover-foreground: 220 35% 12%;
 
-    --primary: 220 60% 16%;              /* #112347 midnight navy */
-    --primary-foreground: 30 20% 99%;
-    --primary-dark: 220 65% 10%;
-    --primary-light: 220 50% 96%;
+    --primary: 222 70% 14%;               /* #0B1B3B deep ink navy */
+    --primary-foreground: 0 0% 100%;
+    --primary-dark: 222 75% 9%;
+    --primary-light: 222 40% 95%;         /* #EEF1F6 tint surface */
 
-    /* Amber gold CTA */
-    --gold: 38 95% 52%;                  /* #F5A416 warm amber */
-    --gold-foreground: 220 60% 12%;
-    --gold-light: 38 95% 95%;
-    --gold-dark: 32 90% 44%;
+    /* Saffron-amber CTA — single accent */
+    --gold: 38 92% 50%;                   /* #F59E0B */
+    --gold-foreground: 222 75% 10%;       /* dark text on amber */
+    --gold-light: 38 92% 94%;
+    --gold-dark: 32 92% 44%;
 
-    --secondary: 30 20% 96%;
-    --secondary-foreground: 220 40% 11%;
+    --secondary: 220 20% 96%;             /* surface tint */
+    --secondary-foreground: 222 35% 12%;
 
-    --muted: 30 18% 95%;
+    --muted: 220 18% 95%;
     --muted-foreground: 220 12% 42%;
 
-    --accent: 38 95% 95%;
-    --accent-foreground: 220 60% 16%;
+    --accent: 38 92% 94%;
+    --accent-foreground: 222 70% 14%;
 
-    --success: 158 64% 32%;              /* #1F8B5F emerald */
+    --success: 158 64% 32%;               /* #1F8B5F emerald */
     --success-light: 158 50% 94%;
     --warning: 36 95% 48%;
     --warning-light: 40 100% 94%;
-    --info: 215 88% 48%;
+    --info: 215 88% 45%;
     --info-light: 215 95% 95%;
 
-    --destructive: 0 78% 47%;
+    --destructive: 0 75% 47%;
     --destructive-foreground: 0 0% 100%;
     --destructive-light: 0 86% 96%;
 
-    --border: 30 15% 90%;
-    --input: 30 18% 95%;
-    --ring: 220 60% 16%;
+    --border: 220 14% 91%;                /* hairline */
+    --input: 220 14% 91%;
+    --ring: 222 70% 14%;
 
-    --radius: 0.625rem;
+    --radius: 0.75rem;                    /* 12px cards · inputs use rounded-md (8px) · chips rounded-full */
 
-    --shadow-soft: 0 1px 2px rgba(15, 24, 48, 0.05), 0 1px 1px rgba(15, 24, 48, 0.03);
-    --shadow-card: 0 1px 3px rgba(15, 24, 48, 0.06), 0 6px 16px -6px rgba(15, 24, 48, 0.10);
-    --shadow-elevated: 0 16px 36px -12px rgba(15, 24, 48, 0.22);
-    --shadow-gold: 0 8px 22px -6px hsl(38 95% 52% / 0.45);
+    /* Strict 2-tier shadow system */
+    --shadow-soft: 0 1px 2px rgba(11, 27, 59, 0.06), 0 1px 1px rgba(11, 27, 59, 0.04);
+    --shadow-card: 0 1px 2px rgba(11, 27, 59, 0.06);
+    --shadow-elevated: 0 8px 24px -8px rgba(11, 27, 59, 0.18), 0 2px 6px -2px rgba(11, 27, 59, 0.08);
+    --shadow-gold: 0 6px 18px -6px hsl(38 92% 50% / 0.35);
 
     --sidebar-background: 0 0% 98%;
 
@@ -141,16 +144,28 @@ All colors MUST be HSL.
 
   h1, h2, h3, h4, h5, h6, .font-heading {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    letter-spacing: -0.022em;
+    letter-spacing: -0.02em;
     font-weight: 700;
+    color: hsl(var(--foreground));
+  }
+
+  .font-serif {
+    font-family: 'Fraunces', 'Source Serif Pro', Georgia, serif;
+    font-feature-settings: "ss01", "ss02";
+    letter-spacing: -0.015em;
   }
 
   *:focus { outline: none; }
   button:focus-visible, a:focus-visible, input:focus-visible {
-    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.18);
+    outline: 2px solid hsl(var(--primary) / 0.55);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   button { -webkit-tap-highlight-color: transparent; }
+
+  /* Tabular numerals for prices, dates, counters */
+  .tabular-nums { font-variant-numeric: tabular-nums; }
 }
 
 @layer utilities {
@@ -162,23 +177,17 @@ All colors MUST be HSL.
   .shadow-elevated { box-shadow: var(--shadow-elevated); }
   .shadow-gold { box-shadow: var(--shadow-gold); }
 
-  .bg-gradient-navy {
-    background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-dark)) 100%);
-  }
-  .bg-gradient-gold {
-    background: linear-gradient(180deg, hsl(var(--gold)) 0%, hsl(var(--gold-dark)) 100%);
-  }
-  .text-gradient-gold {
-    background: linear-gradient(135deg, hsl(var(--gold)) 0%, hsl(var(--gold-dark)) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .surface-tint {
-    background: linear-gradient(180deg, hsl(var(--primary-light)) 0%, hsl(var(--background)) 100%);
-  }
+  /* Compatibility aliases — solid colors instead of gradients (no AI gradient soup) */
+  .bg-gradient-navy { background-color: hsl(var(--primary)); }
+  .bg-gradient-gold { background-color: hsl(var(--gold)); }
+  .text-gradient-gold { color: hsl(var(--gold-dark)); }
+  .surface-tint { background-color: hsl(var(--primary-light)); }
 
   .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+
+  /* Hairline border for header on scroll */
+  .border-hairline { box-shadow: 0 1px 0 hsl(var(--border)); }
 }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }

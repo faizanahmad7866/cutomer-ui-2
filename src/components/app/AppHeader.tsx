@@ -1,7 +1,7 @@
-import { Bell, MapPin, ChevronDown, Navigation, Loader2, Search, CalendarCheck, UserRound } from "lucide-react";
+import { Bell, MapPin, ChevronDown, Navigation, Loader2, Search, CalendarCheck, UserRound, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/store/appStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CITIES } from "@/data/halls";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { toast } from "sonner";
@@ -18,6 +18,15 @@ export const AppHeader = () => {
   const unread = notifications.filter((n) => !n.read).length;
   const [openCity, setOpenCity] = useState(false);
   const [locating, setLocating] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 4);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const detectCity = () => {
     if (!navigator.geolocation) return toast.error("Location not supported on this device");
@@ -42,18 +51,26 @@ export const AppHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-card/90 backdrop-blur-xl border-b border-border">
-      <div className="w-full max-w-md md:max-w-6xl mx-auto h-[56px] md:h-[64px] px-4 md:px-6 flex items-center gap-3">
+    <header
+      className={`sticky top-0 z-40 bg-card transition-shadow ${
+        scrolled ? "shadow-soft border-b border-border" : "border-b border-transparent"
+      }`}
+    >
+      <div className="w-full max-w-6xl mx-auto h-[56px] md:h-[64px] px-4 md:px-6 flex items-center gap-2 md:gap-3">
         {/* Logo */}
-        <button onClick={() => navigate("/")} className="flex items-center gap-2 mr-1 md:mr-6 shrink-0">
-          <div className="w-7 h-7 md:w-8 md:h-8 rounded-md bg-primary text-primary-foreground flex items-center justify-center font-bold text-[13px] md:text-[14px]">B</div>
-          <span className="hidden sm:inline font-bold text-[16px] md:text-[17px] text-foreground tracking-tight">BookMyHall</span>
+        <button onClick={() => navigate("/")} className="flex items-center gap-2 shrink-0" aria-label="HalloFindr home">
+          <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-[14px]" aria-hidden>
+            <span className="font-serif italic">H</span>
+          </div>
+          <span className="hidden sm:inline font-bold text-[16px] md:text-[17px] text-foreground tracking-tight">
+            HalloFindr
+          </span>
         </button>
 
         {/* City selector */}
         <Sheet open={openCity} onOpenChange={setOpenCity}>
           <SheetTrigger asChild>
-            <button className="flex items-center gap-1.5 h-9 px-2.5 rounded-md hover:bg-muted transition-colors min-w-0">
+            <button className="flex items-center gap-1.5 h-9 px-2.5 rounded-md hover:bg-muted transition-colors min-w-0 ml-1" aria-label={`Change city, current: ${city}`}>
               <MapPin className="w-[15px] h-[15px] text-primary shrink-0" strokeWidth={2.2} />
               <span className="text-[13px] font-semibold text-foreground truncate max-w-[100px]">{city}</span>
               <ChevronDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
@@ -87,17 +104,29 @@ export const AppHeader = () => {
           </SheetContent>
         </Sheet>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1 ml-2">
+        {/* Desktop search bar — inline */}
+        <div className="hidden md:flex flex-1 max-w-xl mx-4">
+          <button
+            onClick={() => navigate("/search")}
+            className="w-full h-10 px-4 flex items-center gap-3 rounded-md border border-border bg-secondary hover:bg-muted hover:border-primary/30 transition-colors text-left"
+          >
+            <Search className="w-4 h-4 text-muted-foreground" strokeWidth={2.2} />
+            <span className="text-[13.5px] text-muted-foreground truncate">
+              Search venues in <span className="font-semibold text-foreground">{city}</span>
+            </span>
+          </button>
+        </div>
+
+        {/* Desktop nav links */}
+        <nav className="hidden md:flex items-center gap-1 ml-auto" aria-label="Primary">
           {[
-            { label: "Search", path: "/search", Icon: Search },
             { label: "Bookings", path: "/bookings", Icon: CalendarCheck },
             { label: "Profile", path: "/profile", Icon: UserRound },
           ].map(({ label, path, Icon }) => (
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="h-9 px-3 rounded-md text-[13px] font-semibold text-muted-foreground hover:text-primary hover:bg-primary-light/60 transition-colors flex items-center gap-1.5"
+              className="h-9 px-3 rounded-md text-[13px] font-semibold text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
             >
               <Icon className="w-4 h-4" strokeWidth={2} />
               {label}
@@ -105,10 +134,19 @@ export const AppHeader = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-1 ml-auto">
+        <div className="flex items-center gap-1 ml-auto md:ml-0">
+          {/* Mobile search trigger */}
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-md hover:bg-secondary transition-colors"
+            aria-label="Search venues"
+          >
+            <Search className="w-[18px] h-[18px] text-foreground" strokeWidth={2.2} />
+          </button>
+
           <button
             onClick={() => navigate("/notifications")}
-            className="relative w-9 h-9 flex items-center justify-center rounded-md hover:bg-muted transition-colors"
+            className="relative w-9 h-9 flex items-center justify-center rounded-md hover:bg-secondary transition-colors"
             aria-label="Notifications"
           >
             <Bell className="w-[18px] h-[18px] text-foreground" strokeWidth={2} />
@@ -121,7 +159,7 @@ export const AppHeader = () => {
           {user ? (
             <button
               onClick={() => navigate("/profile")}
-              className="w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center overflow-hidden border border-border"
+              className="w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center overflow-hidden"
               aria-label="Profile"
             >
               {user.photo ? <img src={user.photo} alt={user.name} className="w-full h-full object-cover" /> : (user.name?.[0]?.toUpperCase() || "U")}
@@ -129,13 +167,56 @@ export const AppHeader = () => {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="h-9 px-4 bg-primary text-primary-foreground text-[13px] font-bold rounded-md active:scale-95 transition-transform"
+              className="h-9 px-4 bg-primary text-primary-foreground text-[13px] font-bold rounded-md active:scale-[0.97] transition-transform"
             >
               Login
             </button>
           )}
         </div>
       </div>
+
+      {/* Mobile search overlay */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-50 bg-card md:hidden animate-fade-up">
+          <div className="h-[56px] px-3 flex items-center gap-2 border-b border-border">
+            <button
+              onClick={() => setSearchOpen(false)}
+              className="w-10 h-10 flex items-center justify-center rounded-md hover:bg-secondary"
+              aria-label="Close search"
+            >
+              <X className="w-5 h-5 text-foreground" />
+            </button>
+            <div className="flex-1 h-10 flex items-center gap-2 px-3 rounded-md bg-secondary border border-border">
+              <Search className="w-4 h-4 text-muted-foreground" strokeWidth={2.2} />
+              <input
+                autoFocus
+                placeholder={`Search halls, lawns in ${city}`}
+                className="flex-1 bg-transparent outline-none text-[14px] font-medium"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    setSearchOpen(false);
+                    navigate(`/search?q=${encodeURIComponent((e.target as HTMLInputElement).value)}`);
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <div className="px-4 pt-4">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Popular</p>
+            <div className="flex flex-wrap gap-2">
+              {["Wedding halls", "Banquets", "Lawns", "Under ₹50k", "1000+ guests", "Available this weekend"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => { setSearchOpen(false); navigate("/search"); }}
+                  className="h-8 px-3 rounded-full bg-secondary border border-border text-[12.5px] font-semibold text-foreground"
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

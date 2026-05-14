@@ -119,7 +119,7 @@ const BookingDetailPage = () => {
       <div className="mx-4 mt-3 bg-card rounded-2xl border border-border p-4">
         <h3 className="font-heading font-bold text-[15px] mb-3">Hall owner</h3>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-gradient-navy text-primary-foreground flex items-center justify-center font-bold text-[16px]">{b.ownerName[0]}</div>
+          <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-[16px]">{b.ownerName[0]}</div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-[14px] text-foreground truncate">{b.ownerName}</div>
             <div className="text-[12px] text-muted-foreground">+91 {b.ownerPhone}</div>
@@ -142,7 +142,7 @@ const BookingDetailPage = () => {
       )}
 
       {b.status === "completed" && !b.rated && (
-        <button onClick={() => navigate(`/book/${b.hallId}?date=${b.date}&slot=${b.slot}&review=${b.id}`)} className="mx-4 mt-3 w-[calc(100%-2rem)] h-12 rounded-xl bg-gradient-gold text-gold-foreground font-bold text-[13px] flex items-center justify-center gap-2"><Star className="w-4 h-4" />Rate this hall</button>
+        <button onClick={() => navigate(`/book/${b.hallId}?date=${b.date}&slot=${b.slot}&review=${b.id}`)} className="mx-4 mt-3 w-[calc(100%-2rem)] h-12 rounded-xl bg-gold text-gold-foreground font-bold text-[13px] flex items-center justify-center gap-2"><Star className="w-4 h-4" />Rate this hall</button>
       )}
 
       <p className="text-center text-[10px] text-muted-foreground/70 mt-6 tracking-wider px-4">

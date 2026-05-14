@@ -260,7 +260,7 @@ const HallDetailPage = () => {
           <button
             onClick={proceed}
             disabled={!date || !slot}
-            className="flex-1 md:flex-none md:px-8 h-12 bg-gradient-gold text-gold-foreground font-bold text-[13px] md:text-[14px] rounded-xl shadow-gold active:scale-95 disabled:opacity-50 disabled:shadow-none transition-all"
+            className="flex-1 md:flex-none md:px-8 h-12 bg-gold text-gold-foreground font-bold text-[13px] md:text-[14px] rounded-xl active:scale-95 disabled:opacity-50 disabled:shadow-none transition-all"
           >
             {!date || !slot ? "Pick date & slot" : `Book — Pay ${inr(advance)}`}
           </button>

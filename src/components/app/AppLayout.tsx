@@ -6,7 +6,7 @@ export const AppLayout = ({ hideHeader = false, hideNav = false }: { hideHeader?
   return (
     <div className="min-h-screen bg-background">
       {!hideHeader && <AppHeader />}
-      <main className="w-full pb-[88px] md:pb-0 min-h-[calc(100vh-60px)]">
+      <main className="w-full pb-[72px] md:pb-0 min-h-[calc(100vh-60px)]">
         <Outlet />
       </main>
       {!hideNav && <BottomNav />}

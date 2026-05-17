@@ -1,4 +1,4 @@
-import { Star, MapPin, Users, BadgeCheck } from "lucide-react";
+import { MapPin, Users, BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Hall } from "@/types";
 import { CATEGORY_META } from "@/components/app/CategoryIcon";

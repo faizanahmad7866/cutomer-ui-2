@@ -12,7 +12,6 @@ import { useApp } from "@/store/appStore";
 import { HALLS, CITIES } from "@/data/halls";
 import { HallCard } from "@/components/app/HallCard";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import heroWedding from "@/assets/hero-wedding.jpg";
 
 const OCCASIONS = [
   { Icon: Castle,    label: "Wedding Hall", q: "wedding_hall" },

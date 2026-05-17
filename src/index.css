@@ -8,11 +8,10 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* HalloFindr — production trust palette
-       Deep ink navy primary · warm saffron-amber CTA · neutral surfaces
-       One accent only. Surfaces: #FFFFFF / #F7F8FA / #EEF1F6 · Text #1A2540 */
-    --background: 220 20% 98%;            /* #F7F8FA app surface */
-    --foreground: 220 35% 12%;            /* #1A2540 ink text */
+    /* HalloFindr — Booking.com-inspired trust system
+       Deep navy chrome · amber CTA · cool info-blue secondary · neutral surfaces */
+    --background: 210 25% 98%;            /* #F5F7FA app surface */
+    --foreground: 218 38% 11%;            /* #11192A ink text */
 
     --card: 0 0% 100%;                    /* pure white surfaces */
     --card-foreground: 220 35% 12%;
@@ -20,48 +19,52 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 35% 12%;
 
-    --primary: 222 70% 14%;               /* #0B1B3B deep ink navy */
+    --primary: 215 75% 14%;               /* #0A1F3D booking-navy */
     --primary-foreground: 0 0% 100%;
-    --primary-dark: 222 75% 9%;
-    --primary-light: 222 40% 95%;         /* #EEF1F6 tint surface */
+    --primary-dark: 215 80% 9%;
+    --primary-light: 215 40% 95%;
+
+    /* Cool info-blue — used for links, badges, secondary chrome (Booking.com blue) */
+    --info: 211 100% 38%;                 /* #006CE4 */
+    --info-foreground: 0 0% 100%;
+    --info-light: 211 100% 95%;
 
     /* Saffron-amber CTA — single accent */
-    --gold: 38 92% 50%;                   /* #F59E0B */
-    --gold-foreground: 222 75% 10%;       /* dark text on amber */
+    --gold: 41 100% 48%;                  /* #F5A100 booking-amber */
+    --gold-foreground: 218 80% 10%;
     --gold-light: 38 92% 94%;
     --gold-dark: 32 92% 44%;
 
-    --secondary: 220 20% 96%;             /* surface tint */
-    --secondary-foreground: 222 35% 12%;
+    --secondary: 210 22% 96%;
+    --secondary-foreground: 218 35% 12%;
 
-    --muted: 220 18% 95%;
-    --muted-foreground: 220 12% 42%;
+    --muted: 210 20% 95%;
+    --muted-foreground: 215 14% 40%;
 
-    --accent: 38 92% 94%;
-    --accent-foreground: 222 70% 14%;
+    --accent: 211 100% 95%;
+    --accent-foreground: 215 75% 14%;
 
-    --success: 158 64% 32%;               /* #1F8B5F emerald */
-    --success-light: 158 50% 94%;
+    --success: 145 65% 28%;               /* #198754 trust green */
+    --success-light: 145 50% 94%;
     --warning: 36 95% 48%;
     --warning-light: 40 100% 94%;
-    --info: 215 88% 45%;
-    --info-light: 215 95% 95%;
 
     --destructive: 0 75% 47%;
     --destructive-foreground: 0 0% 100%;
     --destructive-light: 0 86% 96%;
 
-    --border: 220 14% 91%;                /* hairline */
-    --input: 220 14% 91%;
-    --ring: 222 70% 14%;
+    --border: 215 16% 89%;                /* hairline */
+    --border-strong: 215 18% 80%;
+    --input: 215 16% 88%;
+    --ring: 211 100% 38%;
 
-    --radius: 0.75rem;                    /* 12px cards · inputs use rounded-md (8px) · chips rounded-full */
+    --radius: 0.5rem;                     /* 8px — Booking.com uses tighter radii */
 
-    /* Strict 2-tier shadow system */
-    --shadow-soft: 0 1px 2px rgba(11, 27, 59, 0.06), 0 1px 1px rgba(11, 27, 59, 0.04);
-    --shadow-card: 0 1px 2px rgba(11, 27, 59, 0.06);
-    --shadow-elevated: 0 8px 24px -8px rgba(11, 27, 59, 0.18), 0 2px 6px -2px rgba(11, 27, 59, 0.08);
-    --shadow-gold: 0 6px 18px -6px hsl(38 92% 50% / 0.35);
+    /* Booking.com 2-tier shadow */
+    --shadow-soft: 0 1px 2px rgba(10, 31, 61, 0.06), 0 0 0 1px rgba(10, 31, 61, 0.04);
+    --shadow-card: 0 1px 3px rgba(10, 31, 61, 0.08);
+    --shadow-elevated: 0 12px 32px -10px rgba(10, 31, 61, 0.22), 0 4px 10px -4px rgba(10, 31, 61, 0.08);
+    --shadow-gold: 0 6px 18px -6px hsl(41 100% 48% / 0.4);
 
     --sidebar-background: 0 0% 98%;
 

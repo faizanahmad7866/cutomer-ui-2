@@ -12,7 +12,6 @@ import { useApp } from "@/store/appStore";
 import { HALLS, CITIES } from "@/data/halls";
 import { HallCard } from "@/components/app/HallCard";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import heroWedding from "@/assets/hero-wedding.jpg";
 
 const OCCASIONS = [
   { Icon: Castle,    label: "Wedding Hall", q: "wedding_hall" },
@@ -70,35 +69,24 @@ const HomePage = () => {
 
   return (
     <div className="bg-background">
-      {/* ============ HERO ============ */}
+      {/* ============ HERO — Booking.com style: solid navy + heavy search card ============ */}
       <section className="relative bg-primary">
-        <div className="absolute inset-0">
-          <img
-            src={heroWedding}
-            alt="Wedding venue"
-            className="w-full h-full object-cover opacity-55"
-            loading="eager"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/85 via-primary/55 to-primary/30" />
-        </div>
-
-        <div className="relative max-w-6xl mx-auto px-4 md:px-6 pt-8 md:pt-16 pb-6 md:pb-12">
+        <div className="relative max-w-6xl mx-auto px-4 md:px-6 pt-8 md:pt-14 pb-16 md:pb-24">
           <div className="max-w-2xl">
-            <p className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-gold">
-              <span className="w-6 h-px bg-gold" /> India · Maharashtra
-            </p>
-            <h1 className="mt-3 font-serif text-[28px] sm:text-[36px] md:text-[48px] leading-[1.05] font-semibold text-white tracking-tight">
-              Book Maharashtra's most<br className="hidden sm:block" /> trusted wedding venues
+            <h1 className="font-serif text-[28px] sm:text-[36px] md:text-[44px] leading-[1.05] font-semibold text-white tracking-tight">
+              Find your perfect wedding venue
             </h1>
             <p className="mt-3 text-[14px] md:text-[16px] text-white/85 max-w-xl">
-              Verified halls, real photos, transparent prices.{" "}
-              <span className="font-semibold text-white">Sirf 5% advance</span> pe lock your date.
+              Search verified halls, banquets & lawns across Maharashtra. Real photos. Real prices.{" "}
+              <span className="font-semibold text-white">Pay just 5% to confirm.</span>
             </p>
           </div>
+        </div>
 
-          {/* Search bar — desktop inline · mobile floating card overlapping section below */}
-          <div className="mt-6 md:mt-10 relative md:static z-10">
-            <div className="bg-card rounded-xl shadow-elevated overflow-hidden md:flex md:items-stretch md:divide-x md:divide-border">
+        {/* Search card — floats over hero/section boundary */}
+        <div className="relative max-w-6xl mx-auto px-4 md:px-6 -mb-10 md:-mb-12">
+          <div className="relative z-10 -mt-12 md:-mt-16">
+            <div className="bg-card rounded-lg border-2 border-gold shadow-elevated overflow-hidden md:flex md:items-stretch md:divide-x md:divide-border">
               {/* Location */}
               <Sheet open={cityOpen} onOpenChange={setCityOpen}>
                 <SheetTrigger asChild>
@@ -220,27 +208,28 @@ const HomePage = () => {
               {/* Search button */}
               <button
                 onClick={submitSearch}
-                className="w-full md:w-auto md:px-7 h-12 md:h-auto bg-gold text-gold-foreground font-bold text-[14px] tracking-tight flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
+                className="w-full md:w-auto md:px-8 h-14 md:h-auto bg-info hover:bg-info/90 text-info-foreground font-bold text-[15px] tracking-tight flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                 aria-label="Search venues"
               >
-                <Search className="w-4 h-4" strokeWidth={2.4} />
-                Search venues
+                <Search className="w-4 h-4" strokeWidth={2.6} />
+                Search
               </button>
             </div>
           </div>
         </div>
 
-        {/* Trust strip — sits at bottom of hero */}
-        <div className="relative border-t border-white/10 bg-primary-dark/40">
-          <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-2 text-[12px] md:text-[13px] font-medium text-white/90">
-            <span className="inline-flex items-center gap-1.5"><BadgeCheck className="w-4 h-4 text-gold" /> 12,000+ bookings</span>
-            <span className="hidden md:inline text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-gold" /> Verified venues only</span>
-            <span className="hidden md:inline text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5"><Wallet className="w-4 h-4 text-gold" /> Pay just 5% to confirm</span>
-            <span className="hidden md:inline text-white/30">·</span>
-            <span className="inline-flex items-center gap-1.5"><Headphones className="w-4 h-4 text-gold" /> 24×7 support</span>
-          </div>
+      </section>
+
+      {/* Trust strip — sits below hero */}
+      <section className="bg-card border-b border-border mt-16 md:mt-20">
+        <div className="max-w-6xl mx-auto px-4 md:px-6 py-3 flex flex-wrap items-center justify-center md:justify-between gap-x-6 gap-y-2 text-[12px] md:text-[13px] font-medium text-foreground">
+          <span className="inline-flex items-center gap-1.5"><BadgeCheck className="w-4 h-4 text-success" /> 12,000+ bookings</span>
+          <span className="hidden md:inline text-border">·</span>
+          <span className="inline-flex items-center gap-1.5"><ShieldCheck className="w-4 h-4 text-success" /> Verified venues only</span>
+          <span className="hidden md:inline text-border">·</span>
+          <span className="inline-flex items-center gap-1.5"><Wallet className="w-4 h-4 text-gold-dark" /> Pay just 5% to confirm</span>
+          <span className="hidden md:inline text-border">·</span>
+          <span className="inline-flex items-center gap-1.5"><Headphones className="w-4 h-4 text-info" /> 24×7 support</span>
         </div>
       </section>
 

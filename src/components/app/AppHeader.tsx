@@ -52,17 +52,17 @@ export const AppHeader = () => {
 
   return (
     <header
-      className={`sticky top-0 z-40 bg-card transition-shadow ${
-        scrolled ? "shadow-soft border-b border-border" : "border-b border-transparent"
+      className={`sticky top-0 z-40 bg-primary text-primary-foreground transition-shadow ${
+        scrolled ? "shadow-elevated" : ""
       }`}
     >
       <div className="w-full max-w-6xl mx-auto h-[56px] md:h-[64px] px-4 md:px-6 flex items-center gap-2 md:gap-3">
         {/* Logo */}
         <button onClick={() => navigate("/")} className="flex items-center gap-2 shrink-0" aria-label="HalloFindr home">
-          <div className="w-8 h-8 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold text-[14px]" aria-hidden>
+          <div className="w-8 h-8 rounded-md bg-gold text-gold-foreground flex items-center justify-center font-bold text-[14px]" aria-hidden>
             <span className="font-serif italic">H</span>
           </div>
-          <span className="hidden sm:inline font-bold text-[16px] md:text-[17px] text-foreground tracking-tight">
+          <span className="hidden sm:inline font-bold text-[16px] md:text-[17px] text-primary-foreground tracking-tight">
             HalloFindr
           </span>
         </button>
@@ -70,10 +70,10 @@ export const AppHeader = () => {
         {/* City selector */}
         <Sheet open={openCity} onOpenChange={setOpenCity}>
           <SheetTrigger asChild>
-            <button className="flex items-center gap-1.5 h-9 px-2.5 rounded-md hover:bg-muted transition-colors min-w-0 ml-1" aria-label={`Change city, current: ${city}`}>
-              <MapPin className="w-[15px] h-[15px] text-primary shrink-0" strokeWidth={2.2} />
-              <span className="text-[13px] font-semibold text-foreground truncate max-w-[100px]">{city}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
+            <button className="flex items-center gap-1.5 h-9 px-2.5 rounded-md hover:bg-white/10 transition-colors min-w-0 ml-1" aria-label={`Change city, current: ${city}`}>
+              <MapPin className="w-[15px] h-[15px] text-gold shrink-0" strokeWidth={2.4} />
+              <span className="text-[13px] font-semibold text-primary-foreground truncate max-w-[100px]">{city}</span>
+              <ChevronDown className="w-3.5 h-3.5 text-primary-foreground/70 shrink-0" />
             </button>
           </SheetTrigger>
           <SheetContent side="bottom" className="rounded-t-2xl max-h-[70vh]">
@@ -108,11 +108,11 @@ export const AppHeader = () => {
         <div className="hidden md:flex flex-1 max-w-xl mx-4">
           <button
             onClick={() => navigate("/search")}
-            className="w-full h-10 px-4 flex items-center gap-3 rounded-md border border-border bg-secondary hover:bg-muted hover:border-primary/30 transition-colors text-left"
+            className="w-full h-10 px-4 flex items-center gap-3 rounded-md bg-white/10 hover:bg-white/15 border border-white/15 transition-colors text-left"
           >
-            <Search className="w-4 h-4 text-muted-foreground" strokeWidth={2.2} />
-            <span className="text-[13.5px] text-muted-foreground truncate">
-              Search venues in <span className="font-semibold text-foreground">{city}</span>
+            <Search className="w-4 h-4 text-primary-foreground/70" strokeWidth={2.2} />
+            <span className="text-[13.5px] text-primary-foreground/80 truncate">
+              Search venues in <span className="font-semibold text-primary-foreground">{city}</span>
             </span>
           </button>
         </div>
@@ -126,7 +126,7 @@ export const AppHeader = () => {
             <button
               key={path}
               onClick={() => navigate(path)}
-              className="h-9 px-3 rounded-md text-[13px] font-semibold text-foreground hover:bg-secondary transition-colors flex items-center gap-1.5"
+              className="h-9 px-3 rounded-md text-[13px] font-semibold text-primary-foreground hover:bg-white/10 transition-colors flex items-center gap-1.5"
             >
               <Icon className="w-4 h-4" strokeWidth={2} />
               {label}
@@ -138,20 +138,20 @@ export const AppHeader = () => {
           {/* Mobile search trigger */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="md:hidden w-9 h-9 flex items-center justify-center rounded-md hover:bg-secondary transition-colors"
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-md hover:bg-white/10 transition-colors"
             aria-label="Search venues"
           >
-            <Search className="w-[18px] h-[18px] text-foreground" strokeWidth={2.2} />
+            <Search className="w-[18px] h-[18px] text-primary-foreground" strokeWidth={2.2} />
           </button>
 
           <button
             onClick={() => navigate("/notifications")}
-            className="relative w-9 h-9 flex items-center justify-center rounded-md hover:bg-secondary transition-colors"
+            className="relative w-9 h-9 flex items-center justify-center rounded-md hover:bg-white/10 transition-colors"
             aria-label="Notifications"
           >
-            <Bell className="w-[18px] h-[18px] text-foreground" strokeWidth={2} />
+            <Bell className="w-[18px] h-[18px] text-primary-foreground" strokeWidth={2} />
             {unread > 0 && (
-              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 bg-gold text-gold-foreground text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-card">
+              <span className="absolute top-1 right-1 min-w-[16px] h-[16px] px-1 bg-gold text-gold-foreground text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-primary">
                 {unread > 9 ? "9+" : unread}
               </span>
             )}
@@ -159,7 +159,7 @@ export const AppHeader = () => {
           {user ? (
             <button
               onClick={() => navigate("/profile")}
-              className="w-9 h-9 rounded-full bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center overflow-hidden"
+              className="w-9 h-9 rounded-full bg-gold text-gold-foreground font-bold text-[13px] flex items-center justify-center overflow-hidden"
               aria-label="Profile"
             >
               {user.photo ? <img src={user.photo} alt={user.name} className="w-full h-full object-cover" /> : (user.name?.[0]?.toUpperCase() || "U")}
@@ -167,9 +167,9 @@ export const AppHeader = () => {
           ) : (
             <button
               onClick={() => navigate("/login")}
-              className="h-9 px-4 bg-primary text-primary-foreground text-[13px] font-bold rounded-md active:scale-[0.97] transition-transform"
+              className="h-9 px-4 bg-card text-primary text-[13px] font-bold rounded-md active:scale-[0.97] transition-transform"
             >
-              Login
+              Sign in
             </button>
           )}
         </div>

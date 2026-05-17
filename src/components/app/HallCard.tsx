@@ -15,11 +15,11 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
   return (
     <button
       onClick={() => navigate(`/hall/${hall.id}`)}
-      className={`group text-left bg-card rounded-2xl overflow-hidden border border-border/70 hover:border-primary/30 hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 ${
+      className={`group text-left bg-card rounded-lg overflow-hidden border border-border hover:border-info/40 hover:shadow-elevated hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200 ${
         variant === "scroll" ? "w-[280px] md:w-full shrink-0" : "w-full"
       }`}
     >
-      <div className="relative h-[200px] md:h-[220px] bg-muted overflow-hidden">
+      <div className="relative aspect-[4/3] bg-muted overflow-hidden">
         <Swiper modules={[Autoplay]} autoplay={{ delay: 4500, disableOnInteraction: false }} loop className="h-full">
           {hall.images.slice(0, 4).map((img, i) => (
             <SwiperSlide key={i}>
@@ -27,44 +27,67 @@ export const HallCard = ({ hall, variant = "grid" }: { hall: Hall; variant?: "gr
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/55 to-transparent pointer-events-none" />
         {hall.isVerified && (
-          <div className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/95 backdrop-blur rounded-full text-[10px] font-bold text-primary shadow-soft">
-            <BadgeCheck className="w-3 h-3 text-success" strokeWidth={2.6} />
-            VERIFIED
+          <div className="absolute top-2.5 left-2.5 inline-flex items-center gap-1 px-2 py-1 bg-card rounded text-[10px] font-bold text-success shadow-soft">
+            <BadgeCheck className="w-3 h-3" strokeWidth={2.6} />
+            Verified
           </div>
         )}
-        <div className="absolute top-3 right-3 inline-flex items-center gap-0.5 px-2 py-1 bg-success rounded-full text-[11px] font-bold text-white tabular-nums shadow-soft">
-          {hall.rating.toFixed(1)}
-          <Star className="w-3 h-3 fill-white ml-0.5" strokeWidth={0} />
-        </div>
-        <div className="absolute bottom-3 left-3 inline-flex items-center gap-1 px-2 py-0.5 bg-black/55 backdrop-blur-sm rounded text-[10px] font-semibold text-white uppercase tracking-wider">
-          <cat.Icon className="w-3 h-3" strokeWidth={2.2} />
-          {cat.label}
-        </div>
       </div>
 
-      <div className="p-4">
-        <h3 className="font-heading font-semibold text-[17px] md:text-[18px] text-foreground truncate leading-snug">{hall.name}</h3>
-        <div className="flex items-center gap-1 mt-1 text-[12px] text-muted-foreground">
-          <MapPin className="w-3 h-3 shrink-0" strokeWidth={2} />
-          <span className="truncate">{hall.area}, {hall.city}</span>
+      <div className="p-3.5">
+        <div className="flex items-start justify-between gap-2">
+          <div className="min-w-0 flex-1">
+            <h3 className="font-heading font-bold text-[15.5px] md:text-[16px] text-info hover:underline truncate leading-snug">
+              {hall.name}
+            </h3>
+            <div className="flex items-center gap-1 mt-0.5 text-[12px] text-muted-foreground">
+              <MapPin className="w-3 h-3 shrink-0" strokeWidth={2} />
+              <span className="truncate">{hall.area}, {hall.city}</span>
+            </div>
+          </div>
+          {/* Booking.com style score block */}
+          <div className="flex items-center gap-1.5 shrink-0">
+            <div className="text-right hidden sm:block">
+              <div className="text-[11px] font-bold text-foreground leading-tight">
+                {hall.rating >= 4.6 ? "Exceptional" : hall.rating >= 4.2 ? "Very good" : "Good"}
+              </div>
+              <div className="text-[10.5px] text-muted-foreground tabular-nums">{hall.totalReviews} reviews</div>
+            </div>
+            <div className="w-9 h-9 rounded-md rounded-bl-none bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center tabular-nums">
+              {hall.rating.toFixed(1)}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5 mt-2 text-[11.5px] text-muted-foreground">
+          <cat.Icon className="w-3 h-3 shrink-0" strokeWidth={2} />
+          <span>{cat.label}</span>
+          <span className="text-border">·</span>
+          <Users className="w-3 h-3 shrink-0" strokeWidth={2} />
+          <span>Up to {hall.capacity.toLocaleString("en-IN")}</span>
           {hall.distanceKm !== undefined && (
-            <span className="ml-auto shrink-0 text-[11px] font-semibold text-foreground tabular-nums">{hall.distanceKm} km</span>
+            <span className="ml-auto shrink-0 text-foreground font-semibold tabular-nums">{hall.distanceKm} km</span>
           )}
         </div>
-        <div className="flex items-center gap-1 mt-1.5 text-[11.5px] text-muted-foreground">
-          <Users className="w-3 h-3 shrink-0" strokeWidth={2} />
-          Up to {hall.capacity.toLocaleString("en-IN")} guests
-          <span className="text-muted-foreground/50">·</span>
-          <span className="text-muted-foreground">{hall.totalReviews} reviews</span>
-        </div>
-        <div className="flex items-baseline justify-between gap-1 mt-3 pt-3 border-t border-dashed border-border">
-          <div>
-            <span className="font-bold text-[18px] text-primary tabular-nums">{inr(minPrice)}</span>
-            <span className="text-[11.5px] text-muted-foreground"> /slot onwards</span>
+
+        {hall.isVerified && (
+          <div className="mt-2 text-[11px] font-semibold text-success inline-flex items-center gap-1">
+            <BadgeCheck className="w-3.5 h-3.5" strokeWidth={2.4} /> Free cancellation · No prepayment
           </div>
-          <span className="text-[10.5px] font-semibold text-gold">Book at 5% →</span>
+        )}
+
+        <div className="flex items-end justify-between gap-1 mt-3 pt-3 border-t border-border">
+          <div className="min-w-0">
+            <div className="text-[10.5px] text-muted-foreground">Per slot from</div>
+            <div className="flex items-baseline gap-1">
+              <span className="font-bold text-[18px] text-foreground tabular-nums">{inr(minPrice)}</span>
+            </div>
+            <div className="text-[10.5px] text-muted-foreground">+ taxes · pay 5% to lock</div>
+          </div>
+          <span className="h-9 px-3 rounded-md bg-info text-info-foreground text-[12.5px] font-bold inline-flex items-center shrink-0">
+            See availability
+          </span>
         </div>
       </div>
     </button>

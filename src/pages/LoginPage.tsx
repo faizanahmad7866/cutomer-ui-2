@@ -81,33 +81,33 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-md mx-auto min-h-screen flex flex-col">
-        <header className="h-14 px-4 flex items-center border-b border-border/60">
+        <header className="h-14 px-4 flex items-center border-b border-border bg-card">
           <button
             onClick={() => (step === "phone" ? navigate(-1) : setStep("phone"))}
-            className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors"
+            className="w-10 h-10 rounded-md hover:bg-secondary flex items-center justify-center transition-colors"
             aria-label="Back"
           >
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <div className="ml-auto flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-            <span className="font-heading text-[15px] font-semibold text-foreground tracking-tight">BookMyHall</span>
+            <span className="w-6 h-6 rounded-md bg-primary text-gold flex items-center justify-center text-[12px] font-serif italic font-bold">H</span>
+            <span className="font-heading text-[15px] font-bold text-foreground tracking-tight">HalloFindr</span>
           </div>
         </header>
 
         <div className="flex-1 px-5 pt-8 pb-10">
           {step === "phone" && (
             <>
-              <h1 className="font-heading text-[28px] leading-tight font-bold text-foreground">Welcome back</h1>
-              <p className="text-[14px] text-muted-foreground mt-1.5">
-                Login or sign up to book the perfect hall for your event
+              <h1 className="font-heading text-[26px] leading-tight font-bold text-foreground tracking-tight">Sign in or create account</h1>
+              <p className="text-[13.5px] text-muted-foreground mt-1.5">
+                Enter your mobile number to continue booking venues
               </p>
 
               <div className="mt-8">
                 <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
                   Mobile Number
                 </label>
-                <div className="mt-2 flex items-center h-14 rounded-xl border border-border bg-card px-4 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 transition-all">
+                <div className="mt-2 flex items-center h-12 rounded-md border border-border bg-card px-3.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 transition-all">
                   <Phone className="w-5 h-5 text-muted-foreground" />
                   <span className="ml-3 font-semibold text-foreground border-r border-border pr-3">+91</span>
                   <input
@@ -125,7 +125,7 @@ const LoginPage = () => {
               <button
                 onClick={sendOtp}
                 disabled={phone.length !== 10}
-                className="w-full h-14 mt-6 rounded-xl bg-primary text-primary-foreground font-bold text-[15px] shadow-soft active:scale-[0.98] transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full h-12 mt-5 rounded-md bg-primary text-primary-foreground font-bold text-[14px] hover:bg-primary-dark transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Continue
               </button>
@@ -142,7 +142,7 @@ const LoginPage = () => {
 
           {step === "otp" && (
             <>
-              <h1 className="font-heading text-[28px] leading-tight font-bold text-foreground">Verify mobile</h1>
+              <h1 className="font-heading text-[26px] leading-tight font-bold text-foreground tracking-tight">Verify mobile</h1>
               <p className="text-[14px] text-muted-foreground mt-1.5">
                 Code sent to <span className="font-semibold text-foreground">+91 {phone}</span>
               </p>
@@ -156,16 +156,16 @@ const LoginPage = () => {
                   value={otp}
                   onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                   placeholder="••••"
-                  className="w-full h-16 text-center text-3xl font-bold tracking-[1rem] rounded-xl border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none transition-all"
+                  className="w-full h-14 text-center text-2xl font-bold tracking-[0.8rem] rounded-md border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none transition-all"
                 />
               </div>
 
               <button
                 onClick={verifyOtp}
                 disabled={otp.length !== 4}
-                className="w-full h-14 mt-6 rounded-xl bg-primary text-primary-foreground font-bold text-[15px] shadow-soft active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-40"
+                className="w-full h-12 mt-5 rounded-md bg-primary text-primary-foreground font-bold text-[14px] hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-40"
               >
-                <ShieldCheck className="w-5 h-5" /> Verify
+                <ShieldCheck className="w-4 h-4" /> Verify & continue
               </button>
 
               <button
@@ -179,7 +179,7 @@ const LoginPage = () => {
 
           {step === "signup" && (
             <>
-              <h1 className="font-heading text-[28px] leading-tight font-bold text-foreground">Complete your profile</h1>
+              <h1 className="font-heading text-[26px] leading-tight font-bold text-foreground tracking-tight">Complete your profile</h1>
               <p className="text-[14px] text-muted-foreground mt-1.5">
                 A few details so owners can reach you
               </p>
@@ -189,7 +189,7 @@ const LoginPage = () => {
                   <label className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
                     Full Name
                   </label>
-                  <div className="mt-2 flex items-center h-12 rounded-xl border border-border bg-card px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 transition-all">
+                  <div className="mt-2 flex items-center h-12 rounded-md border border-border bg-card px-3 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/15 transition-all">
                     <UserIcon className="w-4 h-4 text-muted-foreground" />
                     <input
                       type="text"
@@ -220,7 +220,7 @@ const LoginPage = () => {
                     <button
                       type="button"
                       onClick={() => setCityOpen((o) => !o)}
-                      className="w-full h-12 px-3 rounded-xl border border-border bg-card flex items-center justify-between text-[14px] font-semibold text-foreground hover:border-primary/40 transition-colors"
+                      className="w-full h-12 px-3 rounded-md border border-border bg-card flex items-center justify-between text-[14px] font-semibold text-foreground hover:border-primary/40 transition-colors"
                     >
                       <span className="flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-muted-foreground" />
@@ -229,7 +229,7 @@ const LoginPage = () => {
                       <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${cityOpen ? "rotate-180" : ""}`} />
                     </button>
                     {cityOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-xl shadow-elevated max-h-60 overflow-y-auto z-10">
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-card border border-border rounded-md shadow-elevated max-h-60 overflow-y-auto z-10">
                         {CITIES.map((c) => (
                           <button
                             key={c}
@@ -254,14 +254,14 @@ const LoginPage = () => {
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder="House no, street, area, landmark"
                     rows={3}
-                    className="mt-2 w-full px-3.5 py-3 rounded-xl border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none text-[14px] font-medium resize-none transition-all"
+                    className="mt-2 w-full px-3.5 py-3 rounded-md border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/15 outline-none text-[14px] font-medium resize-none transition-all"
                   />
                 </div>
               </div>
 
               <button
                 onClick={completeSignup}
-                className="w-full h-14 mt-7 rounded-xl bg-primary text-primary-foreground font-bold text-[15px] shadow-soft active:scale-[0.98] transition-all"
+                className="w-full h-12 mt-6 rounded-md bg-primary text-primary-foreground font-bold text-[14px] hover:bg-primary-dark transition-colors"
               >
                 Create my account
               </button>

@@ -37,9 +37,9 @@ const MyBookingsPage = () => {
           Book a hall
         </button>
       </div>
-      <div className="flex gap-2 bg-muted p-1 rounded-xl mb-4 md:max-w-sm">
+      <div className="flex gap-1 bg-secondary p-1 rounded-md mb-4 md:max-w-sm border border-border">
         {(["upcoming", "past"] as const).map((t) => (
-          <button key={t} onClick={() => setTab(t)} className={cn("flex-1 h-10 rounded-lg text-[13px] font-bold transition-all capitalize", tab === t ? "bg-card text-primary shadow-soft" : "text-muted-foreground")}>
+          <button key={t} onClick={() => setTab(t)} className={cn("flex-1 h-9 rounded-md text-[13px] font-semibold transition-all capitalize", tab === t ? "bg-card text-foreground shadow-soft" : "text-muted-foreground hover:text-foreground")}>
             {t} ({t === "upcoming" ? upcoming.length : past.length})
           </button>
         ))}
@@ -47,28 +47,28 @@ const MyBookingsPage = () => {
 
       {list.length === 0 ? (
         <EmptyState Icon={CalendarCheck} title="No bookings yet" message="Browse halls and book your first event!" action={
-          <button onClick={() => navigate("/search")} className="px-6 py-3 bg-gold text-gold-foreground rounded-xl font-bold">Browse halls</button>
+          <button onClick={() => navigate("/search")} className="px-5 h-11 bg-gold text-gold-foreground rounded-md font-bold text-[13px]">Browse halls</button>
         } />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-4">
           {list.map((b) => (
-            <button key={b.id} onClick={() => navigate(`/bookings/${b.id}`)} className="w-full text-left bg-card rounded-2xl border border-border shadow-soft p-3 md:p-4 flex gap-3 active:scale-[0.99] hover:shadow-card transition-all">
-              <img src={b.hallImage} alt={b.hallName} className="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover" />
+            <button key={b.id} onClick={() => navigate(`/bookings/${b.id}`)} className="w-full text-left bg-card rounded-lg border border-border shadow-soft p-3 flex gap-3 hover:shadow-elevated hover:border-border-strong transition-all">
+              <img src={b.hallImage} alt={b.hallName} className="w-20 h-20 md:w-24 md:h-24 rounded-md object-cover" />
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-bold text-[14px] md:text-[15px] text-foreground truncate">{b.hallName}</h3>
+                  <h3 className="font-bold text-[14px] text-info hover:underline truncate">{b.hallName}</h3>
                   <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" />
                 </div>
                 <p className="text-[11px] text-muted-foreground font-mono mt-0.5">{b.id}</p>
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className="text-[11px] font-semibold px-2 py-0.5 bg-muted text-foreground rounded tabular-nums">{format(new Date(b.date), "dd MMM yyyy")}</span>
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 bg-primary-light text-primary rounded capitalize">
+                  <span className="text-[11px] font-semibold px-2 py-0.5 bg-secondary text-foreground rounded-sm tabular-nums border border-border">{format(new Date(b.date), "dd MMM yyyy")}</span>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 bg-primary-light text-primary rounded-sm capitalize">
                     {b.slot === "morning" ? <Sun className="w-3 h-3" /> : <Moon className="w-3 h-3" />}{b.slot}
                   </span>
                 </div>
                 <div className="flex items-center justify-between mt-2">
                   <StatusBadge status={b.status} />
-                  <span className="text-[12px] font-bold">{inr(b.paidAmount)} <span className="text-[10px] text-muted-foreground">paid</span></span>
+                  <span className="text-[12.5px] font-bold tabular-nums text-foreground">{inr(b.paidAmount)} <span className="text-[10px] font-medium text-muted-foreground">paid</span></span>
                 </div>
               </div>
             </button>

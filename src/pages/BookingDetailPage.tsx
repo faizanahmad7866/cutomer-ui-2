@@ -35,12 +35,12 @@ const BookingDetailPage = () => {
     <div className="pb-24 md:pb-10 max-w-3xl mx-auto animate-fade-up">
       {/* App bar */}
       <div className="px-4 pt-4 flex items-center gap-3">
-        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors"><ArrowLeft className="w-5 h-5" /></button>
+        <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-md hover:bg-secondary flex items-center justify-center transition-colors"><ArrowLeft className="w-5 h-5" /></button>
         <h1 className="font-heading font-bold text-[17px]">Booking details</h1>
       </div>
 
       {/* Status hero */}
-      <div className="mx-4 mt-4 rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="mx-4 mt-4 rounded-lg border border-border bg-card overflow-hidden shadow-soft">
         <div className="px-5 py-4 border-b border-border flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {b.status === "confirmed" ? (
@@ -57,25 +57,25 @@ const BookingDetailPage = () => {
           </div>
           <StatusBadge status={b.status} />
         </div>
-        <button onClick={copyId} className="w-full px-5 py-3 flex items-center justify-between bg-muted/30 active:bg-muted/60 transition-colors">
+        <button onClick={copyId} className="w-full px-5 py-3 flex items-center justify-between bg-secondary hover:bg-muted transition-colors">
           <div className="text-left">
             <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Booking ID</div>
             <div className="font-mono font-bold text-[15px] text-foreground">{b.id}</div>
           </div>
-          <div className="flex items-center gap-1 text-[11px] font-bold text-primary">
+          <div className="flex items-center gap-1 text-[11px] font-bold text-info">
             <Copy className="w-3.5 h-3.5" /> Copy
           </div>
         </button>
       </div>
 
       {/* Hall card */}
-      <div className="mx-4 mt-3 bg-card rounded-2xl border border-border overflow-hidden">
-        <button onClick={() => navigate(`/hall/${b.hallId}`)} className="w-full flex gap-3 p-3 text-left active:bg-muted/30 transition-colors">
-          <img src={b.hallImage} alt={b.hallName} className="w-[72px] h-[72px] rounded-xl object-cover" />
+      <div className="mx-4 mt-3 bg-card rounded-lg border border-border overflow-hidden shadow-soft">
+        <button onClick={() => navigate(`/hall/${b.hallId}`)} className="w-full flex gap-3 p-3 text-left hover:bg-secondary transition-colors">
+          <img src={b.hallImage} alt={b.hallName} className="w-[72px] h-[72px] rounded-md object-cover" />
           <div className="flex-1 min-w-0">
-            <h3 className="font-heading font-bold text-[15px] text-foreground truncate">{b.hallName}</h3>
+            <h3 className="font-heading font-bold text-[15px] text-info hover:underline truncate">{b.hallName}</h3>
             <p className="text-[12px] text-muted-foreground flex items-start gap-1 mt-0.5"><MapPin className="w-3 h-3 mt-0.5 shrink-0" /><span className="line-clamp-2">{b.hallAddress}</span></p>
-            <span className="text-[11px] font-bold text-primary mt-1 inline-block">View hall details →</span>
+            <span className="text-[11px] font-semibold text-muted-foreground mt-1 inline-block">View hall details →</span>
           </div>
         </button>
         <div className="grid grid-cols-2 border-t border-border">
@@ -97,7 +97,7 @@ const BookingDetailPage = () => {
       </div>
 
       {/* Payment summary */}
-      <div className="mx-4 mt-3 bg-card rounded-2xl border border-border p-4">
+      <div className="mx-4 mt-3 bg-card rounded-lg border border-border p-4 shadow-soft">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-heading font-bold text-[15px]">Payment summary</h3>
           <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">INR</span>
@@ -110,39 +110,39 @@ const BookingDetailPage = () => {
             <span className="font-heading font-bold text-[18px] text-foreground tabular-nums">{inr(b.pendingAmount)}</span>
           </div>
         </div>
-        <div className="mt-3 p-2.5 rounded-lg bg-info-light/60 text-[11px] text-info font-medium leading-relaxed">
+        <div className="mt-3 p-2.5 rounded-md bg-info-light text-[11.5px] text-info font-medium leading-relaxed border border-info/15">
           Pay the balance directly to the hall owner on event day. Cash, UPI and bank transfer accepted.
         </div>
       </div>
 
       {/* Owner contact */}
-      <div className="mx-4 mt-3 bg-card rounded-2xl border border-border p-4">
+      <div className="mx-4 mt-3 bg-card rounded-lg border border-border p-4 shadow-soft">
         <h3 className="font-heading font-bold text-[15px] mb-3">Hall owner</h3>
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-[16px]">{b.ownerName[0]}</div>
+          <div className="w-11 h-11 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-[15px]">{b.ownerName[0]}</div>
           <div className="flex-1 min-w-0">
             <div className="font-semibold text-[14px] text-foreground truncate">{b.ownerName}</div>
             <div className="text-[12px] text-muted-foreground">+91 {b.ownerPhone}</div>
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 mt-3">
-          <a href={`tel:+91${b.ownerPhone}`} className="h-11 rounded-xl bg-card border border-border text-foreground flex items-center justify-center gap-2 text-[13px] font-bold active:scale-[0.98] transition-transform"><Phone className="w-4 h-4 text-primary" />Call owner</a>
-          <a href={`https://wa.me/91${b.ownerPhone}`} className="h-11 rounded-xl bg-success text-white flex items-center justify-center gap-2 text-[13px] font-bold active:scale-[0.98] transition-transform"><MessageCircle className="w-4 h-4" />WhatsApp</a>
+          <a href={`tel:+91${b.ownerPhone}`} className="h-10 rounded-md bg-card border border-border text-foreground flex items-center justify-center gap-2 text-[12.5px] font-semibold hover:bg-secondary transition-colors"><Phone className="w-4 h-4 text-primary" />Call owner</a>
+          <a href={`https://wa.me/91${b.ownerPhone}`} className="h-10 rounded-md bg-success text-white flex items-center justify-center gap-2 text-[12.5px] font-semibold hover:opacity-90 transition-opacity"><MessageCircle className="w-4 h-4" />WhatsApp</a>
         </div>
       </div>
 
       {/* Actions */}
       <div className="mx-4 mt-3 grid grid-cols-2 gap-2">
-        <button onClick={downloadReceipt} className="h-12 rounded-xl bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Download className="w-4 h-4" />Download receipt</button>
-        <button onClick={() => navigator.share?.({ title: "BookMyHall", text: `Booking: ${b.id}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Share2 className="w-4 h-4" />Share</button>
+        <button onClick={downloadReceipt} className="h-11 rounded-md bg-primary text-primary-foreground font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-primary-dark transition-colors"><Download className="w-4 h-4" />Download receipt</button>
+        <button onClick={() => navigator.share?.({ title: "HalloFindr", text: `Booking: ${b.id}` }) || toast.success("Shared!")} className="h-11 rounded-md bg-card border border-border text-foreground font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-secondary transition-colors"><Share2 className="w-4 h-4 text-primary" />Share</button>
       </div>
 
       {(b.status === "confirmed" || b.status === "pending") && (
-        <button onClick={cancel} className="mx-4 mt-3 w-[calc(100%-2rem)] h-12 rounded-xl border border-destructive/30 text-destructive font-bold text-[13px] hover:bg-destructive/5 transition-colors">Cancel booking</button>
+        <button onClick={cancel} className="mx-4 mt-3 w-[calc(100%-2rem)] h-11 rounded-md border border-border text-destructive font-semibold text-[13px] hover:bg-destructive-light/40 transition-colors">Cancel booking</button>
       )}
 
       {b.status === "completed" && !b.rated && (
-        <button onClick={() => navigate(`/book/${b.hallId}?date=${b.date}&slot=${b.slot}&review=${b.id}`)} className="mx-4 mt-3 w-[calc(100%-2rem)] h-12 rounded-xl bg-gold text-gold-foreground font-bold text-[13px] flex items-center justify-center gap-2"><Star className="w-4 h-4" />Rate this hall</button>
+        <button onClick={() => navigate(`/book/${b.hallId}?date=${b.date}&slot=${b.slot}&review=${b.id}`)} className="mx-4 mt-3 w-[calc(100%-2rem)] h-11 rounded-md bg-gold text-gold-foreground font-bold text-[13px] flex items-center justify-center gap-2 hover:bg-gold-dark transition-colors"><Star className="w-4 h-4" />Rate this hall</button>
       )}
 
       <p className="text-center text-[10px] text-muted-foreground/70 mt-6 tracking-wider px-4">

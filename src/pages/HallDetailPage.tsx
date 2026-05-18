@@ -79,7 +79,7 @@ const HallDetailPage = () => {
       <div className="md:max-w-5xl md:mx-auto md:px-6">
 
       {/* Header info */}
-      <div className="px-5 md:px-0 pt-5 md:pt-7 -mt-6 md:mt-0 relative z-10 bg-background rounded-t-3xl md:rounded-none">
+      <div className="px-5 md:px-0 pt-5 md:pt-7 relative z-10 bg-background">
         <div className="flex items-center gap-2 flex-wrap mb-3 pt-1">
           {hall.isVerified && (
             <span className="inline-flex items-center gap-1 px-2 py-1 bg-success-light text-success rounded-full text-[11px] font-bold">
@@ -93,7 +93,7 @@ const HallDetailPage = () => {
           ); })()}
         </div>
 
-        <h1 className="font-heading text-2xl md:text-[32px] font-bold text-foreground leading-tight tracking-tight">{hall.name}</h1>
+        <h1 className="font-heading text-[22px] md:text-[30px] font-bold text-foreground leading-tight tracking-tight">{hall.name}</h1>
         <div className="flex items-center gap-2 mt-2 text-muted-foreground">
           <MapPin className="w-4 h-4 shrink-0" />
           <span className="text-[13px]">{hall.address}, {hall.city}</span>
@@ -117,7 +117,7 @@ const HallDetailPage = () => {
       <section className="px-5 md:px-0 pt-5">
         <h2 className="font-heading text-lg font-bold mb-1">Pick a date</h2>
         <p className="text-[12px] text-muted-foreground mb-3">Green = open · Blue = partly booked · Red = full</p>
-        <div className="bg-card rounded-2xl p-4 shadow-soft border border-border">
+        <div className="bg-card rounded-lg p-4 shadow-soft border border-border">
           <div className="flex items-center justify-between mb-3">
             <button onClick={() => setMonth(addMonths(month, -1))} className="w-8 h-8 rounded-full bg-muted flex items-center justify-center"><ChevronLeft className="w-4 h-4" /></button>
             <h3 className="font-heading font-bold text-foreground">{format(month, "MMMM yyyy")}</h3>
@@ -186,8 +186,8 @@ const HallDetailPage = () => {
                 key={s}
                 onClick={() => !taken && setSlot(s)}
                 disabled={taken}
-                className={cn("p-4 rounded-2xl border-2 text-left transition-all active:scale-[0.97]",
-                  slot === s ? "border-primary bg-primary-light shadow-elevated ring-2 ring-gold/40" : "border-border bg-card",
+                className={cn("p-4 rounded-lg border text-left transition-all",
+                  slot === s ? "border-primary border-2 bg-primary-light shadow-soft" : "border-border bg-card hover:border-border-strong",
                   taken && "opacity-60 cursor-not-allowed border-destructive/30 bg-destructive-light/30")}
               >
                 <div className="flex items-center justify-between">
@@ -210,7 +210,7 @@ const HallDetailPage = () => {
         <h2 className="font-heading text-lg font-bold mb-3">What's included</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
           {hall.amenities.map((a) => (
-            <div key={a} className="flex items-center gap-2 p-3 bg-card rounded-xl border border-border/60 text-[13px] font-medium text-foreground">
+            <div key={a} className="flex items-center gap-2 p-3 bg-card rounded-md border border-border text-[13px] font-medium text-foreground">
               <span className="w-5 h-5 rounded-full bg-success-light flex items-center justify-center shrink-0">
                 <Check className="w-3 h-3 text-success" strokeWidth={3} />
               </span>
@@ -231,14 +231,21 @@ const HallDetailPage = () => {
 
       {/* Support */}
       <section className="px-5 md:px-0 pt-6 md:pb-10">
-        <div className="bg-gradient-to-br from-primary-light to-card border border-primary/15 rounded-2xl p-4">
-          <h3 className="font-heading font-bold text-foreground">Need help?</h3>
-          <p className="text-[12px] text-muted-foreground mt-1">Our team is here for you 24×7</p>
+        <div className="bg-card border border-border rounded-lg p-4">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-md bg-primary-light text-primary flex items-center justify-center shrink-0">
+              <Phone className="w-[18px] h-[18px]" strokeWidth={2} />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-heading font-bold text-[14px] text-foreground">Need help booking?</h3>
+              <p className="text-[12px] text-muted-foreground mt-0.5">Our team is available 24×7 · avg reply under 2 min</p>
+            </div>
+          </div>
           <div className="flex gap-2 mt-3">
-            <a href="tel:+919999988888" className="flex-1 h-10 bg-card rounded-xl border border-border flex items-center justify-center gap-2 text-[12px] font-bold text-primary">
-              <Phone className="w-4 h-4" /> Call
+            <a href="tel:+919999988888" className="flex-1 h-10 bg-card rounded-md border border-border flex items-center justify-center gap-2 text-[12.5px] font-semibold text-foreground hover:bg-secondary transition-colors">
+              <Phone className="w-4 h-4 text-primary" /> Call us
             </a>
-            <a href="https://wa.me/919999988888" className="flex-1 h-10 bg-success rounded-xl flex items-center justify-center gap-2 text-[12px] font-bold text-white">
+            <a href="https://wa.me/919999988888" className="flex-1 h-10 bg-success rounded-md flex items-center justify-center gap-2 text-[12.5px] font-semibold text-white hover:opacity-90 transition-opacity">
               <MessageCircle className="w-4 h-4" /> WhatsApp
             </a>
           </div>
@@ -248,7 +255,7 @@ const HallDetailPage = () => {
       </div>
 
       {/* Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border shadow-[0_-8px_24px_rgba(26,60,110,0.08)] safe-bottom">
+      <div className="fixed bottom-0 left-0 right-0 z-30 bg-card border-t border-border shadow-elevated safe-bottom">
         <div className="max-w-md md:max-w-5xl mx-auto p-3 md:px-6 flex items-center gap-3">
           <div className="flex-1">
             <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">From</div>
@@ -260,7 +267,7 @@ const HallDetailPage = () => {
           <button
             onClick={proceed}
             disabled={!date || !slot}
-            className="flex-1 md:flex-none md:px-8 h-12 bg-gold text-gold-foreground font-bold text-[13px] md:text-[14px] rounded-xl active:scale-95 disabled:opacity-50 disabled:shadow-none transition-all"
+            className="flex-1 md:flex-none md:px-8 h-12 bg-gold text-gold-foreground font-bold text-[13.5px] md:text-[14px] rounded-md hover:bg-gold-dark active:scale-[0.98] disabled:opacity-50 disabled:hover:bg-gold transition-all"
           >
             {!date || !slot ? "Pick date & slot" : `Book — Pay ${inr(advance)}`}
           </button>

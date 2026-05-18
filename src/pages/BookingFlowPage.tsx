@@ -103,7 +103,7 @@ const BookingFlowPage = () => {
   return (
     <div className="pb-24 md:pb-10">
       <div className="max-w-3xl mx-auto px-4 md:px-6 pt-4 flex items-center gap-3 border-b border-border/60 pb-4">
-        <button onClick={() => step > 1 && step < 3 ? setStep(step - 1) : navigate(-1)} className="w-10 h-10 rounded-xl hover:bg-muted/60 flex items-center justify-center transition-colors">
+        <button onClick={() => step > 1 && step < 3 ? setStep(step - 1) : navigate(-1)} className="w-10 h-10 rounded-md hover:bg-secondary flex items-center justify-center transition-colors">
           <ArrowLeft className="w-5 h-5" />
         </button>
         <div className="flex-1 min-w-0">
@@ -134,8 +134,8 @@ const BookingFlowPage = () => {
       </div>
 
       {/* Summary */}
-      <div className="mx-4 md:mx-6 mt-5 p-4 bg-card rounded-2xl border border-border shadow-soft flex gap-3">
-        <img src={hall.images[0]} alt={hall.name} className="w-16 h-16 rounded-xl object-cover" />
+      <div className="mx-4 md:mx-6 mt-5 p-3.5 bg-card rounded-lg border border-border shadow-soft flex gap-3">
+        <img src={hall.images[0]} alt={hall.name} className="w-16 h-16 rounded-md object-cover" />
         <div className="flex-1">
           <h3 className="font-heading font-bold text-foreground">{hall.name}</h3>
           <p className="text-[12px] text-muted-foreground">{hall.area}, {hall.city}</p>
@@ -202,8 +202,8 @@ const BookingFlowPage = () => {
             </div>
           </div>
 
-          <button onClick={submitDetails} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl active:scale-[0.98]">
-            Continue to Payment
+          <button onClick={submitDetails} className="w-full h-12 bg-gold text-gold-foreground font-bold text-[14px] rounded-md hover:bg-gold-dark transition-colors">
+            Continue to payment
           </button>
         </div>
       )}
@@ -212,7 +212,7 @@ const BookingFlowPage = () => {
       {step === 2 && (
         <div className="px-4 md:px-6 pt-5 space-y-4 animate-fade-up">
           <h2 className="font-heading font-bold text-lg">Payment summary</h2>
-          <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
+          <div className="bg-card rounded-lg border border-border p-4 space-y-3">
             <div className="flex justify-between text-[13px]"><span className="text-muted-foreground">Slot price</span><span className="font-bold">{inr(totalAmount)}</span></div>
             <div className="flex justify-between text-[13px]"><span className="text-muted-foreground">Advance (5%)</span><span className="font-bold text-success">{inr(advance)}</span></div>
             <div className="flex justify-between text-[13px]"><span className="text-muted-foreground">Pay later at venue</span><span className="font-bold">{inr(pendingOf(totalAmount))}</span></div>
@@ -249,7 +249,7 @@ const BookingFlowPage = () => {
             <span>If the owner cancels, you get a full refund. If you cancel, a 3% payment gateway fee applies.</span>
           </div>
 
-          <button onClick={handlePay} disabled={paying} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl active:scale-[0.98] disabled:opacity-60">
+          <button onClick={handlePay} disabled={paying} className="w-full h-12 bg-gold text-gold-foreground font-bold text-[14px] rounded-md hover:bg-gold-dark transition-colors disabled:opacity-60">
             {paying ? "Processing..." : `Pay ${inr(advance)} & Book`}
           </button>
         </div>
@@ -267,8 +267,8 @@ const BookingFlowPage = () => {
           </div>
 
           {/* Receipt card */}
-          <div className="bg-card rounded-2xl border border-border overflow-hidden">
-            <div className="p-4 bg-gradient-to-br from-primary-light/40 to-card border-b border-border flex items-center justify-between">
+          <div className="bg-card rounded-lg border border-border overflow-hidden">
+            <div className="p-4 bg-secondary border-b border-border flex items-center justify-between">
               <div>
                 <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Booking ID</div>
                 <div className="font-mono font-bold text-[16px] text-foreground">{bookingId}</div>
@@ -314,7 +314,7 @@ const BookingFlowPage = () => {
             </div>
           </div>
 
-          <div className="bg-card border border-border rounded-2xl p-4">
+          <div className="bg-card border border-border rounded-lg p-4">
             <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-2">Hall owner</div>
             <div className="flex items-center gap-3">
               <div className="w-11 h-11 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold">{hall.ownerName[0]}</div>

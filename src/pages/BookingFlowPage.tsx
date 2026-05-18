@@ -328,14 +328,14 @@ const BookingFlowPage = () => {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={downloadReceipt} className="h-12 rounded-xl bg-primary text-primary-foreground font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Download className="w-4 h-4" />Receipt PDF</button>
-            <button onClick={() => navigator.share?.({ title: "BookMyHall booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-12 rounded-xl bg-card border border-border font-bold text-[13px] flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"><Share2 className="w-4 h-4" />Share</button>
+            <button onClick={downloadReceipt} className="h-11 rounded-md bg-card border border-border text-foreground font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-secondary transition-colors"><Download className="w-4 h-4 text-primary" />Receipt PDF</button>
+            <button onClick={() => navigator.share?.({ title: "HalloFindr booking", text: `My booking ID: ${bookingId}` }) || toast.success("Shared!")} className="h-11 rounded-md bg-card border border-border text-foreground font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-secondary transition-colors"><Share2 className="w-4 h-4 text-primary" />Share</button>
           </div>
 
-          <button onClick={() => setStep(4)} className="w-full h-14 bg-gold text-gold-foreground font-bold text-[15px] rounded-xl active:scale-[0.98] transition-transform">
+          <button onClick={() => setStep(4)} className="w-full h-12 bg-gold text-gold-foreground font-bold text-[14px] rounded-md hover:bg-gold-dark transition-colors">
             Rate your experience
           </button>
-          <button onClick={() => navigate("/bookings")} className="w-full text-[13px] font-bold text-primary py-2">Go to my bookings →</button>
+          <button onClick={() => navigate("/bookings")} className="w-full text-[13px] font-semibold text-info hover:underline py-2">Go to my bookings →</button>
         </div>
       )}
 
@@ -351,8 +351,8 @@ const BookingFlowPage = () => {
             ))}
           </div>
           <Textarea value={reviewText} onChange={(e) => setReviewText(e.target.value)} placeholder="Share your experience" rows={4} className="bg-card" />
-          <button onClick={submitReview} className="w-full h-14 bg-gold text-gold-foreground font-bold text-base rounded-2xl">
-            Submit Review
+          <button onClick={submitReview} className="w-full h-12 bg-gold text-gold-foreground font-bold text-[14px] rounded-md hover:bg-gold-dark transition-colors">
+            Submit review
           </button>
         </div>
       )}
